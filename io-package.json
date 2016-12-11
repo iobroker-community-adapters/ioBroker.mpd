@@ -1,0 +1,35 @@
+{
+    "common": {
+        "name":                     "mpd",
+        "version":                  "0.0.1",
+	    "news": {
+			"0.0.1": {
+			  "en": "initial adapter",
+			  "de": "Initiale Version",
+			  "ru": "Первоначальный адаптер"
+			}
+		},
+        "title":                    "Javascript/Node.js based mpd adapter",
+        "desc":                     {
+				 "en": "ioBroker mpd Adapter",
+				 "de": "ioBroker Mpd Adapter",
+				 "ru": "ioBroker Mpd драйвер как образец"
+		},
+        "platform":                 "Javascript/Node.js",
+        "mode":                     "daemon",
+        "icon":                     "mpd.png",
+        "enabled":                  false,
+		"extIcon":                  "https://raw.githubusercontent.com/instalator/ioBroker.mpd/master/admin/mpd.png",
+		"keywords":                 ["mpd", "vis", "GUI", "graphical", "scada"],
+        "readme":                   "https://github.com/instalator/ioBroker.mpd/blob/master/README.md",
+		"loglevel":                 "info",
+        "type":                     "media"
+    },
+    "native": {
+        "test1": true,
+        "test2": 42
+    },
+    "objects": [
+
+    ]
+}
