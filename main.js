@@ -55,7 +55,6 @@ function main() {
     var client = mpd.connect({
         port: 6600,
         host: '192.168.1.190'
-        //host: 'localhost',
     });
     client.on('ready', function() {
         adapter.log.info("ready");
