@@ -1,45 +1,11 @@
-/**
- *
- * mpd adapter
- *
- *
- *  file io-package.json comments:
- *
- *  {
- *      "common": {
- *          "name":         "mpd",                  // name has to be set and has to be equal to adapters folder name and main file name excluding extension
- *          "version":      "0.0.0",                    // use "Semantic Versioning"! see http://semver.org/
- *          "title":        "Node.js mpd Adapter",  // Adapter title shown in User Interfaces
- *          "authors":  [                               // Array of authord
- *              "name <mail@mpd.com>"
- *          ]
- *          "desc":         "mpd adapter",          // Adapter description shown in User Interfaces. Can be a language object {de:"...",ru:"..."} or a string
- *          "platform":     "Javascript/Node.js",       // possible values "javascript", "javascript/Node.js" - more coming
- *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
- *          "schedule":     "0 0 * * *"                 // cron-style schedule. Only needed if mode=schedule
- *          "loglevel":     "info"                      // Adapters Log Level
- *      },
- *      "native": {                                     // the native object is available via adapter.config in your adapters code - use it for configuration
- *          "test1": true,
- *          "test2": 42
- *      }
- *  }
- *
- */
-
-/* jshint -W097 */// jshint strict:false
-/*jslint node: true */
 "use strict";
 
-// you have to require the utils module and call adapter function
-var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
-
-// you have to call the adapter function and pass a options object
-// name has to be set and has to be equal to adapters folder name and main file name excluding extension
-// adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.mpd.0
+var utils =    require(__dirname + '/lib/utils');
 var adapter = utils.adapter('mpd');
 
-// is called when adapter shuts down - callback has to be called under any circumstances!
+var mpd = require('mpd'),
+    cmd = mpd.cmd;
+
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
@@ -86,22 +52,28 @@ adapter.on('ready', function () {
 });
 
 function main() {
+    var client = mpd.connect({
+        port: 6600,
+        host: '192.168.1.190'
+        //host: 'localhost',
+    });
+    client.on('ready', function() {
+        adapter.log.info("ready");
+    });
+    client.on('system', function(name) {
+        adapter.log.info("update", name);
+    });
+    client.on('system-player', function() {
+        client.sendCommand(cmd("status", []), function(err, msg) {
+            if (err) throw err;
+            adapter.log.info(msg);
+        });
+    });
 
-    // The adapters config (in the instance object everything under the attribute "native") is accessible via
+
     // adapter.config:
     adapter.log.info('config test1: ' + adapter.config.test1);
     adapter.log.info('config test1: ' + adapter.config.test2);
-
-
-    /**
-     *
-     *      For every state in the system there has to be also an object of type state
-     *
-     *      Here a simple mpd for a boolean variable named "testVariable"
-     *
-     *      Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-     *
-     */
 
     adapter.setObject('testVariable', {
         type: 'state',
@@ -116,27 +88,11 @@ function main() {
     // in this mpd all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
 
-
-    /**
-     *   setState examples
-     *
-     *   you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-     *
-     */
-
-    // the variable testVariable is set to true as command (ack=false)
-    adapter.setState('testVariable', true);
-
-    // same thing, but the value is flagged "ack"
-    // ack should be always set to true if the value is received from or acknowledged from the target system
+    /*adapter.setState('testVariable', true);
     adapter.setState('testVariable', {val: true, ack: true});
-
-    // same thing, but the state is deleted after 30s (getState will return null afterwards)
-    adapter.setState('testVariable', {val: true, ack: true, expire: 30});
+    adapter.setState('testVariable', {val: true, ack: true, expire: 30});*/
 
 
-
-    // examples for the checkPassword/checkGroup functions
     adapter.checkPassword('admin', 'iobroker', function (res) {
         console.log('check user admin pw ioboker: ' + res);
     });
