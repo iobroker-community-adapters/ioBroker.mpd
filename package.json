@@ -15,9 +15,9 @@
   "homepage": "https://github.com/instalator/ioBroker.mpd",
   "license": "MIT",
   "keywords": [
-    "ioBroker",
+    "media player",
     "mpd",
-    "Smart Home"
+    "ioBroker"
   ],
   "repository": {
     "type": "git",
