@@ -6,10 +6,10 @@ var adapter = utils.adapter('mpd');
 var mpd = require('mpd'),
     cmd = mpd.cmd;
 
+var client;
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
-        client.socket.close();
         callback();
     } catch (e) {
         callback();
@@ -21,11 +21,33 @@ adapter.on('objectChange', function (id, obj) {
 });
 
 adapter.on('stateChange', function (id, state) {
-    if (state && !state.ack) {
-        adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
-        adapter.log.info('ack is not set!');
-        
-    }
+    adapter.getState('info.connection', function (err, st) {
+        if (st || !err){
+            if (state && !state.ack) {
+                adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
+                adapter.log.info('ack is not set!');
+
+                var val = state.val;
+                if (val === false || val === 'false'){
+                    val = 0;
+                } else {
+                    val = 1;
+                }
+                var ids = id.split(".");
+                var command = ids[ids.length - 1].toString();
+
+                client.sendCommand(cmd(command, [val]), function(err, msg) {
+                    if (err) throw err;
+                    adapter.log.info(msg);
+                    client.sendCommand(cmd("status", []), function(err, msg) {
+                        if (err) throw err;
+                        adapter.log.info(msg);
+                        parse_msg(msg);
+                    });
+                });
+            }
+        }
+    });
 });
 
 adapter.on('ready', function () {
@@ -33,11 +55,10 @@ adapter.on('ready', function () {
 });
 
 function main() {
-    var client = mpd.connect({
-        port: adapter.config.port || 6600,
-        host: adapter.config.ip || '192.168.1.190'
+    client = mpd.connect({
+        host: adapter.config.ip || '192.168.1.190',
+        port: adapter.config.port || 6600
     });
-
     client.on('ready', function() {
         adapter.log.info("ready");
         adapter.setState('info.connection', true, true);
@@ -52,6 +73,7 @@ function main() {
         client.sendCommand(cmd("status", []), function(err, msg) {
             if (err) throw err;
             adapter.log.info(msg);
+            parse_msg(msg);
         });
     });
 
@@ -62,16 +84,14 @@ function main() {
     client.on('end', function(name) {
         adapter.log.info("connection closed", name);
         adapter.setState('info.connection', false, true);
-        client.socket.close();
         setTimeout(function (){
             main();
         }, 5000);
     });
-    
-   /* adapter.setObject('testVariable', {
+    /*adapter.setObject('play', {
         type: 'state',
         common: {
-            name: 'testVariable',
+            name: 'play',
             type: 'boolean',
             role: 'indicator'
         },
@@ -79,12 +99,38 @@ function main() {
     });*/
 
     adapter.subscribeStates('*');
-
-    /*adapter.setState('testVariable', true);
-    adapter.setState('testVariable', {val: true, ack: true});
-    adapter.setState('testVariable', {val: true, ack: true, expire: 30});*/
-
-
-
-
+}
+function parse_msg(msg){
+    var arr = msg.split('\n');
+    var state = '';
+    var val;
+    arr.forEach(function(item){
+        if (item.length > 0){
+            adapter.log.debug('SetObj - ' + JSON.stringify(item));
+            var _arr = item.split(' ');
+            state = _arr[0].replace(':', '');
+            val = _arr[1];
+            //adapter.log.debug('SetObj - ' + JSON.stringify(arr));
+            setObj(state, val);
+        }
+    });
+}
+function setObj(state, val){
+    adapter.getState(state, function (err, st){
+        if ((err || !st) && state){
+            adapter.log.debug('get SetObj - ' + state);
+            adapter.setObject(state, {
+                type:   'state',
+                common: {
+                    name: state,
+                    type: 'state',
+                    role: 'media'
+                },
+                native: {}
+            });
+            adapter.setState(state, {val: val, ack: true});
+        } else {
+            adapter.setState(state, {val: val, ack: true});
+        }
+    });
 }

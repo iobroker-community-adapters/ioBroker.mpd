@@ -4,6 +4,9 @@
 
 ## Changelog
 
+#### 0.0.2
+* 13.12.2016 (instalator) Add send command
+
 #### 0.0.1
 * 11.12.2016 (instalator) initial adapter
 
