@@ -6,7 +6,8 @@ var adapter = utils.adapter('mpd');
 var mpd = require('mpd'),
     cmd = mpd.cmd;
 
-var client;
+var client, timer, int;
+var isPlay = false;
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
@@ -24,9 +25,8 @@ adapter.on('stateChange', function (id, state) {
     adapter.getState('info.connection', function (err, st) {
         if (st || !err){
             if (state && !state.ack) {
-                adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
-                adapter.log.info('ack is not set!');
-
+                adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+                
                 var val = state.val;
                 if (val === false || val === 'false'){
                     val = 0;
@@ -54,6 +54,7 @@ adapter.on('ready', function () {
 
 function main() {
     var status = [];
+    isPlay = false;
     client = mpd.connect({
         host: adapter.config.ip || '192.168.1.10',
         port: adapter.config.port || 6600
@@ -61,6 +62,7 @@ function main() {
     client.on('ready', function() {
         adapter.log.info("ready");
         adapter.setState('info.connection', true, true);
+        GetStatus(["status"]);
     });
 
     client.on('system', function(name) {
@@ -74,9 +76,10 @@ function main() {
     });
 
     client.on('end', function(name) {
+        clearTimeout(timer);
         adapter.log.info("connection closed", name);
         adapter.setState('info.connection', false, true);
-        setTimeout(function (){
+        timer = setTimeout(function (){
             main();
         }, 5000);
     });
@@ -111,6 +114,7 @@ function GetStatus(arr){
 }
 
 function SetObj(state, val){
+    var flag = false;
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
             adapter.log.debug('get SetObj - ' + state);
@@ -123,9 +127,25 @@ function SetObj(state, val){
                 },
                 native: {}
             });
+            if (state === 'state' && val === 'play'){
+                isPlay = true;
+            }
             adapter.setState(state, {val: val, ack: true});
         } else {
+            if (state === 'state' && val === 'play'){
+                isPlay = true;
+            }
             adapter.setState(state, {val: val, ack: true});
         }
+        GetTime();
     });
+}
+function GetTime(){
+    clearTimeout(int);
+    if (isPlay){
+        int = setTimeout(function (){
+            isPlay = false;
+            GetStatus(["status"]);
+        }, 1000);
+    }
 }
