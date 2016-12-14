@@ -18,7 +18,7 @@ adapter.on('unload', function (callback) {
 });
 
 adapter.on('objectChange', function (id, obj) {
-    adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
+    adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 });
 
 adapter.on('stateChange', function (id, state) {
@@ -114,7 +114,6 @@ function GetStatus(arr){
 }
 
 function SetObj(state, val){
-    var flag = false;
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
             adapter.log.info('Create new state - ' + state);
