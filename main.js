@@ -38,7 +38,7 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'volume'){
                     command = 'setvol';
                 }
-                if (command === 'next' || command === 'previous'){
+                if (command === 'next' || command === 'previous' || command === 'stop'){
                     val = [];
                 }
                 client.sendCommand(cmd(command, val), function(err, msg) {
