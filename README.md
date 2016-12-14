@@ -4,6 +4,11 @@
 
 ## Changelog
 
+#### 0.0.3
+* 14.12.2016 (instalator) fix send command
+                          change functions parse
+                          add function status mpd
+
 #### 0.0.2
 * 13.12.2016 (instalator) Add send command
 

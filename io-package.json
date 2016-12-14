@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.0.2",
+        "version":                  "0.0.3",
 	    "news": {
+            "0.0.3": {
+              "en": "fix send command, change func, add status",
+              "de": "fix send command, change func, add status",
+              "ru": "fix send command, change func, add status"
+            },
             "0.0.2": {
               "en": "Add send command",
               "de": "Add send command",

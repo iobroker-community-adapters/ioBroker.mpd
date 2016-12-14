@@ -30,20 +30,18 @@ adapter.on('stateChange', function (id, state) {
                 var val = state.val;
                 if (val === false || val === 'false'){
                     val = 0;
-                } else {
+                } else if (val === true || val === 'true'){
                     val = 1;
                 }
                 var ids = id.split(".");
                 var command = ids[ids.length - 1].toString();
-
+                if (command === 'volume'){
+                    command = 'setvol';
+                }
                 client.sendCommand(cmd(command, [val]), function(err, msg) {
                     if (err) throw err;
-                    adapter.log.info(msg);
-                    client.sendCommand(cmd("status", []), function(err, msg) {
-                        if (err) throw err;
-                        adapter.log.info(msg);
-                        parse_msg(msg);
-                    });
+                    adapter.log.info('client.sendCommand - ' + JSON.stringify(msg));
+                    GetStatus(["status", "currentsong", "stats"]);
                 });
             }
         }
@@ -55,8 +53,9 @@ adapter.on('ready', function () {
 });
 
 function main() {
+    var status = [];
     client = mpd.connect({
-        host: adapter.config.ip || '192.168.1.190',
+        host: adapter.config.ip || '192.168.1.10',
         port: adapter.config.port || 6600
     });
     client.on('ready', function() {
@@ -65,20 +64,13 @@ function main() {
     });
 
     client.on('system', function(name) {
-        adapter.log.info("update-", name);
-        
-    });
-
-    client.on('system-player', function() {
-        client.sendCommand(cmd("status", []), function(err, msg) {
-            if (err) throw err;
-            adapter.log.info(msg);
-            parse_msg(msg);
-        });
+        adapter.log.info("update- " + JSON.stringify(name));
+        status = ["status", "currentsong", "stats"];
+        GetStatus(status);
     });
 
     client.on('error', function(err) {
-        adapter.log.error("MPD Error", err);
+        adapter.log.error("MPD Error"+ err);
     });
 
     client.on('end', function(name) {
@@ -88,34 +80,37 @@ function main() {
             main();
         }, 5000);
     });
-    /*adapter.setObject('play', {
+    adapter.setObject('playlist', {
         type: 'state',
         common: {
-            name: 'play',
-            type: 'boolean',
+            name: 'playlist',
+            type: 'string',
             role: 'indicator'
         },
         native: {}
-    });*/
+    });
+    adapter.setState('playlist', false, true);
 
     adapter.subscribeStates('*');
 }
-function parse_msg(msg){
-    var arr = msg.split('\n');
-    var state = '';
-    var val;
-    arr.forEach(function(item){
-        if (item.length > 0){
-            adapter.log.debug('SetObj - ' + JSON.stringify(item));
-            var _arr = item.split(' ');
-            state = _arr[0].replace(':', '');
-            val = _arr[1];
-            //adapter.log.debug('SetObj - ' + JSON.stringify(arr));
-            setObj(state, val);
-        }
-    });
+function GetStatus(arr){
+    if (arr){
+        arr.forEach(function(status){
+            client.sendCommand(cmd(status, []), function (err, res){
+                if (err) throw err;
+                var obj = mpd.parseKeyValueMessage(res);
+                adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)){
+                        SetObj(key, obj[key]);
+                    }
+                }
+            });
+        });
+    }
 }
-function setObj(state, val){
+
+function SetObj(state, val){
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
             adapter.log.debug('get SetObj - ' + state);
