@@ -29,9 +29,9 @@ adapter.on('stateChange', function (id, state) {
                 
                 var val = [state.val];
                 if (val === false || val === 'false'){
-                    val = 0;
+                    val = [0];
                 } else if (val === true || val === 'true'){
-                    val = 1;
+                    val = [1];
                 }
                 var ids = id.split(".");
                 var command = ids[ids.length - 1].toString();
