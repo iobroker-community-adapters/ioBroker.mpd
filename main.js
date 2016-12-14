@@ -27,7 +27,7 @@ adapter.on('stateChange', function (id, state) {
             if (state && !state.ack) {
                 adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
                 
-                var val = state.val;
+                var val = [state.val];
                 if (val === false || val === 'false'){
                     val = 0;
                 } else if (val === true || val === 'true'){
@@ -38,7 +38,10 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'volume'){
                     command = 'setvol';
                 }
-                client.sendCommand(cmd(command, [val]), function(err, msg) {
+                if (command === 'next' || command === 'previous'){
+                    val = [];
+                }
+                client.sendCommand(cmd(command, val), function(err, msg) {
                     if (err) throw err;
                     adapter.log.info('client.sendCommand - ' + JSON.stringify(msg));
                     GetStatus(["status", "currentsong", "stats"]);
@@ -83,16 +86,6 @@ function main() {
             main();
         }, 5000);
     });
-    adapter.setObject('playlist', {
-        type: 'state',
-        common: {
-            name: 'playlist',
-            type: 'string',
-            role: 'indicator'
-        },
-        native: {}
-    });
-    adapter.setState('playlist', false, true);
 
     adapter.subscribeStates('*');
 }
