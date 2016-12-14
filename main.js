@@ -117,7 +117,7 @@ function SetObj(state, val){
     var flag = false;
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
-            adapter.log.debug('get SetObj - ' + state);
+            adapter.log.info('Create new state - ' + state);
             adapter.setObject(state, {
                 type:   'state',
                 common: {
@@ -135,7 +135,9 @@ function SetObj(state, val){
             if (state === 'state' && val === 'play'){
                 isPlay = true;
             }
-            adapter.setState(state, {val: val, ack: true});
+            if (st.val !== val){
+                adapter.setState(state, {val: val, ack: true});
+            }
         }
         GetTime();
     });
