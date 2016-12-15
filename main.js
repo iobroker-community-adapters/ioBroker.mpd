@@ -26,7 +26,6 @@ adapter.on('stateChange', function (id, state) {
         if (st || !err){
             if (state && !state.ack) {
                 adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-                
                 var val = [state.val];
                 if (val === false || val === 'false'){
                     val = [0];
@@ -34,7 +33,6 @@ adapter.on('stateChange', function (id, state) {
                     val = [1];
                 }
                 if (~val.toString().indexOf(',')){
-                    adapter.log.debug('------------------------ ' + JSON.stringify(val));
                     val = val.toString().split(',');
                 }
                 var ids = id.split(".");
@@ -45,13 +43,11 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist'){
                     val = [];
                 }
-                adapter.log.debug('client.sendCommand - ' + JSON.stringify(val));
                 client.sendCommand(cmd(command, val), function(err, msg) {
                     if (err){
-                        adapter.log.error('client.sendCommand ERROR - ' + JSON.stringify(err));
-                        throw err;
+                        adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
                     } else {
-                        adapter.log.info('client.sendCommand - ' + JSON.stringify(msg));
+                        adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
                         GetStatus(["status", "currentsong", "stats"]);
                     }
                 });
@@ -72,20 +68,17 @@ function main() {
         port: adapter.config.port || 6600
     });
     client.on('ready', function() {
-        adapter.log.info("ready");
+        adapter.log.info("MPD ready!");
         adapter.setState('info.connection', true, true);
         GetStatus(["status"]);
     });
 
     client.on('system', function(name) {
-        adapter.log.info("update system - " + JSON.stringify(name));
+        adapter.log.debug("update system - " + JSON.stringify(name));
         switch (name) {
             case 'playlist':
                 GetStatus(["playlist"]);
                 break;
-            /*case 'mixer':
-                GetStatus(["mixer"]);
-                break;*/
             default:
                 status = ["status", "currentsong", "stats"];
                 GetStatus(status);
@@ -105,7 +98,7 @@ function main() {
         }, 5000);
     });
 
-    adapter.subscribeStates('*');
+    adapter.subscribeStates('*'); //TODO JSON list commands
 }
 function GetStatus(arr){
     if (arr){
@@ -132,12 +125,13 @@ function SetObj(state, val){
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
             adapter.log.info('Create new state - ' + state);
+            adapter.log.info('Please send a text this developer - ' + state);
             adapter.setObject(state, {
                 type:   'state',
                 common: {
                     name: state,
                     type: 'state',
-                    role: 'media'
+                    role: 'media.'+state
                 },
                 native: {}
             });
