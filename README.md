@@ -1,6 +1,13 @@
 ![Logo](admin/mpd.png)
-# ioBroker.mpd
+# ioBroker.mpd adapter
 =================
+Connect to a [music player daemon](http://musicpd.org) server, send commands,
+emit events.
+
+## Documentation
+
+See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
+
 
 ## Changelog
 

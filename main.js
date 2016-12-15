@@ -33,18 +33,27 @@ adapter.on('stateChange', function (id, state) {
                 } else if (val === true || val === 'true'){
                     val = [1];
                 }
+                if (~val.toString().indexOf(',')){
+                    adapter.log.debug('------------------------ ' + JSON.stringify(val));
+                    val = val.toString().split(',');
+                }
                 var ids = id.split(".");
                 var command = ids[ids.length - 1].toString();
                 if (command === 'volume'){
                     command = 'setvol';
                 }
-                if (command === 'next' || command === 'previous' || command === 'stop'){
+                if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist'){
                     val = [];
                 }
+                adapter.log.debug('client.sendCommand - ' + JSON.stringify(val));
                 client.sendCommand(cmd(command, val), function(err, msg) {
-                    if (err) throw err;
-                    adapter.log.info('client.sendCommand - ' + JSON.stringify(msg));
-                    GetStatus(["status", "currentsong", "stats"]);
+                    if (err){
+                        adapter.log.error('client.sendCommand ERROR - ' + JSON.stringify(err));
+                        throw err;
+                    } else {
+                        adapter.log.info('client.sendCommand - ' + JSON.stringify(msg));
+                        GetStatus(["status", "currentsong", "stats"]);
+                    }
                 });
             }
         }
@@ -69,13 +78,22 @@ function main() {
     });
 
     client.on('system', function(name) {
-        adapter.log.info("update- " + JSON.stringify(name));
-        status = ["status", "currentsong", "stats"];
-        GetStatus(status);
+        adapter.log.info("update system - " + JSON.stringify(name));
+        switch (name) {
+            case 'playlist':
+                GetStatus(["playlist"]);
+                break;
+            /*case 'mixer':
+                GetStatus(["mixer"]);
+                break;*/
+            default:
+                status = ["status", "currentsong", "stats"];
+                GetStatus(status);
+        }
     });
 
     client.on('error', function(err) {
-        adapter.log.error("MPD Error"+ err);
+        adapter.log.error("MPD Error "+ JSON.stringify(err));
     });
 
     client.on('end', function(name) {
@@ -96,9 +114,13 @@ function GetStatus(arr){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
                 adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)){
-                        SetObj(key, obj[key]);
+                if (status === 'playlist'){
+                    SetObj('playlist_list', obj);
+                } else {
+                    for (var key in obj) {
+                        if (obj.hasOwnProperty(key)){
+                            SetObj(key, obj[key]);
+                        }
                     }
                 }
             });
