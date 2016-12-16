@@ -27,9 +27,9 @@ adapter.on('stateChange', function (id, state) {
             if (state && !state.ack) {
                 adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
                 var val = [state.val];
-                if (val === false || val === 'false'){
+                if (state.val === false || state.val === 'false'){
                     val = [0];
-                } else if (val === true || val === 'true'){
+                } else if (state.val === true || state.val === 'true'){
                     val = [1];
                 }
                 if (~val.toString().indexOf(',')){
@@ -39,6 +39,12 @@ adapter.on('stateChange', function (id, state) {
                 var command = ids[ids.length - 1].toString();
                 if (command === 'volume'){
                     command = 'setvol';
+                }
+                /*if (command === 'pause'){
+                    val = ['true'];
+                }*/
+                if (command === 'play'){
+                    val = [0];
                 }
                 if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist'){
                     val = [];

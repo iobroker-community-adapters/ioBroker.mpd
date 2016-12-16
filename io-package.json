@@ -28,7 +28,7 @@
         "desc":                     {
 				 "en": "ioBroker mpd Adapter",
 				 "de": "ioBroker Mpd Adapter",
-				 "ru": "ioBroker Mpd драйвер как образец"
+				 "ru": "ioBroker Mpd драйвер "
 		},
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
