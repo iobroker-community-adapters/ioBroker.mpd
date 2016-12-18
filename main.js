@@ -40,9 +40,6 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'volume'){
                     command = 'setvol';
                 }
-                /*if (command === 'pause'){
-                    val = ['true'];
-                }*/
                 if (command === 'play'){
                     val = [0];
                 }
@@ -92,12 +89,16 @@ function main() {
     });
 
     client.on('error', function(err) {
-        adapter.log.error("MPD Error "+ JSON.stringify(err));
+        if (err.syscall === 'connect' && err.code === 'ETIMEDOUT'){
+            
+        } else {
+            adapter.log.error("MPD Error " + JSON.stringify(err));
+        }
     });
 
     client.on('end', function(name) {
         clearTimeout(timer);
-        adapter.log.info("connection closed", name);
+        adapter.log.debug("connection closed", name);
         adapter.setState('info.connection', false, true);
         timer = setTimeout(function (){
             main();
@@ -165,3 +166,7 @@ function GetTime(){
         }, 1000);
     }
 }
+/**
+ error
+ Name
+ */
