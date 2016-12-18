@@ -1,6 +1,11 @@
 ![Logo](admin/mpd.png)
 # ioBroker.mpd adapter
-=================
+
+[![NPM version](https://img.shields.io/npm/v/iobroker.mpd.svg)](https://www.npmjs.com/package/iobroker.mpd)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.mpd.svg)](https://www.npmjs.com/package/iobroker.mpd)
+
+[![NPM](https://nodei.co/npm/iobroker.mpd.png?downloads=true)](https://nodei.co/npm/iobroker.mpd/)
+
 Connect to a [music player daemon](http://musicpd.org) server, send commands,
 emit events.
 
