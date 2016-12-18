@@ -11,6 +11,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.0.11
+* 18.12.2016 (instalator) add tests
+
 #### 0.0.10
 * 15.12.2016 (instalator) add update status if play, to check whether the value has changed, fix error, fix different cmd
 

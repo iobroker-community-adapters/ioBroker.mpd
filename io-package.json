@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.0.10",
+        "version":                  "0.0.11",
 	    "news": {
+            "0.0.11": {
+              "en": "add tests",
+              "de": "add tests",
+              "ru": "add tests"
+            },
             "0.0.10": {
               "en": "add update status if play, to check whether the value has changed, fix error, fix different cmd",
               "de": "add update status if play, to check whether the value has changed, fix error, fix different cmd",
