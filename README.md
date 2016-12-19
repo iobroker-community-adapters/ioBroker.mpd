@@ -16,6 +16,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.0.12
+* 19.12.2016 (instalator) add support sayit. add state addplay
+
 #### 0.0.11
 * 18.12.2016 (instalator) add tests
 
