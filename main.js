@@ -43,7 +43,7 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'play'){
                     val = [0];
                 }
-                if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist'){
+                if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist' || command === 'clear'){
                     val = [];
                 }
                 if (command === 'say'){
