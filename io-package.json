@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.0.11",
+        "version":                  "0.0.12",
 	    "news": {
+            "0.0.12": {
+              "en": "add support sayit. add state addplay",
+              "de": "add support sayit. add state addplay",
+              "ru": "add support sayit. add state addplay"
+            },
             "0.0.11": {
               "en": "add tests",
               "de": "add tests",
@@ -329,6 +334,34 @@
           "type": "string",
           "read": true,
           "write": false,
+          "def": false
+        },
+        "native": {
+        }
+      },
+      {
+        "_id": "addplay",
+        "type": "state",
+        "common": {
+          "role": "media.addplay",
+          "name": "The current playlist addplay",
+          "type": "string",
+          "read": true,
+          "write": true,
+          "def": false
+        },
+        "native": {
+        }
+      },
+      {
+        "_id": "say",
+        "type": "state",
+        "common": {
+          "role": "media.say",
+          "name": "The current playlist say",
+          "type": "string",
+          "read": true,
+          "write": true,
           "def": false
         },
         "native": {

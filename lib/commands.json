@@ -1187,8 +1187,10 @@
     "type": "state",
         "common": {
         "name": "volume",
-            "type": "state",
-            "role": "media"
+            "type": "number",
+            "role": "media.volume",
+            "min":    0,
+            "max":    100
     },
     "native": {
 

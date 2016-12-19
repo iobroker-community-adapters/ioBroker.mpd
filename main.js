@@ -46,14 +46,20 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist'){
                     val = [];
                 }
-                client.sendCommand(cmd(command, val), function(err, msg) {
-                    if (err){
-                        adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
-                    } else {
-                        adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
-                        GetStatus(["status", "currentsong", "stats"]);
-                    }
-                });
+                if (command === 'say'){
+                    sayit(command, val);
+                } else if (command === 'addplay'){
+                    addplay('addid', val);
+                } else {
+                    client.sendCommand(cmd(command, val), function(err, msg) {
+                        if (err){
+                            adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
+                        } else {
+                            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+                            GetStatus(["status", "currentsong", "stats"]);
+                        }
+                    });
+                }
             }
         }
     });
@@ -62,7 +68,48 @@ adapter.on('stateChange', function (id, state) {
 adapter.on('ready', function () {
     main();
 });
-
+function addplay(command, val){
+    command = 'addid';
+    Sendcmd(command, val, function(msg){
+        msg = mpd.parseKeyValueMessage(msg);
+        if (msg.Id){
+            command = 'playid';
+            val = [msg.Id];
+            Sendcmd(command, val, function(msg){
+                GetStatus(["status", "currentsong", "stats"]);
+            });
+        }
+    });
+}
+function sayit(command, val){
+    command = 'addid';
+    Sendcmd(command, val, function(msg){
+        msg = mpd.parseKeyValueMessage(msg);
+        if (msg.Id){
+            command = 'playid';
+            val = [msg.Id];
+            Sendcmd(command, val, function(msg){
+                command = 'deleteid';
+                setTimeout(function (){
+                    Sendcmd(command, val, function(msg){
+                        return;
+                    });
+                }, 60000);
+            });
+        }
+    });
+}
+function Sendcmd(command, val, callback){
+    client.sendCommand(cmd(command, val), function(err, msg) {
+        if (err){
+            adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
+            return;
+        } else {
+            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+            callback(msg);
+        }
+    });
+}
 function main() {
     var status = [];
     isPlay = false;
