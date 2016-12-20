@@ -198,7 +198,50 @@
         "native": {
         }
       },
-
+      {
+        "_id": "progressbar",
+        "type": "state",
+        "common": {
+          "role": "media.progressbar",
+          "name": "Playback options progressbar",
+          "type": "integer",
+          "read": true,
+          "write": true,
+          "min": 0,
+          "max": 100
+        },
+        "native": {
+        }
+      },
+      {
+        "_id": "volume",
+        "type": "state",
+        "common": {
+          "role": "media.volume",
+          "name": "Playback options volume",
+          "type": "integer",
+          "read": true,
+          "write": true,
+          "min": 0,
+          "max": 100
+        },
+        "native": {
+        }
+      },
+      {
+        "_id": "mute",
+        "type": "state",
+        "common": {
+          "role": "media.mute",
+          "name": "Playback options mute",
+          "type": "boolean",
+          "read": true,
+          "write": true,
+          "def": false
+        },
+        "native": {
+        }
+      },
       {
         "_id": "consume",
         "type": "state",

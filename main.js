@@ -5,9 +5,17 @@ var adapter = utils.adapter('mpd');
 
 var mpd = require('mpd'),
     cmd = mpd.cmd;
-
-var client, timer, int;
-var isPlay = false;
+var statePlay = {
+    'fulltime': 0,
+    'curtime': 0,
+    'Id': 0,
+    'isPlay': false,
+    'iSsay': false,
+    'volume': 0,
+    'mute_vol':0
+};
+var client, timer, int, sayTimer;
+//var isPlay = false;
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
@@ -43,8 +51,21 @@ adapter.on('stateChange', function (id, state) {
                 if (command === 'play'){
                     val = [0];
                 }
+                if (command === 'mute'){
+                    command = 'setvol';
+                    if (state.val === true || state.val === 'true'){
+                        statePlay.mute_vol = statePlay.volume;
+                        val = [0];
+                    } else {
+                        val = [statePlay.mute_vol];
+                    }
+                }
                 if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist' || command === 'clear'){
                     val = [];
+                }
+                if (command === 'progressbar'){
+                    command = 'seekcur';
+                    val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
                 }
                 if (command === 'say'){
                     sayit(command, val);
@@ -82,22 +103,61 @@ function addplay(command, val){
     });
 }
 function sayit(command, val){
-    command = 'addid';
-    Sendcmd(command, val, function(msg){
+    var flag = false;
+    if (statePlay.isPlay && !statePlay.iSsay){
+        var vol = statePlay.volume;
+        var id = statePlay.Id;
+        var cur = statePlay.curtime;
+        flag = true;
+    }
+    statePlay.iSsay = true;
+    Sendcmd('addid', val, function(msg){
         msg = mpd.parseKeyValueMessage(msg);
         if (msg.Id){
-            command = 'playid';
-            val = [msg.Id];
-            Sendcmd(command, val, function(msg){
-                command = 'deleteid';
-                setTimeout(function (){
-                    Sendcmd(command, val, function(msg){
-                        return;
-                    });
-                }, 60000);
+            var say_id = msg.Id;
+            Sendcmd('playid', [say_id], function(msg){
+               // Sendcmd('setvol', [vol], function(msg){
+                    GetStatus(["status"]);
+                    if (flag){
+                        flag = false;
+                        sayTimePlay(say_id , id, cur, vol);
+                    } else {
+                        sayTimeDelete(say_id);
+                    }
+               // });
             });
         }
     });
+}
+function sayTimeDelete(say_id){
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(function (){
+        if (statePlay.isPlay){
+            sayTimeDelete(say_id);
+        } else {
+            Sendcmd('deleteid', [say_id], function(msg){
+                statePlay.iSsay = false;
+                return;
+            });
+        }
+    }, 2000);
+}
+function sayTimePlay(say_id , id, cur, vol){
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(function (){
+        if (statePlay.isPlay){
+            sayTimePlay(say_id , id, cur, vol);
+        } else {
+            Sendcmd('seekid', [id, cur], function(msg){
+                Sendcmd('setvol', [vol], function(msg){
+                    Sendcmd('deleteid', [say_id], function(msg){
+                        statePlay.iSsay = false;
+                        return;
+                    });
+                });
+            });
+        }
+    }, 2000);
 }
 function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
@@ -112,7 +172,7 @@ function Sendcmd(command, val, callback){
 }
 function main() {
     var status = [];
-    isPlay = false;
+    statePlay.isPlay = false;
     client = mpd.connect({
         host: adapter.config.ip || '192.168.1.10',
         port: adapter.config.port || 6600
@@ -166,6 +226,21 @@ function GetStatus(arr){
                 } else {
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
+                            if (status === 'status'){
+                                if (key === 'time'){
+                                    var prs = obj[key].toString().split(":");
+                                    statePlay.curtime = parseInt(prs[0], 10);
+                                    statePlay.fulltime = parseInt(prs[1], 10);
+                                    SetObj('progressbar', parseFloat((parseFloat(prs[0]) * 100)/parseFloat(prs[1])).toFixed(2));
+                                } else {
+                                    statePlay[key] = obj[key];
+                                }
+                            }
+                            if (status === 'currentsong'){
+                                if (key === 'Id'){
+                                    statePlay[key] = obj[key];
+                                }
+                            }
                             SetObj(key, obj[key]);
                         }
                     }
@@ -190,12 +265,12 @@ function SetObj(state, val){
                 native: {}
             });
             if (state === 'state' && val === 'play'){
-                isPlay = true;
+                statePlay.isPlay = true;
             }
             adapter.setState(state, {val: val, ack: true});
         } else {
             if (state === 'state' && val === 'play'){
-                isPlay = true;
+                statePlay.isPlay = true;
             }
             if (st.val !== val){
                 adapter.setState(state, {val: val, ack: true});
@@ -206,14 +281,18 @@ function SetObj(state, val){
 }
 function GetTime(){
     clearTimeout(int);
-    if (isPlay){
+    if (statePlay.isPlay){
         int = setTimeout(function (){
-            isPlay = false;
+            statePlay.isPlay = false;
             GetStatus(["status"]);
         }, 1000);
     }
 }
 /**
  error
+
  Name
+ Title
+ Artist
+ Album
  */
