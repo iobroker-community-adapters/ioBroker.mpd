@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.0.12",
+        "version":                  "0.0.13",
 	    "news": {
+            "0.0.13": {
+              "en": "clearTag(), adding states - progressbar and mute",
+              "de": "clearTag(), adding states - progressbar and mute",
+              "ru": "clearTag(), adding states - progressbar and mute"
+            },
             "0.0.12": {
               "en": "add support sayit. add state addplay",
               "de": "add support sayit. add state addplay",

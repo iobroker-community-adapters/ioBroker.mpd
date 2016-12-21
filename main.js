@@ -12,7 +12,8 @@ var statePlay = {
     'isPlay': false,
     'iSsay': false,
     'volume': 0,
-    'mute_vol':0
+    'mute_vol':0,
+    'songid': null
 };
 var client, timer, int, sayTimer;
 //var isPlay = false;
@@ -88,7 +89,7 @@ adapter.on('stateChange', function (id, state) {
                             adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
                         } else {
                             adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
-                            GetStatus(["status", "currentsong", "stats"]);
+                            //GetStatus(["stats"]); //"currentsong", "status",
                         }
                     });
                 }
@@ -108,7 +109,7 @@ function addplay(command, val){
             command = 'playid';
             val = [msg.Id];
             Sendcmd(command, val, function(msg){
-                GetStatus(["status", "currentsong", "stats"]);
+                GetStatus(["currentsong", "status", "stats"]);
             });
         }
     });
@@ -201,7 +202,7 @@ function main() {
                 GetStatus(["playlist"]);
                 break;
             default:
-                status = ["status", "currentsong", "stats"];
+                status = ["currentsong", "status", "stats"];
                 GetStatus(status);
         }
     });
@@ -238,6 +239,12 @@ function GetStatus(arr){
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
                             if (status === 'status'){
+                                if (key === 'songid'){
+                                    if (obj[key] !== statePlay.songid){
+                                        statePlay.songid = obj[key];
+                                        clearTag();
+                                    }
+                                }
                                 if (key === 'time'){
                                     var prs = obj[key].toString().split(":");
                                     statePlay.curtime = parseInt(prs[0], 10);
@@ -251,6 +258,10 @@ function GetStatus(arr){
                                 if (key === 'Id'){
                                     statePlay[key] = obj[key];
                                 }
+                            }
+                            if (key === 'state' && obj[key] === 'stop'){
+                                statePlay.isPlay = false;
+                                clearTag();
                             }
                             SetObj(key, obj[key]);
                         }
@@ -294,16 +305,15 @@ function GetTime(){
     clearTimeout(int);
     if (statePlay.isPlay){
         int = setTimeout(function (){
-            statePlay.isPlay = false;
-            GetStatus(["status"]);
+            //statePlay.isPlay = false;
+            GetStatus(["currentsong", "status"]);
         }, 1000);
     }
 }
-/**
- error
+function clearTag(){
+    var tag = ['error', 'Album', 'Artist', 'Composer', 'Date', 'Disc', 'Genre', 'Track', 'Id', 'Title', 'Name', 'AlbumArtist'];
+    tag.forEach(function(n){
+        adapter.setState(n, {val: '', ack: true});
+    });
+}
 
- Name
- Title
- Artist
- Album
- */
