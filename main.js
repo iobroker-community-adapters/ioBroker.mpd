@@ -34,24 +34,23 @@ adapter.on('stateChange', function (id, state) {
         if (st || !err){
             if (state && !state.ack) {
                 adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+                var ids = id.split(".");
+                var command = ids[ids.length - 1].toString();
                 var val = [state.val];
                 if (state.val === false || state.val === 'false'){
                     val = [0];
                 } else if (state.val === true || state.val === 'true'){
                     val = [1];
                 }
-                if (~val.toString().indexOf(',')){
-                    val = val.toString().split(',');
-                }
-                var ids = id.split(".");
-                var command = ids[ids.length - 1].toString();
-                if (command === 'volume'){
+                
+                switch (command) {
+                  case 'volume':
                     command = 'setvol';
-                }
-                if (command === 'play'){
+                    break;
+                  case 'play':
                     val = [0];
-                }
-                if (command === 'mute'){
+                    break;
+                  case 'mute':
                     command = 'setvol';
                     if (state.val === true || state.val === 'true'){
                         statePlay.mute_vol = statePlay.volume;
@@ -59,14 +58,26 @@ adapter.on('stateChange', function (id, state) {
                     } else {
                         val = [statePlay.mute_vol];
                     }
-                }
-                if (command === 'next' || command === 'previous' || command === 'stop' || command === 'playlist' || command === 'clear'){
-                    val = [];
-                }
-                if (command === 'progressbar'){
+                    break;
+                  case 'progressbar':
                     command = 'seekcur';
                     val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
+                    break;
+                  case 'next':
+                  case 'previous':
+                  case 'stop':
+                  case 'playlist':
+                  case 'clear':
+                    val = [];
+                    break;
+                  default:
+                    
                 }
+                
+                if (~val.toString().indexOf(',')){
+                    val = val.toString().split(',');
+                }
+                
                 if (command === 'say'){
                     sayit(command, val);
                 } else if (command === 'addplay'){
