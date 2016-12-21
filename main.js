@@ -249,7 +249,9 @@ function GetStatus(arr){
                                     var prs = obj[key].toString().split(":");
                                     statePlay.curtime = parseInt(prs[0], 10);
                                     statePlay.fulltime = parseInt(prs[1], 10);
-                                    SetObj('progressbar', parseFloat((parseFloat(prs[0]) * 100)/parseFloat(prs[1])).toFixed(2));
+                                    var progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+                                    progress = progress || 0;
+                                    SetObj('progressbar', progress);
                                 } else {
                                     statePlay[key] = obj[key];
                                 }
