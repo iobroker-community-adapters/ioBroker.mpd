@@ -12,13 +12,14 @@ var statePlay = {
     'isPlay': false,
     'iSsay': false,
     'volume': 0,
-    'mute_vol':0,
+    'mute_vol':30,
     'songid': null
 };
 var connection = false;
 var states = {};
+var old_states = {};
 var client, timer, int, sayTimer;
-//var isPlay = false;
+
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
@@ -31,20 +32,11 @@ adapter.on('unload', function (callback) {
 adapter.on('message', function (obj) {
     var wait = false;
     if (obj) {
-        if (obj.command === '.say'){
-            if (obj.message) text2speech(obj.message);
+        if (obj.command === '.say'){ //TODO change command here and in text2speech
+            if (obj.message) sayit('say', obj.message);
         }
     }
 });
-function text2speech(fileName) {
-    /*var volume = null;
-    var pos = fileName.indexOf(';');
-    if (pos !== -1) {
-        volume = fileName.substring(0, pos);
-        fileName = fileName.substring(pos + 1);
-    }
-    */
-}
 
 adapter.on('objectChange', function (id, obj) {
     adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
@@ -66,30 +58,24 @@ adapter.on('stateChange', function (id, state) {
             switch (command) {
               case 'volume':
                 command = 'setvol';
-                break;
+               break;
               case 'play':
                 val = [0];
-                break;
+               break;
               case 'mute':
-                command = 'setvol';
-                if (state.val === true || state.val === 'true'){
-                    statePlay.mute_vol = statePlay.volume;
-                    val = [0];
-                } else {
-                    val = [statePlay.mute_vol];
-                }
-                break;
+                mute(state.val);
+               break;
               case 'progressbar':
                 command = 'seekcur';
                 val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
-                break;
+               break;
               case 'next':
               case 'previous':
               case 'stop':
               case 'playlist':
               case 'clear':
                 val = [];
-                break;
+               break;
               default:
 
             }
@@ -114,89 +100,15 @@ adapter.on('stateChange', function (id, state) {
                 });
             }
         }
+    } else {
+        adapter.log.error('Send command error - MPD NOT connected!');
     }
 });
 
 adapter.on('ready', function () {
     main();
 });
-function addplay(command, val){
-    command = 'addid';
-    Sendcmd(command, val, function(msg){
-        msg = mpd.parseKeyValueMessage(msg);
-        if (msg.Id){
-            command = 'playid';
-            val = [msg.Id];
-            Sendcmd(command, val, function(msg){
-                GetStatus(["currentsong", "status", "stats"]);
-            });
-        }
-    });
-}
-function sayit(command, val){
-    var fileName;
-    var volume = null;
-    var pos = val.indexOf(';');
-    if (pos !== -1) {
-        volume = val.substring(0, pos);
-        fileName = val.substring(pos + 1);
-    }
-    var flag = false;
-    if (statePlay.isPlay && !statePlay.iSsay){
-        var vol = statePlay.volume;
-        var id = statePlay.Id;
-        var cur = statePlay.curtime;
-        flag = true;
-    }
-    statePlay.iSsay = true;
-    Sendcmd('addid', [fileName], function(msg){
-        msg = mpd.parseKeyValueMessage(msg);
-        if (msg.Id){
-            var say_id = msg.Id;
-            Sendcmd('playid', [say_id], function(msg){
-                Sendcmd('setvol', [volume], function(msg){
-                    GetStatus(["status"]);
-                    if (flag){
-                        flag = false;
-                        sayTimePlay(say_id , id, cur, vol);
-                    } else {
-                        sayTimeDelete(say_id);
-                    }
-                });
-            });
-        }
-    });
-}
-function sayTimeDelete(say_id){
-    clearTimeout(sayTimer);
-    sayTimer = setTimeout(function (){
-        if (statePlay.isPlay){
-            sayTimeDelete(say_id);
-        } else {
-            Sendcmd('deleteid', [say_id], function(msg){
-                statePlay.iSsay = false;
-                return;
-            });
-        }
-    }, 2000);
-}
-function sayTimePlay(say_id , id, cur, vol){
-    clearTimeout(sayTimer);
-    sayTimer = setTimeout(function (){
-        if (statePlay.isPlay){
-            sayTimePlay(say_id , id, cur, vol);
-        } else {
-            Sendcmd('seekid', [id, cur], function(msg){
-                Sendcmd('setvol', [vol], function(msg){
-                    Sendcmd('deleteid', [say_id], function(msg){
-                        statePlay.iSsay = false;
-                        return;
-                    });
-                });
-            });
-        }
-    }, 2000);
-}
+
 function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
         if (err){
@@ -227,15 +139,14 @@ function main() {
                 GetStatus(["playlist"]);
                 break;
             default:
-                status = ["currentsong", "status", "stats"];
-                GetStatus(status);
+                //status = ["currentsong", "status", "stats"];
+                GetStatus(["currentsong", "status", "stats"]);
         }
     });
 
     client.on('error', function(err) {
-        if (err.syscall === 'connect' && err.code === 'ETIMEDOUT'){
-            
-        } else {
+        if (err.syscall !== 'connect' && err.code !== 'ETIMEDOUT'){
+            _connection(false);
             adapter.log.error("MPD Error " + JSON.stringify(err));
         }
     });
@@ -269,47 +180,20 @@ function GetStatus(arr){
                 var obj = mpd.parseKeyValueMessage(res);
                 adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
                 if (status === 'playlist'){
-                    SetObj('playlist_list', obj);
+                    states['playlist_list'] = obj; //TODO Bring all playlists players to the same species
                 } else {
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
-                            states[key] = obj[key]; //TODO
-                            if (status === 'status'){
-                                if (key === 'songid'){
-                                    if (obj[key] !== statePlay.songid){
-                                        statePlay.songid = obj[key];
-                                        clearTag();
-                                    }
-                                }
-                                if (key === 'time'){
-                                    var prs = obj[key].toString().split(":");
-                                    statePlay.curtime = parseInt(prs[0], 10);
-                                    statePlay.fulltime = parseInt(prs[1], 10);
-                                    var progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
-                                    progress = progress || 0;
-                                    SetObj('progressbar', progress);
-                                } else {
-                                    statePlay[key] = obj[key];
-                                }
-                            }
-                            if (status === 'currentsong'){
-                                if (key === 'Id'){
-                                    statePlay[key] = obj[key];
-                                }
-                            }
-                            if (key === 'state' && obj[key] === 'stop'){
-                                statePlay.isPlay = false;
-                                clearTag();
-                            }
-                            SetObj(key, obj[key]);
+                            states[key] = obj[key];
                         }
                     }
+                    _shift();
                 }
             });
         });
     }
 }
-function shift(){
+function _shift(){
     if (states.songid !== statePlay.songid){
         statePlay.songid = obj[key];
         clearTag(); //TODO clear in states obj
@@ -324,11 +208,11 @@ function shift(){
         statePlay.isPlay = false;
         clearTag();
     } else if (states.state === 'play'){
-        statePlay.isPlay = false;
+        statePlay.isPlay = true;
     }
-    SetObj2();
+    SetObj();
 }
-function SetObj2(){
+function SetObj(){
     for (var key in states) {
         if (obj.hasOwnProperty(key)){
             adapter.getObject(key, function(err, obj){
@@ -347,15 +231,21 @@ function SetObj2(){
                         adapter.setState(key, states[key], true);
                     });
                 } else {
-                    adapter.setState(key, states[key], true);
+                    if (!old_states.hasOwnProperty(key)){
+                        old_states[key] = null;
+                    }
+                    if (states[key] !== old_states[key]){
+                        adapter.setState(key, states[key], true);
+                    }
                 }
             });
         }
     }
+    old_states = states;
     GetTime();
 }
 
-function SetObj(state, val){
+/*function SetObj(state, val){
     adapter.getState(state, function (err, st){
         if ((err || !st) && state){
             adapter.log.info('Create new state - ' + state);
@@ -383,7 +273,8 @@ function SetObj(state, val){
         }
         GetTime();
     });
-}
+}*/
+
 function GetTime(){
     clearTimeout(int);
     if (statePlay.isPlay){
@@ -393,10 +284,109 @@ function GetTime(){
         }, 1000);
     }
 }
+
 function clearTag(){
     var tag = ['error', 'Album', 'Artist', 'Composer', 'Date', 'Disc', 'Genre', 'Track', 'Id', 'Title', 'Name', 'AlbumArtist'];
     tag.forEach(function(n){
-        adapter.setState(n, {val: '', ack: true});
+        states[n] = '';
+        //adapter.setState(n, {val: '', ack: true});
     });
+}
+
+function addplay(command, val){
+    command = 'addid';
+    Sendcmd(command, val, function(msg){
+        msg = mpd.parseKeyValueMessage(msg);
+        if (msg.Id){
+            command = 'playid';
+            val = [msg.Id];
+            Sendcmd(command, val, function(msg){
+                GetStatus(["currentsong", "status", "stats"]);
+            });
+        }
+    });
+}
+
+function mute(val){
+    command = 'setvol';
+    if (val === true || val === 'true'){
+        statePlay.mute_vol = statePlay.volume;
+        val = [0];
+    } else {
+        val = [statePlay.mute_vol];
+    }
+}
+
+function sayit(command, val){
+    var fileName;
+    var volume = null;
+    var pos = val.indexOf(';');
+    if (pos !== -1) {
+        volume = val.substring(0, pos);
+        fileName = val.substring(pos + 1);
+    }
+    var flag = false;
+    if (statePlay.isPlay && !statePlay.iSsay){
+        var vol = statePlay.volume;
+        var id = statePlay.Id;
+        var cur = statePlay.curtime;
+        flag = true;
+    }
+    if (!statePlay.iSsay){
+        Sendcmd('addid', [fileName], function(msg){
+            statePlay.iSsay = true;
+            msg = mpd.parseKeyValueMessage(msg);
+            if (msg.Id){
+                var say_id = msg.Id;
+                Sendcmd('playid', [say_id], function(msg){
+                    Sendcmd('setvol', [volume], function(msg){
+                        GetStatus(["status"]);
+                        if (flag){
+                            flag = false;
+                            sayTimePlay(say_id , id, cur, vol);
+                        } else {
+                            sayTimeDelete(say_id);
+                        }
+                    });
+                });
+            }
+        });
+    } else {
+        setTimeout(function (){
+            sayit(command, val);
+        }, 1000);
+    }
+}
+
+function sayTimeDelete(say_id){
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(function (){
+        if (statePlay.isPlay){
+            sayTimeDelete(say_id);
+        } else {
+            Sendcmd('deleteid', [say_id], function(msg){
+                statePlay.iSsay = false;
+                return;
+            });
+        }
+    }, 2000);
+}
+
+function sayTimePlay(say_id , id, cur, vol){
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(function (){
+        if (statePlay.isPlay){
+            sayTimePlay(say_id , id, cur, vol);
+        } else {
+            Sendcmd('seekid', [id, cur], function(msg){
+                Sendcmd('setvol', [vol], function(msg){
+                    Sendcmd('deleteid', [say_id], function(msg){
+                        statePlay.iSsay = false;
+                        return;
+                    });
+                });
+            });
+        }
+    }, 2000);
 }
 
