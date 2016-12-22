@@ -242,6 +242,7 @@ function main() {
 
     client.on('end', function(name) {
         clearTimeout(timer);
+        adapter.log.debug("connection closed", name);
         _connection(false);
         timer = setTimeout(function (){
             main();
@@ -257,7 +258,6 @@ function _connection(state){
         adapter.setState('info.connection', true, true);
     } else {
         connection = false;
-        adapter.log.debug("connection closed", name);
         adapter.setState('info.connection', false, true);
     } 
 }
