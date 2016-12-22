@@ -26,6 +26,24 @@ adapter.on('unload', function (callback) {
     }
 });
 
+adapter.on('message', function (obj) {
+    var wait = false;
+    if (obj) {
+        if (obj.command === '.say'){
+            if (obj.message) text2speech(obj.message);
+        }
+    }
+});
+function text2speech(fileName) {
+    /*var volume = null;
+    var pos = fileName.indexOf(';');
+    if (pos !== -1) {
+        volume = fileName.substring(0, pos);
+        fileName = fileName.substring(pos + 1);
+    }
+    */
+}
+
 adapter.on('objectChange', function (id, obj) {
     adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 });
@@ -80,6 +98,7 @@ adapter.on('stateChange', function (id, state) {
                 }
                 
                 if (command === 'say'){
+                    val = state.val;
                     sayit(command, val);
                 } else if (command === 'addplay'){
                     addplay('addid', val);
@@ -115,6 +134,13 @@ function addplay(command, val){
     });
 }
 function sayit(command, val){
+    var fileName;
+    var volume = null;
+    var pos = val.indexOf(';');
+    if (pos !== -1) {
+        volume = val.substring(0, pos);
+        fileName = val.substring(pos + 1);
+    }
     var flag = false;
     if (statePlay.isPlay && !statePlay.iSsay){
         var vol = statePlay.volume;
@@ -123,12 +149,12 @@ function sayit(command, val){
         flag = true;
     }
     statePlay.iSsay = true;
-    Sendcmd('addid', val, function(msg){
+    Sendcmd('addid', [fileName], function(msg){
         msg = mpd.parseKeyValueMessage(msg);
         if (msg.Id){
             var say_id = msg.Id;
             Sendcmd('playid', [say_id], function(msg){
-               // Sendcmd('setvol', [vol], function(msg){
+                Sendcmd('setvol', [volume], function(msg){
                     GetStatus(["status"]);
                     if (flag){
                         flag = false;
@@ -136,7 +162,7 @@ function sayit(command, val){
                     } else {
                         sayTimeDelete(say_id);
                     }
-               // });
+                });
             });
         }
     });
