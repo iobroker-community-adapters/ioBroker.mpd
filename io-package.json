@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.0.13",
+        "version":                  "0.1.0",
 	    "news": {
+            "0.1.0": {
+              "en": "change sturct",
+              "de": "change sturct",
+              "ru": "change sturct"
+            },
             "0.0.13": {
               "en": "clearTag(), adding states - progressbar and mute",
               "de": "clearTag(), adding states - progressbar and mute",

@@ -60,6 +60,7 @@ adapter.on('stateChange', function (id, state) {
                 val = [0];
                break;
               case 'mute':
+                command = 'setvol';
                 mute(state.val);
                break;
               case 'progressbar':
@@ -126,7 +127,7 @@ function main() {
     });
     client.on('ready', function() {
         _connection(true);
-        GetStatus(["status"]);
+        GetStatus(['status','playlist']);
     });
 
     client.on('system', function(name) {
@@ -170,12 +171,13 @@ function _connection(state){
     } 
 }
 function GetStatus(arr){
+    var cnt = 0;
     if (arr){
         arr.forEach(function(status){
             client.sendCommand(cmd(status, []), function (err, res){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
-                adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
+                //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
                 if (status === 'playlist'){
                     states['playlist_list'] = obj; //TODO Bring all playlists players to the same species
                 } else {
@@ -184,6 +186,9 @@ function GetStatus(arr){
                             states[key] = obj[key];
                         }
                     }
+                }
+                cnt++;
+                if(cnt === arr.length) {
                     _shift();
                 }
             });
@@ -191,16 +196,19 @@ function GetStatus(arr){
     }
 }
 function _shift(){
+    var progress;
     if (states.songid !== statePlay.songid){
-        statePlay.songid = obj[key];
+        statePlay.songid = states.songid;
         clearTag(); //TODO clear in states obj
     }
-    var prs = states.time.toString().split(":");
-    statePlay.curtime = parseInt(prs[0], 10);
-    statePlay.fulltime = parseInt(prs[1], 10);
-    var progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+    if (states.hasOwnProperty('time')){
+        var prs = states.time.split(":"); //.toString()
+        statePlay.curtime = parseInt(prs[0], 10);
+        statePlay.fulltime = parseInt(prs[1], 10);
+        progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+    }
     states['progressbar'] = progress || 0;
-    
+
     if (states.state === 'stop'){
         statePlay.isPlay = false;
         clearTag();
@@ -211,34 +219,38 @@ function _shift(){
 }
 function SetObj(){
     for (var key in states) {
-        if (obj.hasOwnProperty(key)){
-            adapter.getObject(key, function(err, obj){
-                if((err || !obj) && key){
+        if (states.hasOwnProperty(key)){
+            /*adapter.getObject(key, function(err, obj){
+                //adapter.log.info('-------------------------- - ' + JSON.stringify(obj));
+                if((err/!* || !obj*!/) && key){
                     adapter.log.info('Create new state - ' + key);
                     adapter.log.info('Please send a text this developer - ' + key);
                     adapter.setObject(key, {
                         type:   'state',
                         common: {
                             name: key,
-                            type: 'state',
+                            type: 'string',
                             role: 'media.' + key
                         },
                         native: {}
-                    }, function () {
-                        adapter.setState(key, states[key], true);
+                    /!*}, function () {
+                        adapter.setState(key, {val: states[key], ack: true});*!/
                     });
-                } else {
+                    adapter.setState(key, {val: states[key], ack: true});
+                    old_states[key] = states[key];
+                } else {*/
+                    //adapter.log.info('-------------------- - ' + old_states.hasOwnProperty(key));
                     if (!old_states.hasOwnProperty(key)){
-                        old_states[key] = null;
+                        old_states[key] = '';
                     }
                     if (states[key] !== old_states[key]){
-                        adapter.setState(key, states[key], true);
+                        adapter.setState(key, {val: states[key], ack: true});
+                        old_states[key] = states[key];
                     }
-                }
-            });
+                //}
+            //});
         }
     }
-    old_states = states;
     GetTime();
 }
 
@@ -304,19 +316,20 @@ function addplay(command, val){
 }
 
 function mute(val){
-    command = 'setvol';
     if (val === true || val === 'true'){
         statePlay.mute_vol = statePlay.volume;
         val = [0];
     } else {
         val = [statePlay.mute_vol];
     }
+    return val;
 }
 
 function sayit(command, val){
-    var fileName;
+    var fileName = '';
     var volume = null;
-    if (~val.indexOf(';')){
+    var pos = val.indexOf(';');
+    if (pos !== -1) {
         volume = val.substring(0, pos);
         fileName = val.substring(pos + 1);
     } else {
@@ -324,8 +337,8 @@ function sayit(command, val){
     }
     var flag = false;
     if (statePlay.isPlay && !statePlay.iSsay){
-        var vol = statePlay.volume;
-        var id = statePlay.Id;
+        var vol = states.volume;
+        var id = states.Id;
         var cur = statePlay.curtime;
         flag = true;
     }
@@ -336,15 +349,27 @@ function sayit(command, val){
             if (msg.Id){
                 var say_id = msg.Id;
                 Sendcmd('playid', [say_id], function(msg){
-                    Sendcmd('setvol', [volume], function(msg){
-                        GetStatus(["status"]);
+                    if (volume){
+                        setTimeout(function (){
+                            Sendcmd('setvol', [volume], function(msg){
+                                GetStatus(["currentsong", "status", "stats"]);
+                                if (flag){
+                                    flag = false;
+                                    sayTimePlay(say_id , id, cur, vol);
+                                } else {
+                                    sayTimeDelete(say_id);
+                                }
+                            });
+                        }, 1000);
+                    } else {
+                        GetStatus(["currentsong", "status", "stats"]);
                         if (flag){
                             flag = false;
                             sayTimePlay(say_id , id, cur, vol);
                         } else {
                             sayTimeDelete(say_id);
                         }
-                    });
+                    }
                 });
             }
         });
@@ -354,17 +379,26 @@ function sayit(command, val){
         }, 1000);
     }
 }
-
+function delSay(){
+    Sendcmd('playlistsearch', ['any', 'sayit'], function(msg){
+        var obj = mpd.parseKeyValueMessage(msg);
+        if (obj.hasOwnProperty('Id')){
+            Sendcmd('deleteid', [obj.Id], function(msg){
+                statePlay.iSsay = false;
+                delSay();
+            });
+        } else {
+            return;
+        }
+    });
+}
 function sayTimeDelete(say_id){
     clearTimeout(sayTimer);
     sayTimer = setTimeout(function (){
-        if (statePlay.isPlay){
+        if (statePlay.isPlay){ // && (~states.file.indexOf('sayit')
             sayTimeDelete(say_id);
         } else {
-            Sendcmd('deleteid', [say_id], function(msg){
-                statePlay.iSsay = false;
-                return;
-            });
+            delSay();
         }
     }, 2000);
 }
@@ -376,12 +410,11 @@ function sayTimePlay(say_id , id, cur, vol){
             sayTimePlay(say_id , id, cur, vol);
         } else {
             Sendcmd('seekid', [id, cur], function(msg){
-                Sendcmd('setvol', [vol], function(msg){
-                    Sendcmd('deleteid', [say_id], function(msg){
-                        statePlay.iSsay = false;
-                        return;
+                setTimeout(function (){
+                    Sendcmd('setvol', [vol], function(msg){
+                        delSay();
                     });
-                });
+                }, 1000);
             });
         }
     }, 2000);
