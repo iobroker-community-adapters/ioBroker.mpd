@@ -15,6 +15,7 @@ var statePlay = {
     'mute_vol':0,
     'songid': null
 };
+var states = {};
 var client, timer, int, sayTimer;
 //var isPlay = false;
 adapter.on('unload', function (callback) {
@@ -264,6 +265,7 @@ function GetStatus(arr){
                 } else {
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
+                            states[key] = obj[key]; //TODO
                             if (status === 'status'){
                                 if (key === 'songid'){
                                     if (obj[key] !== statePlay.songid){
@@ -298,6 +300,51 @@ function GetStatus(arr){
             });
         });
     }
+}
+function shift(){
+    if (states.songid !== statePlay.songid){
+        statePlay.songid = obj[key];
+        clearTag(); //TODO clear in states obj
+    }
+    var prs = states.time.toString().split(":");
+    statePlay.curtime = parseInt(prs[0], 10);
+    statePlay.fulltime = parseInt(prs[1], 10);
+    var progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+    states['progressbar'] = progress || 0;
+    
+    if (states.state === 'stop'){
+        statePlay.isPlay = false;
+        clearTag();
+    } else if (states.state === 'play'){
+        statePlay.isPlay = false;
+    }
+    SetObj2();
+}
+function SetObj2(){
+    for (var key in states) {
+        if (obj.hasOwnProperty(key)){
+            adapter.getObject(key, function(err, obj){
+                if((err || !obj) && key){
+                    adapter.log.info('Create new state - ' + key);
+                    adapter.log.info('Please send a text this developer - ' + key);
+                    adapter.setObject(key, {
+                        type:   'state',
+                        common: {
+                            name: key,
+                            type: 'state',
+                            role: 'media.' + key
+                        },
+                        native: {}
+                    }, function () {
+                        adapter.setState(key, states[key], true);
+                    });
+                } else {
+                    adapter.setState(key, states[key], true);
+                }
+            });
+        }
+    }
+    GetTime();
 }
 
 function SetObj(state, val){
