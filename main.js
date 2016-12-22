@@ -286,10 +286,9 @@ function GetTime(){
 }
 
 function clearTag(){
-    var tag = ['error', 'Album', 'Artist', 'Composer', 'Date', 'Disc', 'Genre', 'Track', 'Id', 'Title', 'Name', 'AlbumArtist'];
-    tag.forEach(function(n){
-        states[n] = '';
-        //adapter.setState(n, {val: '', ack: true});
+    var tag = ['error', 'Album', 'Artist', 'Composer', 'Date', 'Disc', 'Genre', 'Track', 'Id', 'Title', 'Name', 'AlbumArtist'];   
+    tag.forEach(function(name){
+        states[name] = '';
     });
 }
 
