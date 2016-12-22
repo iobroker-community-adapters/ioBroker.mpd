@@ -2,9 +2,7 @@
 
 var utils = require(__dirname + '/lib/utils');
 var adapter = utils.adapter('mpd');
-
-var mpd = require('mpd'),
-    cmd = mpd.cmd;
+var mpd = require('mpd'), cmd = mpd.cmd;
 var statePlay = {
     'fulltime': 0,
     'curtime': 0,
@@ -16,8 +14,7 @@ var statePlay = {
     'songid': null
 };
 var connection = false;
-var states = {};
-var old_states = {};
+var states = {}, old_states = {};
 var client, timer, int, sayTimer;
 
 adapter.on('unload', function (callback) {
@@ -319,10 +316,11 @@ function mute(val){
 function sayit(command, val){
     var fileName;
     var volume = null;
-    var pos = val.indexOf(';');
-    if (pos !== -1) {
+    if (~val.indexOf(';')){
         volume = val.substring(0, pos);
         fileName = val.substring(pos + 1);
+    } else {
+        fileName = val;
     }
     var flag = false;
     if (statePlay.isPlay && !statePlay.iSsay){
