@@ -15,6 +15,7 @@ var statePlay = {
     'mute_vol':0,
     'songid': null
 };
+var connection = false;
 var states = {};
 var client, timer, int, sayTimer;
 //var isPlay = false;
@@ -50,72 +51,70 @@ adapter.on('objectChange', function (id, obj) {
 });
 
 adapter.on('stateChange', function (id, state) {
-    adapter.getState('info.connection', function (err, st) {
-        if (st || !err){
-            if (state && !state.ack) {
-                adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-                var ids = id.split(".");
-                var command = ids[ids.length - 1].toString();
-                var val = [state.val];
-                if (state.val === false || state.val === 'false'){
+    if (connection){
+        if (state && !state.ack) {
+            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+            var ids = id.split(".");
+            var command = ids[ids.length - 1].toString();
+            var val = [state.val];
+            if (state.val === false || state.val === 'false'){
+                val = [0];
+            } else if (state.val === true || state.val === 'true'){
+                val = [1];
+            }
+
+            switch (command) {
+              case 'volume':
+                command = 'setvol';
+                break;
+              case 'play':
+                val = [0];
+                break;
+              case 'mute':
+                command = 'setvol';
+                if (state.val === true || state.val === 'true'){
+                    statePlay.mute_vol = statePlay.volume;
                     val = [0];
-                } else if (state.val === true || state.val === 'true'){
-                    val = [1];
-                }
-                
-                switch (command) {
-                  case 'volume':
-                    command = 'setvol';
-                    break;
-                  case 'play':
-                    val = [0];
-                    break;
-                  case 'mute':
-                    command = 'setvol';
-                    if (state.val === true || state.val === 'true'){
-                        statePlay.mute_vol = statePlay.volume;
-                        val = [0];
-                    } else {
-                        val = [statePlay.mute_vol];
-                    }
-                    break;
-                  case 'progressbar':
-                    command = 'seekcur';
-                    val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
-                    break;
-                  case 'next':
-                  case 'previous':
-                  case 'stop':
-                  case 'playlist':
-                  case 'clear':
-                    val = [];
-                    break;
-                  default:
-                    
-                }
-                
-                if (~val.toString().indexOf(',')){
-                    val = val.toString().split(',');
-                }
-                
-                if (command === 'say'){
-                    val = state.val;
-                    sayit(command, val);
-                } else if (command === 'addplay'){
-                    addplay('addid', val);
                 } else {
-                    client.sendCommand(cmd(command, val), function(err, msg) {
-                        if (err){
-                            adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
-                        } else {
-                            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
-                            //GetStatus(["stats"]); //"currentsong", "status",
-                        }
-                    });
+                    val = [statePlay.mute_vol];
                 }
+                break;
+              case 'progressbar':
+                command = 'seekcur';
+                val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
+                break;
+              case 'next':
+              case 'previous':
+              case 'stop':
+              case 'playlist':
+              case 'clear':
+                val = [];
+                break;
+              default:
+
+            }
+
+            if (~val.toString().indexOf(',')){
+                val = val.toString().split(',');
+            }
+
+            if (command === 'say'){
+                val = state.val;
+                sayit(command, val);
+            } else if (command === 'addplay'){
+                addplay('addid', val);
+            } else {
+                client.sendCommand(cmd(command, val), function(err, msg) {
+                    if (err){
+                        adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
+                    } else {
+                        adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+                        //GetStatus(["stats"]); //"currentsong", "status",
+                    }
+                });
             }
         }
-    });
+    }
 });
 
 adapter.on('ready', function () {
@@ -217,8 +216,7 @@ function main() {
         port: adapter.config.port || 6600
     });
     client.on('ready', function() {
-        adapter.log.info("MPD ready!");
-        adapter.setState('info.connection', true, true);
+        _connection(true);
         GetStatus(["status"]);
     });
 
@@ -244,14 +242,24 @@ function main() {
 
     client.on('end', function(name) {
         clearTimeout(timer);
-        adapter.log.debug("connection closed", name);
-        adapter.setState('info.connection', false, true);
+        _connection(false);
         timer = setTimeout(function (){
             main();
         }, 5000);
     });
 
     adapter.subscribeStates('*'); //TODO JSON list commands
+}
+function _connection(state){
+    if (state){
+        connection = true;
+        adapter.log.info("MPD ready!");
+        adapter.setState('info.connection', true, true);
+    } else {
+        connection = false;
+        adapter.log.debug("connection closed", name);
+        adapter.setState('info.connection', false, true);
+    } 
 }
 function GetStatus(arr){
     if (arr){
