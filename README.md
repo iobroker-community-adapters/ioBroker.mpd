@@ -18,7 +18,7 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 ## Changelog
 
 #### 0.1.0
-* 22.12.2016 (instalator) clearTag(), adding states - progressbar and mute
+* 22.12.2016 (instalator) change structure
 
 #### 0.0.13
 * 21.12.2016 (instalator) clearTag(), adding states - progressbar and mute
