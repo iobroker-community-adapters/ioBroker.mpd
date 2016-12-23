@@ -29,7 +29,7 @@ adapter.on('unload', function (callback) {
 adapter.on('message', function (obj) {
     var wait = false;
     if (obj) {
-        if (obj.command === '.say'){ //TODO change command here and in text2speech
+        if (obj.command === 'say'){
             if (obj.message) sayit('say', obj.message);
         }
     }
