@@ -1,6 +1,7 @@
 "use strict";
 
 var utils = require(__dirname + '/lib/utils');
+var objects = require(__dirname + '/lib/commands.json');
 var adapter = utils.adapter('mpd');
 var mpd = require('mpd'), cmd = mpd.cmd;
 var statePlay = {
@@ -253,36 +254,6 @@ function SetObj(){
     }
     GetTime();
 }
-
-/*function SetObj(state, val){
-    adapter.getState(state, function (err, st){
-        if ((err || !st) && state){
-            adapter.log.info('Create new state - ' + state);
-            adapter.log.info('Please send a text this developer - ' + state);
-            adapter.setObject(state, {
-                type:   'state',
-                common: {
-                    name: state,
-                    type: 'state',
-                    role: 'media.'+state
-                },
-                native: {}
-            });
-            if (state === 'state' && val === 'play'){
-                statePlay.isPlay = true;
-            }
-            adapter.setState(state, {val: val, ack: true});
-        } else {
-            if (state === 'state' && val === 'play'){
-                statePlay.isPlay = true;
-            }
-            if (st.val !== val){
-                adapter.setState(state, {val: val, ack: true});
-            }
-        }
-        GetTime();
-    });
-}*/
 
 function GetTime(){
     clearTimeout(int);
