@@ -99,7 +99,7 @@ adapter.on('stateChange', function (id, state) {
             }
         }
     } else {
-        adapter.log.error('Send command error - MPD NOT connected!');
+        adapter.log.debug('Send command error - MPD NOT connected!');
     }
 });
 
