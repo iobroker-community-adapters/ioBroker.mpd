@@ -1,7 +1,6 @@
 "use strict";
 
 var utils = require(__dirname + '/lib/utils');
-var objects = require(__dirname + '/lib/commands.json');
 var adapter = utils.adapter('mpd');
 var mpd = require('mpd'), cmd = mpd.cmd;
 var statePlay = {
@@ -64,12 +63,26 @@ adapter.on('stateChange', function (id, state) {
                 command = 'setvol';
                 mute(state.val);
                break;
-              case 'progressbar':
+              case 'seek':
                 command = 'seekcur';
                 val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
                break;
+                case 'repeat':
+                    if (val){
+                        val =[1]
+                    } else {
+                        val = [0];
+                    }
+                    break;
+                case 'random':
+                    if (val){
+                        val =[1]
+                    } else {
+                        val = [0];
+                    }
+                    break;
               case 'next':
-              case 'previous':
+              case 'prev':
               case 'stop':
               case 'playlist':
               case 'clear':
@@ -184,7 +197,8 @@ function GetStatus(arr){
                 } else {
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
-                            states[key] = obj[key];
+                            var ids = key.toLowerCase();
+                            states[ids] = obj[key];
                         }
                     }
                 }
@@ -208,7 +222,10 @@ function _shift(){
         statePlay.fulltime = parseInt(prs[1], 10);
         progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
     }
-    states['progressbar'] = progress || 0;
+    states['seek'] = progress || 0;
+    statePlay.volume = states.volume;
+    states['repeat'] = toBool(states['repeat']);
+    states['random'] = toBool(states['random']);
 
     if (states.state === 'stop'){
         statePlay.isPlay = false;
@@ -218,38 +235,24 @@ function _shift(){
     }
     SetObj();
 }
+function toBool(val){
+    if(val === 0 || val === '0' || val === false || val === 'false' || val === 'off'){
+        val = false;
+    } else {
+        val = true;
+    }
+    return val;
+}
 function SetObj(){
     for (var key in states) {
         if (states.hasOwnProperty(key)){
-            /*adapter.getObject(key, function(err, obj){
-                //adapter.log.info('-------------------------- - ' + JSON.stringify(obj));
-                if((err/!* || !obj*!/) && key){
-                    adapter.log.info('Create new state - ' + key);
-                    adapter.log.info('Please send a text this developer - ' + key);
-                    adapter.setObject(key, {
-                        type:   'state',
-                        common: {
-                            name: key,
-                            type: 'string',
-                            role: 'media.' + key
-                        },
-                        native: {}
-                    /!*}, function () {
-                        adapter.setState(key, {val: states[key], ack: true});*!/
-                    });
-                    adapter.setState(key, {val: states[key], ack: true});
-                    old_states[key] = states[key];
-                } else {*/
-                    //adapter.log.info('-------------------- - ' + old_states.hasOwnProperty(key));
-                    if (!old_states.hasOwnProperty(key)){
-                        old_states[key] = '';
-                    }
-                    if (states[key] !== old_states[key]){
-                        adapter.setState(key, {val: states[key], ack: true});
-                        old_states[key] = states[key];
-                    }
-                //}
-            //});
+            if (!old_states.hasOwnProperty(key)){
+                old_states[key] = '';
+            }
+            if (states[key] !== old_states[key]){
+                adapter.setState(key, {val: states[key], ack: true});
+                old_states[key] = states[key];
+            }
         }
     }
     GetTime();
@@ -266,7 +269,7 @@ function GetTime(){
 }
 
 function clearTag(){
-    var tag = ['error', 'Album', 'Artist', 'Composer', 'Date', 'Disc', 'Genre', 'Track', 'Id', 'Title', 'Name', 'AlbumArtist'];   
+    var tag = ['error', 'album', 'artist', 'composer', 'date', 'disc', 'genre', 'track', 'id', 'title', 'name', 'albumartist'];
     tag.forEach(function(name){
         states[name] = '';
     });
@@ -290,8 +293,8 @@ function mute(val){
     if (val === true || val === 'true'){
         statePlay.mute_vol = statePlay.volume;
         val = [0];
-    } else {
-        val = [statePlay.mute_vol];
+    } else if (val === false || val === 'false'){
+        val = [parseInt(statePlay.mute_vol)];
     }
     return val;
 }
