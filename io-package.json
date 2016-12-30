@@ -1220,7 +1220,7 @@
           "role": "media.seek",
           "name": "Controlling playback seek",
           "type": "number",
-		  "unit": "%",
+	  "unit": "%",
           "min": 0,
           "max": 100,
           "read": true,
