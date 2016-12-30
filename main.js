@@ -61,26 +61,26 @@ adapter.on('stateChange', function (id, state) {
                break;
               case 'mute':
                 command = 'setvol';
-                mute(state.val);
+                val = mute(state.val);
                break;
               case 'seek':
                 command = 'seekcur';
                 val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
                break;
-                case 'repeat':
-                    if (val){
-                        val =[1]
-                    } else {
-                        val = [0];
-                    }
-                    break;
-                case 'random':
-                    if (val){
-                        val =[1]
-                    } else {
-                        val = [0];
-                    }
-                    break;
+               case 'repeat':
+                 if (val){
+                    val =[1]
+                 } else {
+                    val = [0];
+                 }
+                break;
+               case 'random':
+                 if (val){
+                    val =[1]
+                 } else {
+                    val = [0];
+                 }
+                break;
               case 'next':
               case 'prev':
               case 'stop':
