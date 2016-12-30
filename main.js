@@ -55,31 +55,21 @@ adapter.on('stateChange', function (id, state) {
             switch (command) {
               case 'volume':
                 command = 'setvol';
-               break;
+                if (val[0] < 0) val[0] = 0;
+                if (val[0] > 100) val[0] = 100;
+                break;
               case 'play':
                 val = [0];
-               break;
+                break;
               case 'mute':
                 command = 'setvol';
                 val = mute(state.val);
-               break;
+                break;
               case 'seek':
                 command = 'seekcur';
+                if (val[0] < 0) val[0] = 0;
+                if (val[0] > 100) val[0] = 100;
                 val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
-               break;
-               case 'repeat':
-                 if (val){
-                    val =[1]
-                 } else {
-                    val = [0];
-                 }
-                break;
-               case 'random':
-                 if (val){
-                    val =[1]
-                 } else {
-                    val = [0];
-                 }
                 break;
               case 'next':
               case 'prev':
@@ -87,9 +77,8 @@ adapter.on('stateChange', function (id, state) {
               case 'playlist':
               case 'clear':
                 val = [];
-               break;
+                break;
               default:
-
             }
 
             if (~val.toString().indexOf(',')){
@@ -107,7 +96,6 @@ adapter.on('stateChange', function (id, state) {
                         adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
                     } else {
                         adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
-                        //GetStatus(["stats"]); //"currentsong", "status",
                     }
                 });
             }
@@ -151,7 +139,6 @@ function main() {
                 GetStatus(["playlist"]);
                 break;
             default:
-                //status = ["currentsong", "status", "stats"];
                 GetStatus(["currentsong", "status", "stats"]);
         }
     });
@@ -214,7 +201,7 @@ function _shift(){
     var progress;
     if (states.songid !== statePlay.songid){
         statePlay.songid = states.songid;
-        clearTag(); //TODO clear in states obj
+        clearTag();
     }
     if (states.hasOwnProperty('time')){
         var prs = states.time.split(":"); //.toString()
