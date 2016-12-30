@@ -223,10 +223,10 @@ function _shift(){
     SetObj();
 }
 function toBool(val){
-    if(val === 0 || val === '0' || val === false || val === 'false' || val === 'off'){
-        val = false;
-    } else {
+    if(val === 1 || val === '1' || val === true || val === 'true' || val === 'on'){
         val = true;
+    } else {
+        val = false;
     }
     return val;
 }
