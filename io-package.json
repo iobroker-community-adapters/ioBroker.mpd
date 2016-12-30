@@ -68,22 +68,22 @@
 
     ],
     "instanceObjects":[
-      {
-      "_id": "say",
-      "type": "state",
-      "common": {
-        "role": "say",
-        "name": "say mpd",
-        "type": "string",
-        "read": true,
-        "write": true,
-        "def": false
-      },
-      "native": {
+	     {
+        "_id": "shuffle",
+        "type": "state",
+        "common": {
+          "role": "media.shuffle",
+          "name": "The current playlist shuffle",
+          "type": "string",
+          "read": true,
+          "write": true,
+          "def": false
+        },
+        "native": {
 
-      }
-    },
-      {
+        }
+      },
+	    {
         "_id": "progressbar",
         "type": "state",
         "common": {
@@ -100,6 +100,21 @@
 
         }
       },
+      {
+      "_id": "say",
+      "type": "state",
+      "common": {
+        "role": "media.tts",
+        "name": "Text 2 speech mpd",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {
+
+      }
+    },
       {
         "_id": "mute",
         "type": "state",
@@ -135,7 +150,7 @@
         "type": "state",
         "common": {
           "role": "media.toggleoutput",
-          "name": "Audio output devices toggleo utput",
+          "name": "Audio output devices toggle output",
           "type": "string",
           "read": true,
           "write": true,
@@ -525,7 +540,7 @@
         "type": "state",
         "common": {
           "role": "media.save",
-          "name": "Storedplaylistssave",
+          "name": "Stored playlists save",
           "type": "string",
           "read": true,
           "write": true,
@@ -540,7 +555,7 @@
         "type": "state",
         "common": {
           "role": "media.rm",
-          "name": "Storedplaylistsrm",
+          "name": "Stored playlists rm",
           "type": "string",
           "read": true,
           "write": true,
@@ -555,7 +570,7 @@
         "type": "state",
         "common": {
           "role": "media.rename",
-          "name": "Storedplaylistsrename",
+          "name": "Stored playlists rename",
           "type": "string",
           "read": true,
           "write": true,
@@ -570,7 +585,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistmove",
-          "name": "Storedplaylistsplaylistmove",
+          "name": "Stored playlists playlistmove",
           "type": "string",
           "read": true,
           "write": true,
@@ -585,7 +600,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistdelete",
-          "name": "Storedplaylistsplaylistdelete",
+          "name": "Stored playlists playlist delete",
           "type": "string",
           "read": true,
           "write": true,
@@ -600,7 +615,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistclear",
-          "name": "Storedplaylistsplaylistclear",
+          "name": "Stored playlists playlistclear",
           "type": "string",
           "read": true,
           "write": true,
@@ -615,7 +630,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistadd",
-          "name": "Storedplaylistsplaylistadd",
+          "name": "Stored playlistsp laylistadd",
           "type": "string",
           "read": true,
           "write": true,
@@ -630,7 +645,7 @@
         "type": "state",
         "common": {
           "role": "media.load",
-          "name": "Storedplaylistsload",
+          "name": "Stored playlists load",
           "type": "string",
           "read": true,
           "write": true,
@@ -645,7 +660,7 @@
         "type": "state",
         "common": {
           "role": "media.listplaylists",
-          "name": "Storedplaylistslistplaylists",
+          "name": "Stored playlists listplaylists",
           "type": "string",
           "read": true,
           "write": true,
@@ -660,7 +675,7 @@
         "type": "state",
         "common": {
           "role": "media.listplaylistinfo",
-          "name": "Storedplaylistslistplaylistinfo",
+          "name": "Stored playlistsl istplaylistinfo",
           "type": "string",
           "read": true,
           "write": true,
@@ -675,7 +690,7 @@
         "type": "state",
         "common": {
           "role": "media.listplaylist",
-          "name": "Storedplaylistslistplaylist",
+          "name": "Stored playlists listplaylist",
           "type": "string",
           "read": true,
           "write": true,
@@ -690,7 +705,7 @@
         "type": "state",
         "common": {
           "role": "media.cleartagid",
-          "name": "Thecurrentplaylistcleartagid",
+          "name": "The current playlist cleartagid",
           "type": "string",
           "read": true,
           "write": true,
@@ -705,7 +720,7 @@
         "type": "state",
         "common": {
           "role": "media.addtagid",
-          "name": "Thecurrentplaylistaddtagid",
+          "name": "The current playlist addtagid",
           "type": "string",
           "read": true,
           "write": true,
@@ -720,7 +735,7 @@
         "type": "state",
         "common": {
           "role": "media.swapid",
-          "name": "Thecurrentplaylistswapid",
+          "name": "The current playlist swapid",
           "type": "string",
           "read": true,
           "write": true,
@@ -735,7 +750,7 @@
         "type": "state",
         "common": {
           "role": "media.swap",
-          "name": "Thecurrentplaylistswap",
+          "name": "The current playlist swap",
           "type": "string",
           "read": true,
           "write": true,
@@ -745,27 +760,13 @@
 
         }
       },
-      {
-        "_id": "shuffle",
-        "type": "state",
-        "common": {
-          "role": "media.shuffle",
-          "name": "The current playlist shuffle",
-          "type": "string",
-          "read": true,
-          "write": true,
-          "def": false
-        },
-        "native": {
-
-        }
-      },
+     
       {
         "_id": "rangeid",
         "type": "state",
         "common": {
           "role": "media.rangeid",
-          "name": "Thecurrentplaylistrangeid",
+          "name": "The current playlist rangeid",
           "type": "string",
           "read": true,
           "write": true,
@@ -780,7 +781,7 @@
         "type": "state",
         "common": {
           "role": "media.prioid",
-          "name": "Thecurrentplaylistprioid",
+          "name": "The current playlist prioid",
           "type": "string",
           "read": true,
           "write": true,
@@ -795,7 +796,7 @@
         "type": "state",
         "common": {
           "role": "media.prio",
-          "name": "Thecurrentplaylistprio",
+          "name": "The currentp laylist prio",
           "type": "string",
           "read": true,
           "write": true,
@@ -810,7 +811,7 @@
         "type": "state",
         "common": {
           "role": "media.plchangesposid",
-          "name": "Thecurrentplaylistplchangesposid",
+          "name": "The currentp laylist plchangesposid",
           "type": "string",
           "read": true,
           "write": true,
@@ -825,7 +826,7 @@
         "type": "state",
         "common": {
           "role": "media.plchanges",
-          "name": "Thecurrentplaylistplchanges",
+          "name": "The current playlist plchanges",
           "type": "string",
           "read": true,
           "write": true,
@@ -840,7 +841,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistsearch",
-          "name": "Thecurrentplaylistplaylistsearch",
+          "name": "The current playlist playlistsearch",
           "type": "string",
           "read": true,
           "write": true,
@@ -855,7 +856,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistinfo",
-          "name": "Thecurrentplaylistplaylistinfo",
+          "name": "The current playlist playlistinfo",
           "type": "string",
           "read": true,
           "write": true,
@@ -870,7 +871,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistid",
-          "name": "Thecurrentplaylistplaylistid",
+          "name": "The current playlist playlistid",
           "type": "string",
           "read": true,
           "write": true,
@@ -885,7 +886,7 @@
         "type": "state",
         "common": {
           "role": "media.playlistfind",
-          "name": "Thecurrentplaylistplaylistfind",
+          "name": "The current playlist playlistfind",
           "type": "string",
           "read": true,
           "write": true,
@@ -915,7 +916,7 @@
         "type": "state",
         "common": {
           "role": "media.moveid",
-          "name": "Thecurrentplaylistmoveid",
+          "name": "The current playlist moveid",
           "type": "string",
           "read": true,
           "write": true,
@@ -930,7 +931,7 @@
         "type": "state",
         "common": {
           "role": "media.move",
-          "name": "Thecurrentplaylistmove",
+          "name": "The current playlist move",
           "type": "string",
           "read": true,
           "write": true,
@@ -945,7 +946,7 @@
         "type": "state",
         "common": {
           "role": "media.deleteid",
-          "name": "Thecurrentplaylistdeleteid",
+          "name": "The current playlist deleteid",
           "type": "string",
           "read": true,
           "write": true,
@@ -960,7 +961,7 @@
         "type": "state",
         "common": {
           "role": "media.delete",
-          "name": "Thecurrentplaylistdelete",
+          "name": "The current playlist delete",
           "type": "string",
           "read": true,
           "write": true,
@@ -975,7 +976,7 @@
         "type": "state",
         "common": {
           "role": "media.clear",
-          "name": "Thecurrentplaylistclear",
+          "name": "The current playlist clear",
           "type": "string",
           "read": true,
           "write": true,
@@ -990,7 +991,7 @@
         "type": "state",
         "common": {
           "role": "media.addid",
-          "name": "Thecurrentplaylistaddid",
+          "name": "The current playlist addid",
           "type": "string",
           "read": true,
           "write": true,
@@ -1005,7 +1006,7 @@
         "type": "state",
         "common": {
           "role": "media.add",
-          "name": "Thecurrentplaylistadd",
+          "name": "The current playlist add",
           "type": "string",
           "read": true,
           "write": true,
@@ -1035,7 +1036,7 @@
         "type": "state",
         "common": {
           "role": "media.replay_gain_status",
-          "name": "Playbackoptionsreplay_gain_status",
+          "name": "Playback options replay_gain_status",
           "type": "string",
           "read": true,
           "write": false,
@@ -1050,7 +1051,7 @@
         "type": "state",
         "common": {
           "role": "media.replay_gain_mode",
-          "name": "Playbackoptionsreplay_gain_mode",
+          "name": "Playback options replay_gain_mode",
           "type": "string",
           "read": true,
           "write": true,
@@ -1092,8 +1093,11 @@
         "type": "state",
         "common": {
           "name": "repeat",
-          "type": "state",
-          "role": "media"
+          "type": "boolean",
+          "role": "media.mode.repeat",
+	  "read": true,
+          "write": true,
+          "def": false
         },
         "native": {
 
@@ -1104,8 +1108,11 @@
         "type": "state",
         "common": {
           "name": "random",
-          "type": "state",
-          "role": "media.shuffle"
+          "type": "boolean",
+          "role": "media.mode.shuffle",
+	  "read": true,
+          "write": true,
+          "def": false
         },
         "native": {
 
@@ -1140,7 +1147,7 @@
         "type": "state",
         "common": {
           "role": "media.crossfade",
-          "name": "Playbackoptionscrossfade",
+          "name": "Playback options crossfade",
           "type": "integer",
           "read": true,
           "write": true,
@@ -1166,10 +1173,10 @@
         "_id": "stop",
         "type": "state",
         "common": {
-          "role": "media.stop",
-          "name": "Controllingplaybackstop",
+          "role": "button.stop",
+          "name": "Controlling playback stop",
           "type": "boolean",
-          "read": true,
+          "read": false,
           "write": true,
           "def": false
         },
@@ -1181,7 +1188,7 @@
         "_id": "seekcur",
         "type": "state",
         "common": {
-          "name": "Controllingplaybackseekcur",
+          "name": "Controlling playback seekcur",
           "role": "media.seekcur",
           "type": "number",
           "read": true,
@@ -1196,7 +1203,7 @@
         "type": "state",
         "common": {
           "role": "media.seekid",
-          "name": "Controllingplaybackseekid",
+          "name": "Controlling playback seekid",
           "type": "integer",
           "read": true,
           "write": true,
@@ -1212,10 +1219,12 @@
         "common": {
           "role": "media.seek",
           "name": "Controlling playback seek",
-          "type": "integer",
+          "type": "number",
+		  "unit": "%",
+          "min": 0,
+          "max": 100,
           "read": true,
-          "write": true,
-          "def": false
+          "write": true
         },
         "native": {
 
@@ -1225,10 +1234,10 @@
         "_id": "previous",
         "type": "state",
         "common": {
-          "role": "media.previous",
+          "role": "button.prev",
           "name": "Controlling playback previous",
           "type": "boolean",
-          "read": true,
+          "read": false,
           "write": true,
           "def": false
         },
@@ -1241,7 +1250,7 @@
         "type": "state",
         "common": {
           "role": "media.playid",
-          "name": "Controllingplaybackplayid",
+          "name": "Controlling playback playid",
           "type": "integer",
           "read": true,
           "write": true,
@@ -1255,10 +1264,10 @@
         "_id": "play",
         "type": "state",
         "common": {
-          "role": "media.play",
+          "role": "button.play",
           "name": "Controlling playback play",
           "type": "boolean",
-          "read": true,
+          "read": false,
           "write": true,
           "def": false
         },
@@ -1270,10 +1279,10 @@
         "_id": "pause",
         "type": "state",
         "common": {
-          "role": "media.pause",
+          "role": "button.pause",
           "name": "Controlling playback pause",
           "type": "boolean",
-          "read": true,
+          "read": false,
           "write": true,
           "def": false
         },
@@ -1285,10 +1294,10 @@
         "_id": "next",
         "type": "state",
         "common": {
-          "role": "indicator",
-          "name": "next",
+          "role": "button.next",
+          "name": "Controlling playback next",
           "type": "boolean",
-          "read": true,
+          "read": false,
           "write": true,
           "def": false
         },
@@ -1301,7 +1310,7 @@
         "type": "state",
         "common": {
           "role": "indicator.connected",
-          "name": "IfconnectedtoMPDplayer",
+          "name": "If connected to MPD",
           "type": "boolean",
           "read": true,
           "write": false,
@@ -1317,7 +1326,7 @@
         "common": {
           "name": "volume",
           "type": "number",
-          "role": "media.volume",
+          "role": "level.volume",
           "read": true,
           "write": false,
           "min": 0,
@@ -1357,9 +1366,13 @@
         "_id": "state",
         "type": "state",
         "common": {
-          "name": "state",
-          "type": "state",
-          "role": "media.state"
+          "name": "Play, stop, or pause, next, previous, mute, unmute",
+          "type": "string",
+          "role": "media.state",
+		  "values": "stop,play,pause,next,previous,mute,unmute",
+		  "read": true,
+          "write": false,
+		  "def": "stop"
         },
         "native": {
 
@@ -1420,7 +1433,7 @@
         "common": {
           "name": "bitrate",
           "type": "state",
-          "role": "media"
+          "role": "media.bitrate"
         },
         "native": {
 
@@ -1502,9 +1515,12 @@
         "_id": "artist",
         "type": "state",
         "common": {
-          "name": "Artist",
-          "type": "state",
-          "role": "media"
+          "name": "Artist of current played song",
+          "type": "string",
+          "role": "media.artist",
+		  "read": true,
+          "write": false,
+		  "def": ""
         },
         "native": {
 
@@ -1538,9 +1554,12 @@
         "_id": "title",
         "type": "state",
         "common": {
-          "name": "Title",
-          "type": "state",
-          "role": "media"
+          "name": "Title of current played song",
+          "type": "string",
+          "role": "media.title",
+		  "read": true,
+          "write": false,
+		  "def": ""
         },
         "native": {
 
@@ -1550,9 +1569,12 @@
         "_id": "album",
         "type": "state",
         "common": {
-          "name": "Album",
-          "type": "state",
-          "role": "media"
+          "name": "Album of current played song",
+          "type": "string",
+          "role": "media.album",
+		  "read": true,
+          "write": false,
+		  "def": ""
         },
         "native": {
 
