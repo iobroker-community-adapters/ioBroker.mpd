@@ -17,6 +17,13 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.1.1
+* 02.01.2017 (instalator)   fix error sendTo text2speech
+                            change error level (NOT connected)
+                            change progressbar to seek
+                            fix mute
+                            refactor default object
+
 #### 0.1.0
 * 22.12.2016 (instalator) change structure
 

@@ -159,7 +159,7 @@ function main() {
         }, 5000);
     });
 
-    adapter.subscribeStates('*'); //TODO JSON list commands
+    adapter.subscribeStates('*');
 }
 function _connection(state){
     if (state){
@@ -209,6 +209,10 @@ function _shift(){
         statePlay.fulltime = parseInt(prs[1], 10);
         progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
     }
+    states['current_duration_s'] = statePlay.fulltime;
+    states['current_duration'] = SecToText(statePlay.fulltime);
+    states['current_elapsed'] = SecToText(statePlay.curtime);
+
     states['seek'] = progress || 0;
     statePlay.volume = states.volume;
     states['repeat'] = toBool(states['repeat']);
@@ -221,6 +225,23 @@ function _shift(){
         statePlay.isPlay = true;
     }
     SetObj();
+}
+function SecToText(sec){
+    var res;
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    var h = Math.floor(m / 60);
+    m = m % 60;
+    if (h > 0){
+        res = pad2(h) + ":" + pad2(m) + ":" + pad2(s);
+    } else {
+        res = pad2(m) + ":" + pad2(s);
+    }
+    return res;
+}
+function pad2(num) {
+    var s = num.toString();
+    return (s.length < 2)? "0" + s : s;
 }
 function toBool(val){
     if(val === 1 || val === '1' || val === true || val === 'true' || val === 'on'){

@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.1.0",
+        "version":                  "0.1.1",
 	    "news": {
+            "0.1.1": {
+              "en": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
+              "de": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
+              "ru": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object"
+            },
             "0.1.0": {
               "en": "change sturct",
               "de": "change sturct",
@@ -1231,6 +1236,51 @@
         }
       },
       {
+        "_id": "current_duration",
+        "type": "state",
+        "common": {
+          "role": "media.duration.text",
+          "name": "playback duration",
+          "type": "string",
+          "read": true,
+          "write": true,
+          "def": ""
+        },
+        "native": {
+
+        }
+      },
+      {
+        "_id": "current_duration_s",
+        "type": "state",
+        "common": {
+          "role": "media.duration",
+          "name": "playback duration",
+          "type": "number",
+          "read": true,
+          "write": true,
+          "def": 0
+        },
+        "native": {
+
+        }
+      },
+      {
+        "_id": "current_elapsed",
+        "type": "state",
+        "common": {
+          "role": "media.elapsed.text",
+          "name": "playback duration",
+          "type": "string",
+          "read": true,
+          "write": true,
+          "def": ""
+        },
+        "native": {
+
+        }
+      },
+      {
         "_id": "previous",
         "type": "state",
         "common": {
@@ -1420,8 +1470,8 @@
         "type": "state",
         "common": {
           "name": "elapsed",
-          "type": "state",
-          "role": "media"
+          "type": "number",
+          "role": "media.elapsed"
         },
         "native": {
 
@@ -1432,8 +1482,11 @@
         "type": "state",
         "common": {
           "name": "bitrate",
-          "type": "state",
-          "role": "media.bitrate"
+          "type": "number",
+          "role": "media.bitrate",
+          "read": true,
+          "write": true,
+          "def": 0
         },
         "native": {
 
@@ -1532,7 +1585,7 @@
         "common": {
           "name": "Composer",
           "type": "state",
-          "role": "media"
+          "role": "media.composer"
         },
         "native": {
 
@@ -1767,6 +1820,18 @@
           "name": "Date",
           "type": "state",
           "role": "media"
+        },
+        "native": {
+
+        }
+      },
+      {
+        "_id": "performer",
+        "type": "state",
+        "common": {
+          "name": "performer",
+          "type": "state",
+          "role": "media.performer"
         },
         "native": {
 
