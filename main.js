@@ -203,21 +203,24 @@ function GetStatus(arr){
 }
 function convPlaylist(obj){ //TODO Bring all playlists players to the same species
     var count = 0;
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)){
-            playlist[count]= {
-                    "artist": "",
-                    "album": "",
-                    "bitrate":0,
-                    "title": "",
-                    "file": obj[key],
-                    "genre": "",
-                    "year": 0,
-                    "len": "00:00",
-                    "rating": "",
-                    "cover": ""
-            };
-            count++;
+    playlist = [];
+    if (obj && typeof obj === "object"){
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)){
+                playlist[count] = {
+                    "artist":  "",
+                    "album":   "",
+                    "bitrate": 0,
+                    "title":   "",
+                    "file":    obj[key],
+                    "genre":   "",
+                    "year":    0,
+                    "len":     "00:00",
+                    "rating":  "",
+                    "cover":   ""
+                };
+                count++;
+            }
         }
     }
     return playlist;
