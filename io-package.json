@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.1.1",
+        "version":                  "0.1.2",
 	    "news": {
+            "0.1.2": {
+              "en": "change for playlist widgets",
+              "de": "change for playlist widgets",
+              "ru": "change for playlist widgets"
+            },
             "0.1.1": {
               "en": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
               "de": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
@@ -1650,8 +1655,10 @@
         "type": "state",
         "common": {
           "name": "Genre",
-          "type": "state",
-          "role": "media"
+          "type": "string",
+          "role": "media.genre",
+          "read": true,
+          "write": true
         },
         "native": {
 
@@ -1673,9 +1680,11 @@
         "_id": "pos",
         "type": "state",
         "common": {
-          "name": "Pos",
-          "type": "state",
-          "role": "media"
+          "name": "Current playing track",
+          "type": "number",
+          "role": "media.pos",
+          "read": true,
+          "write": true
         },
         "native": {
 
@@ -1686,8 +1695,10 @@
         "type": "state",
         "common": {
           "name": "Id",
-          "type": "state",
-          "role": "media"
+          "type": "number",
+          "role": "media.id",
+          "read": true,
+          "write": true
         },
         "native": {
 
@@ -1817,9 +1828,11 @@
         "_id": "date",
         "type": "state",
         "common": {
-          "name": "Date",
-          "type": "state",
-          "role": "media"
+          "name": "Date current track",
+          "type": "string",
+          "role": "media.date",
+          "read": true,
+          "write": true
         },
         "native": {
 

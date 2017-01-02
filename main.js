@@ -13,6 +13,7 @@ var statePlay = {
     'mute_vol':30,
     'songid': null
 };
+var playlist = [];
 var connection = false;
 var states = {}, old_states = {};
 var client, timer, int, sayTimer;
@@ -60,6 +61,9 @@ adapter.on('stateChange', function (id, state) {
                 break;
               case 'play':
                 val = [0];
+                break;
+              case 'playid':
+                command = 'play';
                 break;
               case 'mute':
                 command = 'setvol';
@@ -180,7 +184,7 @@ function GetStatus(arr){
                 var obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
                 if (status === 'playlist'){
-                    states['playlist_list'] = obj; //TODO Bring all playlists players to the same species
+                    states['playlist_list'] = JSON.stringify(convPlaylist(obj));
                 } else {
                     for (var key in obj) {
                         if (obj.hasOwnProperty(key)){
@@ -196,6 +200,27 @@ function GetStatus(arr){
             });
         });
     }
+}
+function convPlaylist(obj){ //TODO Bring all playlists players to the same species
+    var count = 0;
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)){
+            playlist[count]= {
+                    "artist": "",
+                    "album": "",
+                    "bitrate":0,
+                    "title": "",
+                    "file": obj[key],
+                    "genre": "",
+                    "year": 0,
+                    "len": "00:00",
+                    "rating": "",
+                    "cover": ""
+            };
+            count++;
+        }
+    }
+    return playlist;
 }
 function _shift(){
     var progress;
