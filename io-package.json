@@ -93,23 +93,6 @@
 
         }
       },
-	    {
-        "_id": "progressbar",
-        "type": "state",
-        "common": {
-          "role": "media.progressbar",
-          "name": "Player progressbar",
-          "type": "integer",
-          "read": true,
-          "write": true,
-          "min": 0,
-          "max": 100,
-          "def": false
-        },
-        "native": {
-
-        }
-      },
       {
       "_id": "say",
       "type": "state",
@@ -429,12 +412,12 @@
         "_id": "lsinfo",
         "type": "state",
         "common": {
-          "role": "media.lsinfo",
-          "name": "The music database lsinfo",
+          "role": "media.browser",
+          "name": "The music database browser",
           "type": "string",
           "read": true,
           "write": true,
-          "def": false
+          "def": ""
         },
         "native": {
 
@@ -916,6 +899,20 @@
           "read": true,
           "write": true,
           "def": false
+        },
+        "native": {
+
+        }
+      },
+      {
+        "_id": "playlist_list",
+        "type": "state",
+        "common": {
+          "name": "playlist",
+          "type": "string",
+          "role": "media.playlist",
+          "read": true,
+          "write": true
         },
         "native": {
 

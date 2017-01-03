@@ -99,7 +99,11 @@ adapter.on('stateChange', function (id, state) {
                     if (err){
                         adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
                     } else {
-                        adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+                        adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK!');
+                        //adapter.log.debug('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+                        if (command === 'lsinfo'){
+                            filemanager(val, msg);
+                        }
                     }
                 });
             }
@@ -112,6 +116,39 @@ adapter.on('stateChange', function (id, state) {
 adapter.on('ready', function () {
     main();
 });
+
+function filemanager(val, msg){
+    var browser = {};
+    var files = [];
+    var arr = mpd.parseArrayMessage(msg);
+    arr.forEach(function(item, i, arr) {
+        if (arr[i].hasOwnProperty('directory')){
+            var obj = {};
+            obj.file = arr[i].directory;
+            obj.filetype = 'directory';
+            files.push(obj);
+        } else if(arr[i].hasOwnProperty('file')){
+            var obj = {};
+            obj.file = arr[i].file;
+            obj.filetype = 'file';
+            obj.title = arr[i].Title;
+            obj.lastmodified = arr[i]['Last-Modified'].replace('T', ' ').replace('Z', '');
+            obj.time = arr[i].Time;
+            obj.track = arr[i].Track;
+            obj.date = arr[i].Date;
+            obj.artist = arr[i].Artist;
+            obj.album = arr[i].Album;
+            obj.genre = arr[i].Genre;
+            files.push(obj);
+        }
+        if (i === arr.length-1){
+            browser.files = files;
+            states.lsinfo = JSON.stringify(browser);
+            //adapter.log.debug('--------' + JSON.stringify(browser));
+            SetObj();
+        }
+    });
+}
 
 function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
@@ -305,7 +342,7 @@ function GetTime(){
 }
 
 function clearTag(){
-    var tag = ['error', 'album', 'artist', 'composer', 'date', 'disc', 'genre', 'track', 'id', 'title', 'name', 'albumartist'];
+    var tag = ['error', 'performer', 'album', 'artist', 'composer', 'date', 'disc', 'genre', 'track', 'id', 'title', 'name', 'albumartist'];
     tag.forEach(function(name){
         states[name] = '';
     });
