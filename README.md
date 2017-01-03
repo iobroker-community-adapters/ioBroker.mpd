@@ -17,6 +17,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.1.3
+* 02.01.2017 (instalator)  fix clear playlist\nadded file manager
+
 #### 0.1.2
 * 02.01.2017 (instalator)  change for playlist widgets
 
