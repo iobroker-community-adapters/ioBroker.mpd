@@ -76,7 +76,7 @@ adapter.on('stateChange', function (id, state) {
                 val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
                 break;
               case 'next':
-              case 'prev':
+              case 'previous':
               case 'stop':
               case 'playlist':
               case 'clear':
@@ -145,7 +145,7 @@ function filemanager(val, msg){
             browser.files = files;
             states.lsinfo = JSON.stringify(browser);
             //adapter.log.debug('--------' + JSON.stringify(browser));
-            SetObj();
+            SetObj('lsinfo');
         }
     });
 }
@@ -316,15 +316,20 @@ function toBool(val){
     }
     return val;
 }
-function SetObj(){
-    for (var key in states) {
-        if (states.hasOwnProperty(key)){
-            if (!old_states.hasOwnProperty(key)){
-                old_states[key] = '';
-            }
-            if (states[key] !== old_states[key]){
-                adapter.setState(key, {val: states[key], ack: true});
-                old_states[key] = states[key];
+function SetObj(ob){
+    if (ob && ob === 'lsinfo'){
+        adapter.setState(ob, {val: states[ob], ack: true});
+        old_states[ob] = states[ob];
+    } else {
+        for (var key in states) {
+            if (states.hasOwnProperty(key)){
+                if (!old_states.hasOwnProperty(key)){
+                    old_states[key] = '';
+                }
+                if (states[key] !== old_states[key]){
+                    adapter.setState(key, {val: states[key], ack: true});
+                    old_states[key] = states[key];
+                }
             }
         }
     }
