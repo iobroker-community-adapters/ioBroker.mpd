@@ -990,9 +990,8 @@
           "role": "media.clear",
           "name": "The current playlist clear",
           "type": "string",
-          "read": true,
-          "write": true,
-          "def": false
+          "read": false,
+          "write": true
         },
         "native": {
 
@@ -1021,8 +1020,7 @@
           "name": "The current playlist add",
           "type": "string",
           "read": true,
-          "write": true,
-          "def": false
+          "write": true
         },
         "native": {
 
