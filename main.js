@@ -441,7 +441,9 @@ function delSay(){
                 statePlay.iSsay = false;
                 delSay();
             });
-        } else return;
+        } else {
+            return statePlay.iSsay = false;
+        }
     });
 }
 var setVolTimer;
