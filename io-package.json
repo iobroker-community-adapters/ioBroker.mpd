@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.1.4",
+        "version":                  "0.1.6",
 	    "news": {
+            "0.1.6": {
+              "en": "fix error for sayit",
+              "de": "fix error for sayit",
+              "ru": "fix error for sayit"
+            },
             "0.1.4": {
               "en": "fix error",
               "de": "fix error",
