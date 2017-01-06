@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.1.6",
+        "version":                  "0.1.7",
 	    "news": {
+            "0.1.7": {
+              "en": "change role media.pos to media.track",
+              "de": "change role media.pos to media.track",
+              "ru": "change role media.pos to media.track"
+            },
             "0.1.6": {
               "en": "fix error for sayit",
               "de": "fix error for sayit",

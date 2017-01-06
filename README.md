@@ -17,6 +17,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.1.7
+* (instalator)  change role media.pos to media.track
+
 #### 0.1.6
 * 05.01.2017 (instalator)  fix error for sayit
 
