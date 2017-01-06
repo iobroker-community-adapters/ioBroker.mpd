@@ -1692,7 +1692,7 @@
         "common": {
           "name": "Current playing track",
           "type": "number",
-          "role": "media.pos",
+          "role": "media.track",
           "read": true,
           "write": true
         },
