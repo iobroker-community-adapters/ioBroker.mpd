@@ -75,7 +75,9 @@ adapter.on('stateChange', function (id, state) {
                 command = 'seekcur';
                 if (val[0] < 0) val[0] = 0;
                 if (val[0] > 100) val[0] = 100;
-                val = [parseInt((statePlay.fulltime/100)*val[0], 10)];
+                  val[0]= parseInt(val[0], 10);
+                  var full = parseInt(statePlay.fulltime, 10);
+                val = [parseInt((full/100)*val[0], 10)];
                 break;
               case 'next':
               case 'previous':
@@ -397,7 +399,10 @@ function mute(val){
 }
 
 
-
+var option = {
+    say: {link: '', vol:  null,  id:   null  },
+    cur: null
+};
 function sayit(command, val){
     var option = {
         say: {link: '', vol:  null,  id:   null  },
