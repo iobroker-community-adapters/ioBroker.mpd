@@ -222,15 +222,14 @@ function _connection(state){
         adapter.setState('info.connection', false, true);
     } 
 }
-function GetStatus(arr, callback){
-    var cnt = 0;
+function GetStatus(arr){
     if (arr){
-        arr.forEach(function(status){
-            client.sendCommand(cmd(status, []), function (err, res){
+        for (var i = 0; i < arr.length; i++) {
+            client.sendCommand(cmd(arr[i], []), function (err, res){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
-                if (status === 'playlist'){
+                if (arr[i] === 'playlist'){
                     states['playlist_list'] = JSON.stringify(convPlaylist(obj));
                 } else {
                     for (var key in obj) {
@@ -240,14 +239,14 @@ function GetStatus(arr, callback){
                         }
                     }
                 }
-                cnt++;
-                if(cnt === arr.length) {
-                    _shift(callback);
+                if (i === arr.length){
+                    _shift();
                 }
             });
-        });
+        }
     }
 }
+
 function convPlaylist(obj){ //TODO Bring all playlists players to the same species
     var count = 0;
     playlist = [];
@@ -272,7 +271,7 @@ function convPlaylist(obj){ //TODO Bring all playlists players to the same speci
     }
     return playlist;
 }
-function _shift(callback){
+function _shift(){
     var progress;
     if (states.songid !== statePlay.songid){
         statePlay.songid = states.songid;
@@ -305,11 +304,7 @@ function _shift(callback){
             statePlay.sayid = null;
         }
     }
-    if (callback){
-        callback();
-    } else {
         SetObj();
-    }
 }
 function SecToText(sec){
     var res;
@@ -398,11 +393,175 @@ function mute(val){
     return val;
 }
 
+function sayit(command, val){
+    var option = {};
+    option = {
+        say: {link: '', vol:  null,  id:   null  },
+        cur: {isPlay: false}
+    };
+    var p = val.indexOf(';');
+    if (p !== -1) {
+        option.say.vol = parseInt(val.substring(0, p), 10);
+        option.say.link = val.substring(p + 1);
+    } else {
+        option.say.link = val;
+    }
+    if (statePlay.isPlay && !statePlay.sayid){
+        option.cur = {
+            vol:   parseInt(states.volume, 10),
+            track: states.pos,
+            seek:  statePlay.curtime,
+            isPlay: true
+        };
+    }
+    if (!statePlay.sayid){
+        DelPlaylist(function (){
+            SavePlaylist(function (){
+                ClearPlaylist(function (){
+                    PlaySay(option);
+                });
+            });
+        });
+    } else {
+        setTimeout(function (){
+            adapter.log.debug('Added sayit to queue...');
+            sayit(command, val);
+        }, 1000);
+    }
 
-var option = {
-    say: {link: '', vol:  null,  id:   null  },
-    cur: null
-};
+
+}
+
+
+function PlaySay(option){
+    AddPlaylist(option, function (option){
+        Sendcmd('playid', [option.say.id], function (msg){
+            if (option.say.vol){
+                setVol(option.say.vol, function (){
+                    sayTimePlay(option);
+                });
+            } else {
+                sayTimePlay(option);
+            }
+        });
+    });
+}
+
+function StopSay(option){
+    ClearPlaylist(function (){
+        LoadPlaylist(function(){
+            setTimeout(function() {
+                if (option.cur.isPlay){
+                    //Sendcmd('play', [option.cur.track], function (msg){
+                        Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
+                            setTimeout(function (){
+                                setVol(option.cur.vol, function(){
+
+                                });
+                            }, 500);
+                        });
+                    //});
+                }
+            }, 5000);
+        });
+    });
+}
+
+function LoadPlaylist(cb){
+    Sendcmd('load', ['temp_ForSayIt'], function(msg){
+        adapter.log.debug('LoadPlaylist...' + msg);
+        if(cb) cb();
+    });
+}
+
+var sayTimer;
+var sayTimeOut;
+function sayTimePlay(option){
+    clearInterval(sayTimer);
+    clearTimeout(sayTimeOut);
+    sayTimer = setInterval(function() {
+        adapter.log.debug('sayTimePlay...');
+        if (!statePlay.sayid){
+            clearInterval(sayTimer);
+            clearTimeout(sayTimeOut);
+            sayTimer = false;
+            statePlay.sayid = null;
+            StopSay(option);
+        }
+    }, 500);
+    sayTimeOut = setTimeout(function() {
+        if (sayTimer){
+            clearInterval(sayTimer);
+            clearTimeout(sayTimeOut);
+            sayTimer = false;
+            statePlay.sayid = null;
+            StopSay(option);
+        }
+    }, 30000);
+}
+
+var setVolTimer;
+var setTimeOut;
+function setVol(v, cb){
+    clearInterval(setVolTimer);
+    clearTimeout(setTimeOut);
+    var vol = parseInt(v, 10);
+    setVolTimer = setInterval(function() {
+        adapter.log.debug('setVol...');
+       // if (statePlay.isPlay){
+            Sendcmd('setvol', [vol], function (msg, err){
+                if (!err){
+                    clearInterval(setVolTimer);
+                    setVolTimer = false;
+                    clearTimeout(setTimeOut);
+                    if(cb) cb();
+                }
+            });
+       // }
+    }, 500);
+    setTimeOut = setTimeout(function() {
+        if (setVolTimer){
+            clearInterval(setVolTimer);
+            setVolTimer = false;
+            if(cb) cb();
+        }
+    }, 30000);
+}
+
+function AddPlaylist(option, cb){
+    Sendcmd('addid', [option.say.link], function(msg){
+        adapter.log.debug('SayIt addid...' + msg);
+        msg = mpd.parseKeyValueMessage(msg);
+        if (msg.Id && msg.Id !== 'undefined'){
+            option.say.id = msg.Id;
+            statePlay.sayid = option.say.id;
+            if(cb) cb(option);
+        }
+    });
+}
+
+function ClearPlaylist(cb){
+    Sendcmd('clear', [], function(msg){
+        adapter.log.debug('CleraPlaylist...' + msg);
+        if(cb) cb();
+    });
+}
+function DelPlaylist(cb){
+    Sendcmd('rm', ['temp_ForSayIt'], function(msg){
+        adapter.log.debug('DelPlaylist...' + msg);
+        if(cb) cb();
+    });
+}
+function SavePlaylist(cb){
+    Sendcmd('save', ['temp_ForSayIt'], function(msg){
+        adapter.log.debug('SavePlaylist...' + msg);
+        if(cb) cb();
+    });
+}
+
+
+
+/*
 function sayit(command, val){
     var option = {
         say: {link: '', vol:  null,  id:   null  },
@@ -453,7 +612,8 @@ function sayit(command, val){
         }
     });
 }
-
+*/
+/*
 function playSay(option, isPlay){
     Sendcmd('playid', [option.say.id], function (msg){
         if (option.say.vol){
@@ -589,3 +749,4 @@ function delSay(callback){
         }
     });
 }
+*/
