@@ -191,7 +191,7 @@ function main() {
                 GetStatus(["playlist"]);
                 break;
             default:
-                if (name !== 'mixer'){
+                if (name !== 'mixer' && !statePlay.iSsay){
                     GetStatus(["currentsong", "status", "stats"]);
                 }
         }
