@@ -89,6 +89,7 @@
         "mode":                     "daemon",
         "icon":                     "mpd.png",
         "enabled":                  false,
+	"messagebox":               true,
 		"extIcon":                  "https://raw.githubusercontent.com/instalator/ioBroker.mpd/master/admin/mpd.png",
 		"keywords":                 ["mpd", "player", "media"],
         "readme":                   "https://github.com/instalator/ioBroker.mpd/blob/master/README.md",
