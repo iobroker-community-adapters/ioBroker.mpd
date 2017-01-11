@@ -76,7 +76,7 @@ adapter.on('stateChange', function (id, state) {
                 if (val[0] < 0) val[0] = 0;
                 if (val[0] > 100) val[0] = 100;
                   val[0]= parseInt(val[0], 10);
-                  var full = parseInt(statePlay.fulltime, 10);
+                  var full = statePlay.fulltime;
                 val = [parseInt((full/100)*val[0], 10)];
                 break;
               case 'next':
