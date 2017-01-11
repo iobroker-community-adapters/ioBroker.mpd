@@ -421,7 +421,7 @@ function sayit(command, val){
     }
     if (!statePlay.sayid){
         clearTimeout(StopTimeOut);
-        SmoothVol(option, function (){
+        SmoothVol(false, option, function (){
             DelPlaylist(function (){
                 SavePlaylist(function (){
                     ClearPlaylist(function (){
@@ -442,17 +442,34 @@ function sayit(command, val){
 
 }
 var SmoothVolTimer;
-function SmoothVol(option){
+function SmoothVol(line, option, cb){
+    var flag = false;
     var vol = option.cur.vol;
     clearInterval(SmoothVolTimer);
+    if (line){
+        vol = 0;
+    }
     if (option.cur.isPlay && vol){
         SmoothVolTimer = setInterval(function() {
             Sendcmd('setvol', [vol], function (msg, err){
                 if (!err){
-                    vol = vol - 5;
-                    if (vol <= 1){
-                        clearInterval(SmoothVolTimer);
-                        if(cb) cb();
+                    if (!line){
+                        vol = vol - 5;
+                        if (vol <= 1){
+                            clearInterval(SmoothVolTimer);
+                            if(cb) cb();
+                        }
+                    } else {
+                         vol = vol + 5;
+                        if (vol >= option.cur.vol && !flag) {
+                            vol = option.cur.vol;
+                            flag = true;
+                        }
+                        if (vol >= option.cur.vol && flag){
+                            clearInterval(SmoothVolTimer);
+                            flag = false;
+                            if(cb) cb();
+                        }
                     }
                 } else {
                     clearInterval(SmoothVolTimer);
