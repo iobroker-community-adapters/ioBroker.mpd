@@ -29,7 +29,6 @@ adapter.on('unload', function (callback) {
 });
 
 adapter.on('message', function (obj) {
-    var wait = false;
     if (obj) {
         if (obj.command === 'say'){
             if (obj.message) sayit('say', obj.message);
@@ -163,13 +162,13 @@ function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
         if (err){
             if (command !== 'setvol'){
-                adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
+                adapter.log.error('client.sendCommand {"' + command + '": "' + val + '"} ERROR - ' + err);
             }
             if (callback){
                 callback(msg, err);
             } else { return;}
         } else {
-            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+            adapter.log.info('client.sendCommand {"' + command + '": "' + val + '"} OK! - ' + JSON.stringify(msg));
             callback(msg);
         }
     });
@@ -460,6 +459,7 @@ function StopSay(option){
     ClearPlaylist(function (){
         LoadPlaylist(function(){
             setTimeout(function() {
+                statePlay.sayid = null;
                 if (option.cur.isPlay){
                     //Sendcmd('play', [option.cur.track], function (msg){
                         Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
@@ -491,7 +491,7 @@ function sayTimePlay(option){
                 clearInterval(sayTimer);
                 clearTimeout(sayTimeOut);
                 sayTimer = false;
-                statePlay.sayid = null;
+                //statePlay.sayid = null;
                 StopSay(option);
             });
         }
@@ -501,7 +501,7 @@ function sayTimePlay(option){
             clearInterval(sayTimer);
             clearTimeout(sayTimeOut);
             sayTimer = false;
-            statePlay.sayid = null;
+            //statePlay.sayid = null;
             StopSay(option);
         }
     }, 30000);
