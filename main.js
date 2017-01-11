@@ -108,10 +108,13 @@ adapter.on('stateChange', function (id, state) {
                             adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK!');
                         } else {
                             adapter.log.debug('client.sendCommand {"' + command + '": "' + val + '"} OK! - ' + JSON.stringify(msg));
-                            if (command === 'lsinfo'){
-                                filemanager(val, msg);
-                            }
                         }
+                        if (command === 'lsinfo'){
+                            filemanager(val, msg);
+                        }
+                        /*if (command === 'clear'){
+                            GetStatus(['status','playlist']);
+                        }*/
                     }
                 });
             }
@@ -228,13 +231,14 @@ function _connection(state){
     } 
 }
 function GetStatus(arr){
+    var cnt = 0;
     if (arr){
-        for (var i = 0; i < arr.length; i++) {
-            client.sendCommand(cmd(arr[i], []), function (err, res){
+        arr.forEach(function(status){
+            client.sendCommand(cmd(status, []), function (err, res){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
-                if (arr[i] === 'playlist'){
+                if (status === 'playlist'){
                     states['playlist_list'] = JSON.stringify(convPlaylist(obj));
                 } else {
                     for (var key in obj) {
@@ -244,15 +248,16 @@ function GetStatus(arr){
                         }
                     }
                 }
-                if (i === arr.length){
+                cnt++;
+                if(cnt === arr.length) {
                     _shift();
                 }
             });
-        }
+        });
     }
 }
 
-function convPlaylist(obj){ //TODO Bring all playlists players to the same species
+function convPlaylist(obj){
     var count = 0;
     playlist = [];
     if (obj && typeof obj === "object"){
@@ -282,17 +287,19 @@ function _shift(){
         statePlay.songid = states.songid;
         clearTag();
     }
-    if (states.hasOwnProperty('time')){
-        var prs = states.time.split(":"); //.toString()
-        statePlay.curtime = parseInt(prs[0], 10);
-        statePlay.fulltime = parseInt(prs[1], 10);
-        progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+    if (states.time){
+        var prs = states.time.split(":");
+        if(prs[0] && prs[1]){
+            statePlay.curtime = parseInt(prs[0], 10);
+            statePlay.fulltime = parseInt(prs[1], 10);
+            progress = parseFloat((statePlay.curtime * 100) / (statePlay.fulltime || 1)).toFixed(2);
+            states['current_duration_s'] = statePlay.fulltime;
+            states['current_duration'] = SecToText(statePlay.fulltime);
+            states['current_elapsed'] = SecToText(statePlay.curtime);
+            states['seek'] = progress || 0;
+        }
     }
-    states['current_duration_s'] = statePlay.fulltime;
-    states['current_duration'] = SecToText(statePlay.fulltime);
-    states['current_elapsed'] = SecToText(statePlay.curtime);
 
-    states['seek'] = progress || 0;
     statePlay.volume = states.volume;
     states['repeat'] = toBool(states['repeat']);
     states['random'] = toBool(states['random']);
@@ -339,7 +346,7 @@ function toBool(val){
 function SetObj(ob){
     if (ob && ob === 'lsinfo'){
         adapter.setState(ob, {val: states[ob], ack: true});
-        old_states[ob] = states[ob];
+        old_states['lsinfo'] = states['lsinfo'];
     } else {
         for (var key in states) {
             if (states.hasOwnProperty(key)){

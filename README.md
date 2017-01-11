@@ -17,6 +17,13 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.2.1
+* (instalator)  fix different error
+                fix time
+                fix messagebox
+                fix messagebox
+                added smooth volume for sayit if is play music
+
 #### 0.2.0
 * (instalator) Big change for SayIt
 

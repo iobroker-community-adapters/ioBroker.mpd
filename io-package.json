@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.2.0",
+        "version":                  "0.2.1",
 	    "news": {
+          "0.2.1": {
+            "en": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music",
+            "de": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music",
+            "ru": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music"
+          },
             "0.2.0": {
               "en": "Big change for SayIt",
               "de": "Big change for SayIt",
