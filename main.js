@@ -95,7 +95,9 @@ adapter.on('stateChange', function (id, state) {
 
             if (command === 'say'){
                 val = state.val;
-                sayit(command, val);
+                if(val){
+                    sayit(command, val);
+                }
             } else if (command === 'addplay'){
                 addplay('addid', val);
             } else {
