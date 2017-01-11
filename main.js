@@ -397,7 +397,7 @@ function mute(val){
     }
     return val;
 }
-
+var StopTimeOut;
 function sayit(command, val){
     var option = {};
     option = {
@@ -420,11 +420,14 @@ function sayit(command, val){
         };
     }
     if (!statePlay.sayid){
-        DelPlaylist(function (){
-            SavePlaylist(function (){
-                ClearPlaylist(function (){
-                    SetConsume (1, function (){
-                        PlaySay(option);
+        clearTimeout(StopTimeOut);
+        SmoothVol(option, function (){
+            DelPlaylist(function (){
+                SavePlaylist(function (){
+                    ClearPlaylist(function (){
+                        SetConsume (1, function (){
+                            PlaySay(option);
+                        });
                     });
                 });
             });
@@ -438,7 +441,29 @@ function sayit(command, val){
 
 
 }
-
+var SmoothVolTimer;
+function SmoothVol(option){
+    var vol = option.cur.vol;
+    clearInterval(SmoothVolTimer);
+    if (option.cur.isPlay && vol){
+        SmoothVolTimer = setInterval(function() {
+            Sendcmd('setvol', [vol], function (msg, err){
+                if (!err){
+                    vol = vol - 5;
+                    if (vol <= 1){
+                        clearInterval(SmoothVolTimer);
+                        if(cb) cb();
+                    }
+                } else {
+                    clearInterval(SmoothVolTimer);
+                    if(cb) cb();
+                }
+            });
+    }, 500);
+    } else {
+        if(cb) cb();
+    }
+}
 
 function PlaySay(option){
     AddPlaylist(option, function (option){
@@ -456,16 +481,15 @@ function PlaySay(option){
 }
 
 function StopSay(option){
+    clearTimeout(StopTimeOut);
     ClearPlaylist(function (){
         LoadPlaylist(function(){
-            setTimeout(function() {
+            StopTimeOut = setTimeout(function() {
                 statePlay.sayid = null;
                 if (option.cur.isPlay){
-                    //Sendcmd('play', [option.cur.track], function (msg){
-                        Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
-                            setVol(option.cur.vol, function(){});
-                        });
-                    //});
+                    Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
+                        setVol(option.cur.vol, function(){});
+                    });
                 }
             }, 5000);
         });
