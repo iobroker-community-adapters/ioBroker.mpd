@@ -461,13 +461,13 @@ function SmoothVol(line, option, cb){
             Sendcmd('setvol', [vol], function (msg, err){
                 if (!err){
                     if (!line){
-                        vol = vol - 5;
+                        vol = vol - 10;
                         if (vol <= 1){
                             clearInterval(SmoothVolTimer);
                             if(cb) cb();
                         }
                     } else {
-                         vol = vol + 5;
+                         vol = vol + 10;
                         if (vol >= option.cur.vol && !flag) {
                             vol = option.cur.vol;
                             flag = true;
@@ -483,7 +483,7 @@ function SmoothVol(line, option, cb){
                     if(cb) cb();
                 }
             });
-    }, 300);
+    }, 250);
     } else {
         if(cb) cb();
     }
