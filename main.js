@@ -405,44 +405,67 @@ function mute(val){
     return val;
 }
 var StopTimeOut;
-function sayit(command, val){
-    var option = {};
-    option = {
-        say: {link: '', vol:  null,  id:   null  },
-        cur: {isPlay: false}
-    };
-    var p = val.indexOf(';');
-    if (p !== -1) {
-        option.say.vol = parseInt(val.substring(0, p), 10);
-        option.say.link = val.substring(p + 1);
-    } else {
-        option.say.link = val;
+var timer_sayit;
+var queue = [];
+var isBuf = false;
+var option = {
+    say: {link: '', vol:  null,  id:   null  },
+    cur: {isPlay: false}
+};
+function sayit(command, val, t){
+    clearTimeout(timer_sayit);
+    if (!t){
+        queue.push(val);
     }
-    if (statePlay.isPlay && !statePlay.sayid){
-        option.cur = {
-            vol:   parseInt(states.volume, 10),
-            track: states.pos,
-            seek:  statePlay.curtime,
-            isPlay: true
+    if (!statePlay.sayid && queue.length > 0){
+        val = queue.shift();
+        if (queue.length === 0){
+            isBuf = false;
+        }
+        option.say = {
+            link: '', vol:  null,  id:   null
         };
-    }
-    if (!statePlay.sayid){
+        var p = val.indexOf(';');
+        if (p !== -1) {
+            option.say.vol = parseInt(val.substring(0, p), 10);
+            option.say.link = val.substring(p + 1);
+        } else {
+            option.say.link = val;
+        }
+        if (statePlay.isPlay && !statePlay.sayid && !t){
+            option.cur = {
+                vol:   parseInt(states.volume, 10),
+                track: states.pos,
+                seek:  statePlay.curtime,
+                isPlay: true
+            };
+        }
         clearTimeout(StopTimeOut);
-        SmoothVol(false, option, function (){
-            DelPlaylist(function (){
-                SavePlaylist(function (){
-                    ClearPlaylist(function (){
-                        SetConsume (1, function (){
-                            PlaySay(option);
+        if (!t){
+            SmoothVol(false, option, function (){
+                DelPlaylist(function (){
+                    SavePlaylist(function (){
+                        ClearPlaylist(function (){
+                            SetConsume (1, function (){
+                                PlaySay(option);
+                            });
                         });
                     });
                 });
             });
-        });
+        } else {
+            isBuf = true;
+            ClearPlaylist(function (){
+                SetConsume (1, function (){
+                    PlaySay(option);
+                });
+            });
+        }
     } else {
-        setTimeout(function (){
+        isBuf = true;
+        timer_sayit = setTimeout(function (){
             adapter.log.debug('Added sayit to queue...');
-            sayit(command, val);
+            sayit(command, val, true);
         }, 1000);
     }
 
@@ -451,7 +474,10 @@ function sayit(command, val){
 var SmoothVolTimer;
 function SmoothVol(line, option, cb){
     var flag = false;
-    var vol = option.cur.vol;
+    var vol;
+    if (option.cur && option.cur.vol){
+        vol = option.cur.vol;
+    }
     clearInterval(SmoothVolTimer);
     if (line){
         vol = 0;
@@ -506,18 +532,28 @@ function PlaySay(option){
 
 function StopSay(option){
     clearTimeout(StopTimeOut);
-    ClearPlaylist(function (){
-        LoadPlaylist(function(){
-            StopTimeOut = setTimeout(function() {
-                statePlay.sayid = null;
-                if (option.cur.isPlay){
-                    Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
-                        setVol(option.cur.vol, function(){});
-                    });
-                }
-            }, 5000);
+    if (!isBuf){
+        SetConsume (0, function (){
+            ClearPlaylist(function (){
+                LoadPlaylist(function (){
+                    StopTimeOut = setTimeout(function (){
+                        statePlay.sayid = null;
+                        if (option.cur.isPlay){
+                            Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
+                                setVol(option.cur.vol, function (){
+                                    option = {};
+                                });
+                            });
+                        }
+                    }, 5000);
+                });
+            });
         });
-    });
+    } else {
+        StopTimeOut = setTimeout(function (){
+            statePlay.sayid = null;
+        }, 1000);
+    }
 }
 
 function LoadPlaylist(cb){
@@ -535,13 +571,13 @@ function sayTimePlay(option){
     sayTimer = setInterval(function() {
         adapter.log.debug('sayTimePlay...');
         if (!statePlay.isPlay){
-            SetConsume (0, function (){
+            //SetConsume (0, function (){
                 clearInterval(sayTimer);
                 clearTimeout(sayTimeOut);
                 sayTimer = false;
                 //statePlay.sayid = null;
                 StopSay(option);
-            });
+            //});
         }
     }, 100);
     sayTimeOut = setTimeout(function() {
