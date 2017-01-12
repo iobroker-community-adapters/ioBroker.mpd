@@ -29,7 +29,6 @@ adapter.on('unload', function (callback) {
 });
 
 adapter.on('message', function (obj) {
-    var wait = false;
     if (obj) {
         if (obj.command === 'say'){
             if (obj.message) sayit('say', obj.message);
@@ -76,7 +75,7 @@ adapter.on('stateChange', function (id, state) {
                 if (val[0] < 0) val[0] = 0;
                 if (val[0] > 100) val[0] = 100;
                   val[0]= parseInt(val[0], 10);
-                  var full = parseInt(statePlay.fulltime, 10);
+                  var full = statePlay.fulltime;
                 val = [parseInt((full/100)*val[0], 10)];
                 break;
               case 'next':
@@ -95,7 +94,9 @@ adapter.on('stateChange', function (id, state) {
 
             if (command === 'say'){
                 val = state.val;
-                sayit(command, val);
+                if(val){
+                    sayit(command, val);
+                }
             } else if (command === 'addplay'){
                 addplay('addid', val);
             } else {
@@ -107,10 +108,13 @@ adapter.on('stateChange', function (id, state) {
                             adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK!');
                         } else {
                             adapter.log.debug('client.sendCommand {"' + command + '": "' + val + '"} OK! - ' + JSON.stringify(msg));
-                            if (command === 'lsinfo'){
-                                filemanager(val, msg);
-                            }
                         }
+                        if (command === 'lsinfo'){
+                            filemanager(val, msg);
+                        }
+                        /*if (command === 'clear'){
+                            GetStatus(['status','playlist']);
+                        }*/
                     }
                 });
             }
@@ -161,13 +165,13 @@ function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
         if (err){
             if (command !== 'setvol'){
-                adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
+                adapter.log.error('client.sendCommand {"' + command + '": "' + val + '"} ERROR - ' + err);
             }
             if (callback){
                 callback(msg, err);
             } else { return;}
         } else {
-            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK! - ' + JSON.stringify(msg));
+            adapter.log.info('client.sendCommand {"' + command + '": "' + val + '"} OK! - ' + JSON.stringify(msg));
             callback(msg);
         }
     });
@@ -227,13 +231,14 @@ function _connection(state){
     } 
 }
 function GetStatus(arr){
+    var cnt = 0;
     if (arr){
-        for (var i = 0; i < arr.length; i++) {
-            client.sendCommand(cmd(arr[i], []), function (err, res){
+        arr.forEach(function(status){
+            client.sendCommand(cmd(status, []), function (err, res){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
-                if (arr[i] === 'playlist'){
+                if (status === 'playlist'){
                     states['playlist_list'] = JSON.stringify(convPlaylist(obj));
                 } else {
                     for (var key in obj) {
@@ -243,15 +248,16 @@ function GetStatus(arr){
                         }
                     }
                 }
-                if (i === arr.length){
+                cnt++;
+                if(cnt === arr.length) {
                     _shift();
                 }
             });
-        }
+        });
     }
 }
 
-function convPlaylist(obj){ //TODO Bring all playlists players to the same species
+function convPlaylist(obj){
     var count = 0;
     playlist = [];
     if (obj && typeof obj === "object"){
@@ -281,17 +287,19 @@ function _shift(){
         statePlay.songid = states.songid;
         clearTag();
     }
-    if (states.hasOwnProperty('time')){
-        var prs = states.time.split(":"); //.toString()
-        statePlay.curtime = parseInt(prs[0], 10);
-        statePlay.fulltime = parseInt(prs[1], 10);
-        progress = parseFloat((parseFloat(prs[0]) * 100)/(statePlay.fulltime || 1)).toFixed(2);
+    if (states.time){
+        var prs = states.time.split(":");
+        if(prs[0] && prs[1]){
+            statePlay.curtime = parseInt(prs[0], 10);
+            statePlay.fulltime = parseInt(prs[1], 10);
+            progress = parseFloat((statePlay.curtime * 100) / (statePlay.fulltime || 1)).toFixed(2);
+            states['current_duration_s'] = statePlay.fulltime;
+            states['current_duration'] = SecToText(statePlay.fulltime);
+            states['current_elapsed'] = SecToText(statePlay.curtime);
+            states['seek'] = progress || 0;
+        }
     }
-    states['current_duration_s'] = statePlay.fulltime;
-    states['current_duration'] = SecToText(statePlay.fulltime);
-    states['current_elapsed'] = SecToText(statePlay.curtime);
 
-    states['seek'] = progress || 0;
     statePlay.volume = states.volume;
     states['repeat'] = toBool(states['repeat']);
     states['random'] = toBool(states['random']);
@@ -338,7 +346,7 @@ function toBool(val){
 function SetObj(ob){
     if (ob && ob === 'lsinfo'){
         adapter.setState(ob, {val: states[ob], ack: true});
-        old_states[ob] = states[ob];
+        old_states['lsinfo'] = states['lsinfo'];
     } else {
         for (var key in states) {
             if (states.hasOwnProperty(key)){
@@ -396,48 +404,116 @@ function mute(val){
     }
     return val;
 }
-
-function sayit(command, val){
-    var option = {};
-    option = {
-        say: {link: '', vol:  null,  id:   null  },
-        cur: {isPlay: false}
-    };
-    var p = val.indexOf(';');
-    if (p !== -1) {
-        option.say.vol = parseInt(val.substring(0, p), 10);
-        option.say.link = val.substring(p + 1);
-    } else {
-        option.say.link = val;
+var StopTimeOut;
+var timer_sayit;
+var queue = [];
+var isBuf = false;
+var option = {
+    say: {link: '', vol:  null,  id:   null  },
+    cur: {isPlay: false}
+};
+function sayit(command, val, t){
+    clearTimeout(timer_sayit);
+    if (!t){
+        queue.push(val);
     }
-    if (statePlay.isPlay && !statePlay.sayid){
-        option.cur = {
-            vol:   parseInt(states.volume, 10),
-            track: states.pos,
-            seek:  statePlay.curtime,
-            isPlay: true
+    if (!statePlay.sayid && queue.length > 0){
+        val = queue.shift();
+        if (queue.length === 0){
+            isBuf = false;
+        }
+        option.say = {
+            link: '', vol:  null,  id:   null
         };
-    }
-    if (!statePlay.sayid){
-        DelPlaylist(function (){
-            SavePlaylist(function (){
-                ClearPlaylist(function (){
-                    SetConsume (1, function (){
-                        PlaySay(option);
+        var p = val.indexOf(';');
+        if (p !== -1) {
+            option.say.vol = parseInt(val.substring(0, p), 10);
+            option.say.link = val.substring(p + 1);
+        } else {
+            option.say.link = val;
+        }
+        if (statePlay.isPlay && !statePlay.sayid && !t){
+            option.cur = {
+                vol:   parseInt(states.volume, 10),
+                track: states.pos,
+                seek:  statePlay.curtime,
+                isPlay: true
+            };
+        }
+        clearTimeout(StopTimeOut);
+        if (!t){
+            SmoothVol(false, option, function (){
+                DelPlaylist(function (){
+                    SavePlaylist(function (){
+                        ClearPlaylist(function (){
+                            SetConsume (1, function (){
+                                PlaySay(option);
+                            });
+                        });
                     });
                 });
             });
-        });
+        } else {
+            isBuf = true;
+            ClearPlaylist(function (){
+                SetConsume (1, function (){
+                    PlaySay(option);
+                });
+            });
+        }
     } else {
-        setTimeout(function (){
+        isBuf = true;
+        timer_sayit = setTimeout(function (){
             adapter.log.debug('Added sayit to queue...');
-            sayit(command, val);
+            sayit(command, val, true);
         }, 1000);
     }
 
 
 }
-
+var SmoothVolTimer;
+function SmoothVol(line, option, cb){
+    var flag = false;
+    var vol;
+    if (option.cur && option.cur.vol){
+        vol = option.cur.vol;
+    }
+    clearInterval(SmoothVolTimer);
+    if (line){
+        vol = 0;
+    }
+    if (option.cur.isPlay && vol){
+        SmoothVolTimer = setInterval(function() {
+            Sendcmd('setvol', [vol], function (msg, err){
+                if (!err){
+                    if (!line){
+                        vol = vol - 10;
+                        if (vol <= 1){
+                            clearInterval(SmoothVolTimer);
+                            if(cb) cb();
+                        }
+                    } else {
+                         vol = vol + 10;
+                        if (vol >= option.cur.vol && !flag) {
+                            vol = option.cur.vol;
+                            flag = true;
+                        }
+                        if (vol >= option.cur.vol && flag){
+                            clearInterval(SmoothVolTimer);
+                            flag = false;
+                            if(cb) cb();
+                        }
+                    }
+                } else {
+                    clearInterval(SmoothVolTimer);
+                    if(cb) cb();
+                }
+            });
+    }, 250);
+    } else {
+        if(cb) cb();
+    }
+}
 
 function PlaySay(option){
     AddPlaylist(option, function (option){
@@ -455,19 +531,29 @@ function PlaySay(option){
 }
 
 function StopSay(option){
-    ClearPlaylist(function (){
-        LoadPlaylist(function(){
-            setTimeout(function() {
-                if (option.cur.isPlay){
-                    //Sendcmd('play', [option.cur.track], function (msg){
-                        Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
-                            setVol(option.cur.vol, function(){});
-                        });
-                    //});
-                }
-            }, 5000);
+    clearTimeout(StopTimeOut);
+    if (!isBuf){
+        SetConsume (0, function (){
+            ClearPlaylist(function (){
+                LoadPlaylist(function (){
+                    StopTimeOut = setTimeout(function (){
+                        statePlay.sayid = null;
+                        if (option.cur.isPlay){
+                            Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
+                                setVol(option.cur.vol, function (){
+                                    option = {};
+                                });
+                            });
+                        }
+                    }, 5000);
+                });
+            });
         });
-    });
+    } else {
+        StopTimeOut = setTimeout(function (){
+            statePlay.sayid = null;
+        }, 1000);
+    }
 }
 
 function LoadPlaylist(cb){
@@ -485,13 +571,13 @@ function sayTimePlay(option){
     sayTimer = setInterval(function() {
         adapter.log.debug('sayTimePlay...');
         if (!statePlay.isPlay){
-            SetConsume (0, function (){
+            //SetConsume (0, function (){
                 clearInterval(sayTimer);
                 clearTimeout(sayTimeOut);
                 sayTimer = false;
-                statePlay.sayid = null;
+                //statePlay.sayid = null;
                 StopSay(option);
-            });
+            //});
         }
     }, 100);
     sayTimeOut = setTimeout(function() {
@@ -499,7 +585,7 @@ function sayTimePlay(option){
             clearInterval(sayTimer);
             clearTimeout(sayTimeOut);
             sayTimer = false;
-            statePlay.sayid = null;
+            //statePlay.sayid = null;
             StopSay(option);
         }
     }, 30000);
