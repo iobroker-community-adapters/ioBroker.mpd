@@ -483,7 +483,7 @@ function SmoothVol(line, option, cb){
                     if(cb) cb();
                 }
             });
-    }, 500);
+    }, 300);
     } else {
         if(cb) cb();
     }
