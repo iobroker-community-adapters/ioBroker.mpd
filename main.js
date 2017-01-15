@@ -189,7 +189,7 @@ function main() {
     });
 
     client.on('system', function(name) {
-        adapter.log.debug("update system - " + JSON.stringify(name));
+        //adapter.log.debug("update system - " + JSON.stringify(name));
         switch (name) {
             case 'playlist':
                 GetStatus(["playlist"]);
@@ -404,6 +404,8 @@ function mute(val){
     }
     return val;
 }
+
+
 var StopTimeOut;
 var timer_sayit;
 var queue = [];
@@ -416,9 +418,12 @@ function sayit(command, val, t){
     clearTimeout(timer_sayit);
     if (!t){
         queue.push(val);
+        isBuf = true;
     }
-    if (!statePlay.sayid && queue.length > 0){
-        val = queue.shift();
+    if (!statePlay.sayid){
+        if (queue.length > 0){
+            val = queue.shift();
+        }
         if (queue.length === 0){
             isBuf = false;
         }
@@ -454,22 +459,13 @@ function sayit(command, val, t){
                 });
             });
         } else {
-            isBuf = true;
             ClearPlaylist(function (){
                 SetConsume (1, function (){
                     PlaySay(option);
                 });
             });
         }
-    } else {
-        isBuf = true;
-        timer_sayit = setTimeout(function (){
-            adapter.log.debug('Added sayit to queue...');
-            sayit(command, val, true);
-        }, 1000);
     }
-
-
 }
 var SmoothVolTimer;
 function SmoothVol(line, option, cb){
@@ -530,9 +526,34 @@ function PlaySay(option){
     });
 }
 
+var sayTimer;
+var sayTimeOut;
+function sayTimePlay(option){
+    clearInterval(sayTimer);
+    clearTimeout(sayTimeOut);
+    sayTimer = setInterval(function() {
+        adapter.log.debug('sayTimePlay...');
+        if (!statePlay.isPlay){
+            clearInterval(sayTimer);
+            clearTimeout(sayTimeOut);
+            sayTimer = false;
+            StopSay(option);
+        }
+    }, 100);
+    sayTimeOut = setTimeout(function() {
+        if (sayTimer){
+            clearInterval(sayTimer);
+            clearTimeout(sayTimeOut);
+            sayTimer = false;
+            StopSay(option);
+        }
+    }, 10000);
+}
+
 function StopSay(option){
     clearTimeout(StopTimeOut);
-    if (!isBuf){
+    adapter.log.debug('StopSay...' + option);
+    if (!isBuf || queue.length === 0){
         SetConsume (0, function (){
             ClearPlaylist(function (){
                 LoadPlaylist(function (){
@@ -544,6 +565,8 @@ function StopSay(option){
                                     option = {};
                                 });
                             });
+                        } else {
+                            option = {};
                         }
                     }, 5000);
                 });
@@ -551,44 +574,18 @@ function StopSay(option){
         });
     } else {
         StopTimeOut = setTimeout(function (){
-            statePlay.sayid = null;
+            ClearPlaylist(function (){
+                statePlay.sayid = null;
+                if (queue.length > 0){
+                    sayit('', queue, true);
+                } else {
+                    SetConsume (0, function (){
+                        option = {};
+                    });
+                }
+            });
         }, 1000);
     }
-}
-
-function LoadPlaylist(cb){
-    Sendcmd('load', ['temp_ForSayIt'], function(msg){
-        adapter.log.debug('LoadPlaylist...' + msg);
-        if(cb) cb();
-    });
-}
-
-var sayTimer;
-var sayTimeOut;
-function sayTimePlay(option){
-    clearInterval(sayTimer);
-    clearTimeout(sayTimeOut);
-    sayTimer = setInterval(function() {
-        adapter.log.debug('sayTimePlay...');
-        if (!statePlay.isPlay){
-            //SetConsume (0, function (){
-                clearInterval(sayTimer);
-                clearTimeout(sayTimeOut);
-                sayTimer = false;
-                //statePlay.sayid = null;
-                StopSay(option);
-            //});
-        }
-    }, 100);
-    sayTimeOut = setTimeout(function() {
-        if (sayTimer){
-            clearInterval(sayTimer);
-            clearTimeout(sayTimeOut);
-            sayTimer = false;
-            //statePlay.sayid = null;
-            StopSay(option);
-        }
-    }, 30000);
 }
 
 var setVolTimer;
@@ -619,6 +616,12 @@ function setVol(v, cb){
     }, 30000);
 }
 
+function LoadPlaylist(cb){
+    Sendcmd('load', ['temp_ForSayIt'], function(msg){
+        adapter.log.debug('LoadPlaylist...' + msg);
+        if(cb) cb();
+    });
+}
 function AddPlaylist(option, cb){
     Sendcmd('addid', [option.say.link], function(msg){
         adapter.log.debug('SayIt addid...' + msg);
