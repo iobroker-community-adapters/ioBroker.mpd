@@ -17,10 +17,12 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.2.2
+* (instalator)  fix replay in sayit
+
 #### 0.2.1
 * (instalator)  fix different error
                 fix time
-                fix messagebox
                 fix messagebox
                 added smooth volume for sayit if is play music
 

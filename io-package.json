@@ -1,12 +1,17 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.2.1",
+        "version":                  "0.2.2",
 	    "news": {
+          "0.2.2": {
+            "en": "fix replay in sayit",
+            "de": "fix replay in sayit",
+            "ru": "fix replay in sayit"
+          },
           "0.2.1": {
-            "en": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music",
-            "de": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music",
-            "ru": "fix different error\nfix time\nfix messagebox\nfix messagebox\nadded smooth volume for sayit if is play music"
+            "en": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music",
+            "de": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music",
+            "ru": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music"
           },
             "0.2.0": {
               "en": "Big change for SayIt",
