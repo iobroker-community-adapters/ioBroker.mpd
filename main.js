@@ -105,7 +105,7 @@ adapter.on('stateChange', function (id, state) {
                         adapter.log.error('client.sendCommand {"'+command+'": "'+val+'"} ERROR - ' + err);
                     } else {
                         if (command !== 'setvol'){
-                            adapter.log.info('client.sendCommand {"'+command+'": "'+val+'"} OK!');
+                            adapter.log.debug('client.sendCommand {"'+command+'": "'+val+'"} OK!');
                         } else {
                             adapter.log.debug('client.sendCommand {"' + command + '": "' + val + '"} OK! - ' + JSON.stringify(msg));
                         }
