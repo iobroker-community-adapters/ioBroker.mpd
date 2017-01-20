@@ -180,7 +180,7 @@ function main() {
     var status = [];
     statePlay.isPlay = false;
     client = mpd.connect({
-        host: adapter.config.ip || '192.168.1.10',
+        host: adapter.config.ip || '127.0.0.1',
         port: adapter.config.port || 6600
     });
     client.on('ready', function() {
