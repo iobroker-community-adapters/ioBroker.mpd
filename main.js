@@ -560,10 +560,18 @@ function StopSay(option){
                     StopTimeOut = setTimeout(function (){
                         statePlay.sayid = null;
                         if (option.cur.isPlay){
-                            Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg){
-                                setVol(option.cur.vol, function (){
-                                    option = {};
-                                });
+                            Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg, err){
+                                if (!err){
+                                    setVol(option.cur.vol, function (){
+                                        option = {};
+                                    });
+                                } else {
+                                    Sendcmd('play', [0], function (msg, err){
+                                        setVol(option.cur.vol, function (){
+                                            option = {};
+                                        });
+                                    }); 
+                                }
                             });
                         } else {
                             option = {};
