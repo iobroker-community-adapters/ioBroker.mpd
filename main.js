@@ -304,10 +304,12 @@ function _shift(){
     states['repeat'] = toBool(states['repeat']);
     states['random'] = toBool(states['random']);
 
-    if (states.state === 'stop'){
+    if (states.state === 'stop' || states.state === 'pause'){
         statePlay.isPlay = false;
         statePlay.sayid = null;
-        clearTag();
+        if (states.state === 'stop'){
+            clearTag();
+        }
     } else if (states.state === 'play'){
         statePlay.isPlay = true;
         if (states.file && ~states.file.indexOf('/sayit')){
