@@ -169,7 +169,7 @@ function main() {
     });
 
     client.on('error', function(err) {
-        if (err.syscall !== 'connect' && err.code !== 'ETIMEDOUT' && err.syscall !== 'setvol'){
+        if (err.syscall !== 'connect' && err.code !== 'ETIMEDOUT'  && err.code !== 'ENOTFOUND' && err.syscall !== 'setvol'){
             _connection(false);
             adapter.log.error("MPD Error " + JSON.stringify(err));
         }
@@ -177,7 +177,7 @@ function main() {
 
     client.on('end', function(name) {
         clearTimeout(timer);
-        adapter.log.debug("connection closed", name);
+        adapter.log.debug("MPD CONNECTION CLOSED", name);
         statePlay.sayid = null;
         _connection(false);
         timer = setTimeout(function (){

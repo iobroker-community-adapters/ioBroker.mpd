@@ -17,6 +17,12 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.2.3
+* (instalator)  change  log level for send command
+                change  replay
+                fix replay online radio
+                fix error
+
 #### 0.2.2
 * (instalator)  fix replay in sayit
 
