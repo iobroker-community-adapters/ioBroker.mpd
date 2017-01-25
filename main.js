@@ -128,39 +128,6 @@ adapter.on('ready', function () {
     main();
 });
 
-function filemanager(val, msg){
-    var browser = {};
-    var files = [];
-    var arr = mpd.parseArrayMessage(msg);
-    arr.forEach(function(item, i, arr) {
-        if (arr[i].hasOwnProperty('directory')){
-            var obj = {};
-            obj.file = arr[i].directory;
-            obj.filetype = 'directory';
-            files.push(obj);
-        } else if(arr[i].hasOwnProperty('file')){
-            var obj = {};
-            obj.file = arr[i].file;
-            obj.filetype = 'file';
-            obj.title = arr[i].Title;
-            obj.lastmodified = arr[i]['Last-Modified'].replace('T', ' ').replace('Z', '');
-            obj.time = arr[i].Time;
-            obj.track = arr[i].Track;
-            obj.date = arr[i].Date;
-            obj.artist = arr[i].Artist;
-            obj.album = arr[i].Album;
-            obj.genre = arr[i].Genre;
-            files.push(obj);
-        }
-        if (i === arr.length-1){
-            browser.files = files;
-            states.lsinfo = JSON.stringify(browser);
-            //adapter.log.debug('--------' + JSON.stringify(browser));
-            SetObj('lsinfo');
-        }
-    });
-}
-
 function Sendcmd(command, val, callback){
     client.sendCommand(cmd(command, val), function(err, msg) {
         if (err){
@@ -202,7 +169,7 @@ function main() {
     });
 
     client.on('error', function(err) {
-        if (err.syscall !== 'connect' && err.code !== 'ETIMEDOUT' && err.syscall !== 'setvol'){
+        if (err.syscall !== 'connect' && err.code !== 'ETIMEDOUT'  && err.code !== 'ENOTFOUND' && err.syscall !== 'setvol'){
             _connection(false);
             adapter.log.error("MPD Error " + JSON.stringify(err));
         }
@@ -210,7 +177,7 @@ function main() {
 
     client.on('end', function(name) {
         clearTimeout(timer);
-        adapter.log.debug("connection closed", name);
+        adapter.log.debug("MPD CONNECTION CLOSED", name);
         statePlay.sayid = null;
         _connection(false);
         timer = setTimeout(function (){
@@ -304,10 +271,12 @@ function _shift(){
     states['repeat'] = toBool(states['repeat']);
     states['random'] = toBool(states['random']);
 
-    if (states.state === 'stop'){
+    if (states.state === 'stop' || states.state === 'pause'){
         statePlay.isPlay = false;
         statePlay.sayid = null;
-        clearTag();
+        if (states.state === 'stop'){
+            clearTag();
+        }
     } else if (states.state === 'play'){
         statePlay.isPlay = true;
         if (states.file && ~states.file.indexOf('/sayit')){
@@ -552,7 +521,7 @@ function sayTimePlay(option){
 
 function StopSay(option){
     clearTimeout(StopTimeOut);
-    adapter.log.debug('StopSay...' + option);
+    adapter.log.debug('StopSay...' + JSON.stringify(option));
     if (!isBuf || queue.length === 0){
         SetConsume (0, function (){
             ClearPlaylist(function (){
@@ -560,6 +529,7 @@ function StopSay(option){
                     StopTimeOut = setTimeout(function (){
                         statePlay.sayid = null;
                         if (option.cur.isPlay){
+                            adapter.log.debug('Sayit... Начинаем воспроизведение предыдущего трека');
                             Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg, err){
                                 if (!err){
                                     setVol(option.cur.vol, function (){
@@ -574,7 +544,10 @@ function StopSay(option){
                                 }
                             });
                         } else {
-                            option = {};
+                            adapter.log.debug('Sayit... Загружаем плейлист без воспроизведения');
+                            Sendcmd('stop', [], function (msg, err){
+                                option = {};
+                            });
                         }
                     }, 5000);
                 });
@@ -664,5 +637,37 @@ function SavePlaylist(cb){
     Sendcmd('save', ['temp_ForSayIt'], function(msg){
         adapter.log.debug('SavePlaylist...' + msg);
         if(cb) cb();
+    });
+}
+function filemanager(val, msg){
+    var browser = {};
+    var files = [];
+    var arr = mpd.parseArrayMessage(msg);
+    arr.forEach(function(item, i, arr) {
+        if (arr[i].hasOwnProperty('directory')){
+            var obj = {};
+            obj.file = arr[i].directory;
+            obj.filetype = 'directory';
+            files.push(obj);
+        } else if(arr[i].hasOwnProperty('file')){
+            var obj = {};
+            obj.file = arr[i].file;
+            obj.filetype = 'file';
+            obj.title = arr[i].Title;
+            obj.lastmodified = arr[i]['Last-Modified'].replace('T', ' ').replace('Z', '');
+            obj.time = arr[i].Time;
+            obj.track = arr[i].Track;
+            obj.date = arr[i].Date;
+            obj.artist = arr[i].Artist;
+            obj.album = arr[i].Album;
+            obj.genre = arr[i].Genre;
+            files.push(obj);
+        }
+        if (i === arr.length-1){
+            browser.files = files;
+            states.lsinfo = JSON.stringify(browser);
+            //adapter.log.debug('--------' + JSON.stringify(browser));
+            SetObj('lsinfo');
+        }
     });
 }
