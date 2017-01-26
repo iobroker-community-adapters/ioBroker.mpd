@@ -271,6 +271,7 @@ function _shift(){
     states['repeat'] = toBool(states['repeat']);
     states['random'] = toBool(states['random']);
 
+    adapter.log.debug('PLAY STATUS - ' + states.state);
     if (states.state === 'stop' || states.state === 'pause'){
         statePlay.isPlay = false;
         statePlay.sayid = null;
@@ -406,6 +407,7 @@ function sayit(command, val, t){
         } else {
             option.say.link = val;
         }
+        adapter.log.debug('statePlay = ' + JSON.stringify(statePlay));
         if (statePlay.isPlay && !statePlay.sayid && !t){
             option.cur = {
                 vol:   parseInt(states.volume, 10),
