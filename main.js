@@ -449,6 +449,7 @@ function SmoothVol(line, option, cb){
     if (line){
         vol = 0;
     }
+    adapter.log.debug('SmoothVol option.cur.isPlay - ' + option.cur.isPlay);
     if (option.cur.isPlay && vol){
         SmoothVolTimer = setInterval(function() {
             Sendcmd('setvol', [vol], function (msg, err){
