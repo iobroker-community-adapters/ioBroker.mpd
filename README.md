@@ -17,6 +17,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 0.2.4
+* (instalator)  change  for sayit
+
 #### 0.2.3
 * (instalator)  change  log level for send command
                 change  replay
