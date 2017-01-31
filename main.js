@@ -18,6 +18,14 @@ var playlist = [];
 var connection = false;
 var states = {}, old_states = {};
 var client, timer, int;
+var StopTimeOut;
+var timer_sayit;
+var queue = [];
+var isBuf = false;
+var options_ = {
+    say: {link: '', vol:  null,  id:   null  },
+    cur: {isPlay: false}
+};
 
 adapter.on('unload', function (callback) {
     try {
@@ -197,7 +205,7 @@ function _connection(state){
         adapter.setState('info.connection', false, true);
     } 
 }
-function GetStatus(arr){
+function GetStatus(arr, cb){
     var cnt = 0;
     if (arr){
         arr.forEach(function(status){
@@ -216,8 +224,12 @@ function GetStatus(arr){
                     }
                 }
                 cnt++;
-                if(cnt === arr.length) {
-                    _shift();
+                if(cnt === arr.length){
+                    if (cb){
+                        cb(states);
+                    } else {
+                        _shift();
+                    }
                 }
             });
         });
@@ -272,21 +284,31 @@ function _shift(){
     states['random'] = toBool(states['random']);
 
     adapter.log.debug('PLAY STATUS - ' + states.state);
+
+    if (states.state === 'stop'){
+        clearTag();
+    }
     if (states.state === 'stop' || states.state === 'pause'){
         statePlay.isPlay = false;
-        statePlay.sayid = null;
-        if (states.state === 'stop'){
-            clearTag();
-        }
     } else if (states.state === 'play'){
         statePlay.isPlay = true;
-        if (states.file && ~states.file.indexOf('/sayit')){
-            statePlay.sayid = states.songid;
+    }
+        SetObj();
+}
+function isPlay(objs){
+    if (objs.state === 'stop' || objs.state === 'pause'){
+        statePlay.isPlay = false;
+        statePlay.sayid = null;
+    } else if (objs.state === 'play'){
+        statePlay.isPlay = true;
+        if (objs.file && ~objs.file.indexOf('/sayit')){
+            statePlay.sayid = objs.songid;
+            statePlay.isPlay = false;
         } else {
             statePlay.sayid = null;
         }
     }
-        SetObj();
+    return statePlay;
 }
 function SecToText(sec){
     var res;
@@ -375,82 +397,81 @@ function mute(val){
     return val;
 }
 
-
-var StopTimeOut;
-var timer_sayit;
-var queue = [];
-var isBuf = false;
-var option = {
-    say: {link: '', vol:  null,  id:   null  },
-    cur: {isPlay: false}
-};
 function sayit(command, val, t){
+    adapter.log.debug('sayit options_..........' + JSON.stringify(options_));
     clearTimeout(timer_sayit);
     if (!t){
         queue.push(val);
         isBuf = true;
     }
-    if (!statePlay.sayid){
-        if (queue.length > 0){
-            val = queue.shift();
-        }
-        if (queue.length === 0){
-            isBuf = false;
-        }
-        option.say = {
-            link: '', vol:  null,  id:   null
-        };
-        var p = val.indexOf(';');
-        if (p !== -1) {
-            option.say.vol = parseInt(val.substring(0, p), 10);
-            option.say.link = val.substring(p + 1);
-        } else {
-            option.say.link = val;
-        }
-        adapter.log.debug('statePlay = ' + JSON.stringify(statePlay));
-        if (statePlay.isPlay && !statePlay.sayid && !t){
-            option.cur = {
-                vol:   parseInt(states.volume, 10),
-                track: states.pos,
-                seek:  statePlay.curtime,
-                isPlay: true
+    GetStatus(["status", "currentsong"], function(st){
+        statePlay = isPlay(st);
+        if (!statePlay.sayid){
+            if (queue.length > 0){
+                val = queue.shift();
+            }
+            if (queue.length === 0){
+                isBuf = false;
+            }
+            options_.say = {
+                link: '', vol:  null,  id:   null
             };
-        }
-        clearTimeout(StopTimeOut);
-        if (!t){
-            SmoothVol(false, option, function (){
-                DelPlaylist(function (){
-                    SavePlaylist(function (){
-                        ClearPlaylist(function (){
-                            SetConsume (1, function (){
-                                PlaySay(option);
+            var p = val.indexOf(';');
+            if (p !== -1) {
+                options_.say.vol = parseInt(val.substring(0, p), 10);
+                options_.say.link = val.substring(p + 1);
+            } else {
+                options_.say.link = val;
+            }
+            adapter.log.debug('statePlay = ' + JSON.stringify(statePlay));
+            if (statePlay.isPlay && !statePlay.sayid && !t){
+                options_.cur = {
+                    vol:   parseInt(states.volume, 10),
+                    track: states.pos,
+                    seek:  statePlay.curtime,
+                    isPlay: true
+                };
+            } else if(!statePlay.isPlay && !statePlay.sayid && !t){
+                options_.cur = {isPlay: false};
+            }
+            adapter.log.debug('sayit2 statePlay..........' + JSON.stringify(statePlay));
+            adapter.log.debug('sayit2 options_..........' + JSON.stringify(options_));
+            clearTimeout(StopTimeOut);
+            if (!t){
+                SmoothVol(false, options_, function (){
+                    DelPlaylist(function (){
+                        SavePlaylist(function (){
+                            ClearPlaylist(function (){
+                                SetConsume (1, function (){
+                                    PlaySay(options_);
+                                });
                             });
                         });
                     });
                 });
-            });
-        } else {
-            ClearPlaylist(function (){
-                SetConsume (1, function (){
-                    PlaySay(option);
+            } else {
+                ClearPlaylist(function (){
+                    SetConsume (1, function (){
+                        PlaySay(options_);
+                    });
                 });
-            });
+            }
         }
-    }
+    });
 }
 var SmoothVolTimer;
-function SmoothVol(line, option, cb){
+function SmoothVol(line, options_, cb){
     var flag = false;
     var vol;
-    if (option.cur && option.cur.vol){
-        vol = option.cur.vol;
+    if (options_.cur && options_.cur.vol){
+        vol = options_.cur.vol;
     }
     clearInterval(SmoothVolTimer);
     if (line){
         vol = 0;
     }
-    adapter.log.debug('SmoothVol option.cur.isPlay - ' + option.cur.isPlay);
-    if (option.cur.isPlay && vol){
+    adapter.log.debug('SmoothVol options_.cur.isPlay - ' + options_.cur.isPlay);
+    if (options_.cur.isPlay && vol){
         SmoothVolTimer = setInterval(function() {
             Sendcmd('setvol', [vol], function (msg, err){
                 if (!err){
@@ -462,11 +483,11 @@ function SmoothVol(line, option, cb){
                         }
                     } else {
                          vol = vol + 10;
-                        if (vol >= option.cur.vol && !flag) {
-                            vol = option.cur.vol;
+                        if (vol >= options_.cur.vol && !flag) {
+                            vol = options_.cur.vol;
                             flag = true;
                         }
-                        if (vol >= option.cur.vol && flag){
+                        if (vol >= options_.cur.vol && flag){
                             clearInterval(SmoothVolTimer);
                             flag = false;
                             if(cb) cb();
@@ -524,24 +545,28 @@ function sayTimePlay(option){
 
 function StopSay(option){
     clearTimeout(StopTimeOut);
-    adapter.log.debug('StopSay...' + JSON.stringify(option));
+    adapter.log.debug('StopSay options_..........' + JSON.stringify(option));
     if (!isBuf || queue.length === 0){
         SetConsume (0, function (){
             ClearPlaylist(function (){
                 LoadPlaylist(function (){
                     StopTimeOut = setTimeout(function (){
                         statePlay.sayid = null;
-                        if (option.cur.isPlay){
+                        if (option && option.cur.isPlay){
                             adapter.log.debug('Sayit... Начинаем воспроизведение предыдущего трека');
                             Sendcmd('seek', [option.cur.track, option.cur.seek], function (msg, err){
                                 if (!err){
                                     setVol(option.cur.vol, function (){
-                                        option = {};
+                                        options_ = {say: {link: '', vol:  null,  id:   null  },
+                                            cur: {isPlay: false}
+                                        };
                                     });
                                 } else {
                                     Sendcmd('play', [0], function (msg, err){
                                         setVol(option.cur.vol, function (){
-                                            option = {};
+                                            options_ = {say: {link: '', vol:  null,  id:   null  },
+                                                cur: {isPlay: false}
+                                            };
                                         });
                                     }); 
                                 }
@@ -549,7 +574,9 @@ function StopSay(option){
                         } else {
                             adapter.log.debug('Sayit... Загружаем плейлист без воспроизведения');
                             Sendcmd('stop', [], function (msg, err){
-                                option = {};
+                                options_ = {say: {link: '', vol:  null,  id:   null  },
+                                    cur: {isPlay: false}
+                                };
                             });
                         }
                     }, 5000);
@@ -580,16 +607,16 @@ function setVol(v, cb){
     var vol = parseInt(v, 10);
     setVolTimer = setInterval(function() {
         //adapter.log.debug('setVol...');
-        if (statePlay.isPlay){
-            Sendcmd('setvol', [vol], function (msg, err){
-                if (!err){
-                    clearInterval(setVolTimer);
-                    setVolTimer = false;
-                    clearTimeout(setTimeOut);
-                    if(cb) cb();
-                }
-            });
-        }
+            //if (statePlay.isPlay){
+                Sendcmd('setvol', [vol], function (msg, err){
+                    if (!err){
+                        clearInterval(setVolTimer);
+                        setVolTimer = false;
+                        clearTimeout(setTimeOut);
+                        if (cb) cb();
+                    }
+                });
+            //}
     }, 100);
     setTimeOut = setTimeout(function() {
         if (setVolTimer){

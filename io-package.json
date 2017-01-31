@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "mpd",
-        "version":                  "0.2.3",
+        "version":                  "0.2.4",
 	    "news": {
+          "0.2.4": {
+            "en": "change  for sayit",
+            "de": "change  for sayit",
+            "ru": "change  for sayit"
+          },
           "0.2.3": {
             "en": "change  log level for send command\n change  replay\n fix replay online radio\n fix error",
             "de": "change  log level for send command\n change  replay\n fix replay online radio\n fix error",
