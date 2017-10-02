@@ -160,7 +160,7 @@ function main() {
     });
     client.on('ready', function() {
         _connection(true);
-        GetStatus(['status','playlist']);
+        GetStatus(['status','playlist','listplaylists']);
     });
 
     client.on('system', function(name) {
@@ -168,6 +168,9 @@ function main() {
         switch (name) {
             case 'playlist':
                 GetStatus(["playlist"]);
+                break;
+            case 'stored_playlist':
+                GetStatus(["listplaylists"]);
                 break;
             default:
                 if (name !== 'mixer' && !statePlay.iSsay){
@@ -213,7 +216,10 @@ function GetStatus(arr, cb){
                 if (err) throw err;
                 var obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('GetStatus - ' + JSON.stringify(obj));
-                if (status === 'playlist'){
+                if (status === 'listplaylists') {
+                    obj = mpd.parseArrayMessage(res);
+                    states['listplaylists'] = JSON.stringify(convStoredPlaylists(obj));
+                } else if (status === 'playlist'){
                     states['playlist_list'] = JSON.stringify(convPlaylist(obj));
                 } else {
                     for (var key in obj) {
@@ -234,6 +240,19 @@ function GetStatus(arr, cb){
             });
         });
     }
+}
+
+function convStoredPlaylists(obj){
+    var playlists = [];
+
+    if (obj && obj instanceof Array) {
+        var val;
+        for (val of obj) {
+            playlists.push(val["playlist"]);
+        }
+    }
+
+    return playlists;
 }
 
 function convPlaylist(obj){
