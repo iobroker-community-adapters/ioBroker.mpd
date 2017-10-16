@@ -105,6 +105,10 @@
 				 "de": "ioBroker Mpd Adapter",
 				 "ru": "ioBroker Mpd драйвер "
 		},
+	    "license":                  "MIT",
+	"authors": [
+            "instalator"
+        ],
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
         "icon":                     "mpd.png",
