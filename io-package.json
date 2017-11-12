@@ -118,7 +118,7 @@
 		"keywords":                 ["mpd", "player", "media"],
         "readme":                   "https://github.com/instalator/ioBroker.mpd/blob/master/README.md",
 		"loglevel":                 "info",
-        "type":                     "media"
+        "type":                     "multimedia"
     },
     "native": {
         "ip": "127.0.0.1",
