@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "mpd",
-        "version": "0.2.4",
+        "version": "1.0.0",
         "news": {
             "0.2.4": {
                 "en": "change  for sayit",
