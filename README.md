@@ -17,6 +17,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 ## Changelog
 
+#### 1.0.0
+* (instalator) Up to stable
+
 #### 0.2.4
 * (instalator)  change  for sayit
 
