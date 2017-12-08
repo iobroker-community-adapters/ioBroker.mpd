@@ -911,7 +911,7 @@
             "common": {
                 "role": "media.clear",
                 "name": "The current playlist clear",
-                "type": "string",
+                "type": "boolean",
                 "read": false,
                 "write": true
             },
@@ -1382,7 +1382,7 @@
             "type": "state",
             "common": {
                 "name": "file",
-                "type": "state",
+                "type": "string",
                 "role": "media"
             },
             "native": {}
@@ -1435,7 +1435,7 @@
             "type": "state",
             "common": {
                 "name": "AlbumArtist",
-                "type": "state",
+                "type": "string",
                 "role": "media"
             },
             "native": {}
