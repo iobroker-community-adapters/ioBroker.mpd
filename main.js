@@ -1,7 +1,7 @@
 "use strict";
 
 var utils = require(__dirname + '/lib/utils');
-var adapter = utils.adapter('mpd');
+var adapter = utils.Adapter('mpd');
 var mpd = require('mpd'), cmd = mpd.cmd;
 var statePlay = {
     'fulltime': 0,
