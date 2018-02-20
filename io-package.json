@@ -1,8 +1,18 @@
 {
     "common": {
         "name": "mpd",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
+            "1.0.1": {
+                "en": "add support for admin3",
+                "de": "admin3 wird Unterstützt",
+                "ru": "change  for sayit",
+                "es": "admin3 es compatible",
+                "fr": "admin3 est pris en charge",
+                "it": "admin3 è supportato",
+                "nl": "admin3 wordt ondersteund",
+                "pt": "admin3 é suportado"
+            },
             "0.2.4": {
                 "en": "change  for sayit",
                 "de": "change  for sayit",
@@ -100,11 +110,26 @@
 			}
 		},
         "title":                    "mpd client adapter",
+        "titleLang": {
+            "en": "mpd client adapter",
+            "de": "MPD Client Adapter",
+            "ru": "Клиентский адаптер MPD",
+            "pt": "Adaptador de cliente MPD",
+            "nl": "MPD-clientadapter",
+            "fr": "Adaptateur client MPD",
+            "it": "Adattatore client MPD",
+            "es": "Adaptador de cliente MPD"
+        },
         "desc":                     {
 				 "en": "ioBroker mpd Adapter",
 				 "de": "ioBroker Mpd Adapter",
-				 "ru": "ioBroker Mpd драйвер "
-		},
+				 "ru": "ioBroker Mpd драйвер",
+                 "pt": "ioBroker mpd adapter",
+                 "nl": "ioBroker mpd-adapter",
+                 "fr": "ioBroker adaptateur mpd",
+                 "it": "adattatore ioBroker mpd",
+                 "es": "adaptador ioBroker mpd"
+        },
 	    "license":                  "MIT",
 	"authors": [
             "instalator"
@@ -112,6 +137,7 @@
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
         "icon":                     "mpd.png",
+        "materialize":              true,
         "enabled":                  false,
 	"messagebox":               true,
 		"extIcon":                  "https://raw.githubusercontent.com/instalator/ioBroker.mpd/master/admin/mpd.png",

@@ -1,0 +1,6 @@
+{
+  "mpd adapter settings": "Настройки драйвера MPD",
+  "IP": "IP:",
+  "PORT": "PORT:",
+  "on save adapter restarts with new config immediately": "Сразу после сохранения настроек драйвер перезапуститься с новыми значениями"
+}
