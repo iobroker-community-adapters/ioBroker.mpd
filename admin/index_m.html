@@ -1,7 +1,7 @@
 <html>
-
-<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<head>
 <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 
 <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
@@ -13,24 +13,28 @@
 
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
+
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         // example: select elements with id=key and class=value and insert value
-        for (var key in settings) {
-            // example: select elements with id=key and class=value and insert value
-            if ($('#' + key + '.value').attr('type') == 'checkbox') {
-                $('#' + key + '.value').prop('checked', settings[key]).change(function () {
-					onChange();
-				});
+       if (!settings) return;
+        $('.value').each(function () {
+            var $key = $(this);
+            var id = $key.attr('id');
+            if ($key.attr('type') === 'checkbox') {
+		        // do not call onChange direct, because onChange could expect some arguments
+                $key.prop('checked', settings[id]).change(function() {
+                    onChange();
+                });
             } else {
-                $('#' + key + '.value').val(settings[key]).change(function () {
-					onChange();
-				}).keyup(function () {
-					$(this).trigger('change');
-				});
+		        // do not call onChange direct, because onChange could expect some arguments
+                $key.val(settings[id]).change(function() {
+                    onChange();
+                }).keyup(function() {
+                    onChange();
+                });
             }
-        }
-        // Signal to admin, that no changes yet
+        });
         onChange(false);
     }
 
@@ -41,21 +45,21 @@
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);
-            obj[$this.attr('id')] = $this.val();
+			if ($this.attr('type') === 'checkbox') {
+				obj[$this.attr('id')] = $this.prop('checked');
+			} else {
+				obj[$this.attr('id')] = $this.val();
+			}
         });
         callback(obj);
     }
 </script>
-
-<div id="m adapter-container">
+</head>
+<body>
+<div class="m adapter-container">
     <div class="row">
         <div class="col s12 m4 l2">
             <img src="mpd.png" class="logo">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 m4 l2">
-		    <h4 class="translate">MPD adapter settings</h4>
         </div>
     </div>
     <div class="row">
@@ -69,10 +73,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 m4 l2">
+        <div class="col s12">
 		    <p class="translate">on save adapter restarts with new config immediately</p>
         </div>
     </div>
 </div>
-
+</body>
 </html>

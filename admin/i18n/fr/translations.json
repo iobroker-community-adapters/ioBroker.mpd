@@ -1,6 +1,6 @@
 {
   "mpd adapter settings": "Paramètres de l'adaptateur MPD",
-  "IP": "IP:",
-  "PORT": "PORT:",
+  "IP": "IP",
+  "PORT": "PORT",
   "on save adapter restarts with new config immediately": "sur l'adaptateur de sauvegarde redémarre avec la nouvelle config immédiatement"
 }
