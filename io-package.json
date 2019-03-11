@@ -109,7 +109,7 @@
 			  "ru": "Первоначальный адаптер"
 			}
 		},
-        "title":                    "mpd client adapter",
+        "title":                    "mpd client",
         "titleLang": {
             "en": "mpd client adapter",
             "de": "MPD Client Adapter",
