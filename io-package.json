@@ -11,105 +11,240 @@
                 "fr": "admin3 est pris en charge",
                 "it": "admin3 è supportato",
                 "nl": "admin3 wordt ondersteund",
-                "pt": "admin3 é suportado"
+                "pt": "admin3 é suportado",
+                "pl": "dodać wsparcie dla admin3 wykonuje",
+                "zh-cn": "增加支持admin3"
             },
             "0.2.4": {
                 "en": "change  for sayit",
                 "de": "change  for sayit",
-                "ru": "change  for sayit"
+                "ru": "change  for sayit",
+                "pt": "mudança para sayit",
+                "nl": "verandering voor sayit",
+                "fr": "changement pour sayit",
+                "it": "cambiare per sayit",
+                "es": "cambio de sayit",
+                "pl": "zmiana ceny na sayit",
+                "zh-cn": "改变sayit"
             },
             "0.2.3": {
                 "en": "change  log level for send command\n change  replay\n fix replay online radio\n fix error",
                 "de": "change  log level for send command\n change  replay\n fix replay online radio\n fix error",
-                "ru": "change  log level for send command\n change  replay\n fix replay online radio\n fix error"
+                "ru": "change  log level for send command\n change  replay\n fix replay online radio\n fix error",
+                "pt": "alterar o nível de log para enviar comandos\nalteração de repetição\ncorreção de repetição de rádio online\ncorreção de erro",
+                "nl": "change log-niveau voor de opdracht verzenden\nwijzigen replay\nfix replay online radio\nfix fout",
+                "fr": "changement du niveau de journal pour envoyer la commande\nchangement de relecture\ncorrection relecture de la radio en ligne\ncorrection d'erreur",
+                "it": "modificare il livello di log per inviare il comando\ncambiare replay\nfix replay online radio\nfix errore",
+                "es": "cambiar el nivel de registro para enviar comandos\ncambio de reproducción\nrevisión de reproducción de radio en línea\ncorrección de error",
+                "pl": "poziom protokołu zmian do wysyłania poleceń\nzmiana analizować\npoprawka odtwarzania radia online\nbłędy naprawić ",
+                "zh-cn": "改变记录水平，为发送命令\n改变重\n解决在线广播回放\n修复的错误"
             },
             "0.2.2": {
                 "en": "fix replay in sayit",
                 "de": "fix replay in sayit",
-                "ru": "fix replay in sayit"
+                "ru": "fix replay in sayit",
+                "pt": "correção de repetição em sayit",
+                "nl": "fix replay in sayit",
+                "fr": "correction relecture dans sayit",
+                "it": "fix replay in sayit",
+                "es": "revisión de reproducción en sayit",
+                "pl": "naprawić powtarzanie w sayit",
+                "zh-cn": "修复重放在sayit"
             },
             "0.2.1": {
                 "en": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music",
                 "de": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music",
-                "ru": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music"
+                "ru": "fix different error\nfix time\nfix messagebox\nadded smooth volume for sayit if is play music",
+                "pt": "correção de erro diferente\ncorrecção tempo\ncorrecção messagebox\nadicionado suave de volume para sayit se está a reproduzir música",
+                "nl": "fix andere fout\nfix tijd\nfix messagebox\ntoegevoegd glad volume voor sayit als is het afspelen van muziek",
+                "fr": "correction d'erreur différent\nfixer l'heure de l'\nfix messagebox\najoutée le volume lisse pour sayit si c'est de jouer de la musique",
+                "it": "correzione di errore diverso\nfissare il tempo\nfix messagebox\naggiunto liscia volume per sayit se è riprodurre la musica",
+                "es": "corrección de error diferente\ncorrección de tiempo\nrevisión messagebox\nañade lisa volumen de sayit si es el juego de la música",
+                "pl": "poprawki różnych błędów\nczasu na poprawki \nnaprawić komunikat\ndodano gładka głośności powiedziała, że jeśli będzie grać muzyka",
+                "zh-cn": "解决不同的错误\n修复时间\n解决消息框\n加顺畅卷sayit如果是玩音乐"
             },
             "0.2.0": {
                 "en": "Big change for SayIt",
                 "de": "Big change for SayIt",
-                "ru": "Big change for SayIt"
+                "ru": "Big change for SayIt",
+                "pt": "Grande mudança para SayIt",
+                "nl": "Grote verandering voor SayIt",
+                "fr": "Gros changement pour SayIt",
+                "it": "Grande cambiamento per SayIt",
+                "es": "Gran cambio para SayIt",
+                "pl": "Duża zmiana dla Sayit",
+                "zh-cn": "大改变SayIt"
             },
             "0.1.7": {
                 "en": "change role media.pos to media.track",
                 "de": "change role media.pos to media.track",
-                "ru": "change role media.pos to media.track"
+                "ru": "change role media.pos to media.track",
+                "pt": "mudar o papel de mídia.pos para a mídia.faixa",
+                "nl": "wijzig rol van de media.pos aan media.track",
+                "fr": "le changement de rôle des médias.pos pour les médias.piste",
+                "it": "cambiare il ruolo dei media.pos per i media.traccia",
+                "es": "el cambio de rol de los medios de comunicación.pos a los medios de comunicación.pista",
+                "pl": "zmiana roli MEDIÓW.PoS dla MEDIÓW.utwór",
+                "zh-cn": "改变作用媒体。pos到媒体。跟踪"
             },
             "0.1.6": {
                 "en": "fix error for sayit",
                 "de": "fix error for sayit",
-                "ru": "fix error for sayit"
+                "ru": "fix error for sayit",
+                "pt": "correção de erro para sayit",
+                "nl": "fix fout voor sayit",
+                "fr": "correction d'erreur pour sayit",
+                "it": "fix errore di sayit",
+                "es": "corrección de error para sayit",
+                "pl": "błąd naprawiono sayit",
+                "zh-cn": "修复的错误sayit"
             },
             "0.1.4": {
                 "en": "fix error",
                 "de": "fix error",
-                "ru": "fix error"
+                "ru": "fix error",
+                "pt": "correção de erro",
+                "nl": "fix fout",
+                "fr": "correction d'erreur",
+                "it": "fix errore",
+                "es": "corrección de error",
+                "pl": "błędy naprawić ",
+                "zh-cn": "修复的错误"
             },
             "0.1.3": {
                 "en": "fix clear playlist\nadded file manager",
                 "de": "fix clear playlist\nadded file manager",
-                "ru": "fix clear playlist\nadded file manager"
+                "ru": "fix clear playlist\nadded file manager",
+                "pt": "correcção limpar lista de reprodução\nadicionado o gerenciador de arquivos",
+                "nl": "fix afspeellijst wissen\ntoegevoegd file manager",
+                "fr": "fixer clairement playlist\najouté le gestionnaire de fichiers",
+                "it": "fix chiaro playlist\naggiunto file manager",
+                "es": "revisión borrar lista de reproducción\nañadido el administrador de archivos",
+                "pl": "naprawić wyczyść playlistę\ndodano menedżer plików ",
+                "zh-cn": "解决明确的播放列表\n添加文件的文件管理"
             },
             "0.1.2": {
                 "en": "change for playlist widgets",
                 "de": "change for playlist widgets",
-                "ru": "change for playlist widgets"
+                "ru": "change for playlist widgets",
+                "pt": "mudar para a lista de reprodução widgets",
+                "nl": "verandering voor de playlist widgets",
+                "fr": "changer de liste de lecture widgets",
+                "it": "modifica della playlist widget",
+                "es": "cambiar de lista de reproducción widgets",
+                "pl": "zmiana dla widżetów playlisty ",
+                "zh-cn": "改变部件的播放列表"
             },
             "0.1.1": {
                 "en": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
                 "de": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
-                "ru": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object"
+                "ru": "Fix error sendTo text2speech\nChange error level (NOT connected)\nChange progressbar to seek\nFix mute\nRefactor default object",
+                "pt": "Correção de erro sendTo text2speech\nAlterar o nível de erro (NÃO conectado)\nAlterar progressbar para buscar\nCorrecção mudo\nRefatorar objeto padrão",
+                "nl": "Fix fout sendTo text2speech\nWijzigen fout niveau (NIET aangesloten)\nWijzigen progressbar te zoeken\nFix dempen\nRefactor standaard object",
+                "fr": "Correction d'erreur sendTo text2speech\nChangement de niveau d'erreur (NON connecté)\nChangement progressbar à chercher\nFix muet\nRefactoriser le code par défaut de l'objet",
+                "it": "Correzione di errore sendTo text2speech\nModificare il livello di errore (NON connesso)\nCambiare progressbar a cercare\nFix mute\nRefactor oggetto predefinito",
+                "es": "Corrección de error sendTo text2speech\nCambio de nivel de error (NO conectado)\nCambio progressbar a buscar\nRevisión de silencio\nRefactorizar objeto predeterminado",
+                "pl": "Naprawić sendto i text2speech\nPoziom błędów zmiany (nie podłączony)\nПрогрессбар zmiany szukać\nNaprawić wyciszenie\nObiekt refaktoryzacja domyślnie ",
+                "zh-cn": "修正错误发送到text2speech\n改变错误的水平(不连接)\n变化进度要求\n修复静\n\"重构\"默认的对象"
             },
             "0.1.0": {
                 "en": "change sturct",
                 "de": "change sturct",
-                "ru": "change sturct"
+                "ru": "change sturct",
+                "pt": "alterar sturct",
+                "nl": "wijzigen sturct",
+                "fr": "changement sturct",
+                "it": "cambiare sturct",
+                "es": "cambio sturct",
+                "pl": "sturct zmienić ",
+                "zh-cn": "改变sturct"
             },
             "0.0.13": {
                 "en": "clearTag(), adding states - progressbar and mute",
                 "de": "clearTag(), adding states - progressbar and mute",
-                "ru": "clearTag(), adding states - progressbar and mute"
+                "ru": "clearTag(), adding states - progressbar and mute",
+                "pt": "clearTag(), adicionando estados - progressbar e mudo",
+                "nl": "clearTag(), het toevoegen van de staten - progressbar en mute",
+                "fr": "clearTag(), en ajoutant les états - progressbar et muet",
+                "it": "clearTag(), l'aggiunta di stati - progressbar e mute",
+                "es": "clearTag(), la adición de los estados - progressbar y silencio",
+                "pl": "clearTag(), dodając państw - ProgressBar i wyciszenie",
+                "zh-cn": "clearTag()、加入国--进度和静"
             },
             "0.0.12": {
                 "en": "add support sayit. add state addplay",
                 "de": "add support sayit. add state addplay",
-                "ru": "add support sayit. add state addplay"
+                "ru": "add support sayit. add state addplay",
+                "pt": "adicionar suporte sayit. adicione estado addplay",
+                "nl": "het toevoegen van ondersteuning sayit. toevoegen staat addplay",
+                "fr": "ajouter la prise en charge sayit. ajouter de l'état addplay",
+                "it": "aggiungere il supporto sayit. aggiungere stato addplay",
+                "es": "añadir soporte sayit. agregar estado addplay",
+                "pl": "dodaj sayit wsparcia. dodaj państwowy addplay",
+                "zh-cn": "增加支持sayit的。 加入国addplay"
             },
             "0.0.11": {
                 "en": "add tests",
                 "de": "add tests",
-                "ru": "add tests"
+                "ru": "add tests",
+                "pt": "adicionar testes",
+                "nl": "toevoegen tests",
+                "fr": "ajouter des tests",
+                "it": "l'aggiunta di test",
+                "es": "agregar pruebas",
+                "pl": "dodać testy",
+                "zh-cn": "添加测试"
             },
             "0.0.10": {
                 "en": "add update status if play, to check whether the value has changed, fix error, fix different cmd",
                 "de": "add update status if play, to check whether the value has changed, fix error, fix different cmd",
-                "ru": "add update status if play, to check whether the value has changed, fix error, fix different cmd"
+                "ru": "add update status if play, to check whether the value has changed, fix error, fix different cmd",
+                "pt": "adicionar a atualização de status de se jogar, para verificar se o valor tiver sido alterado, corrigir o erro, corrigir diferentes cmd",
+                "nl": "update toevoegen status als spelen, om te controleren of de waarde is gewijzigd, fix fout, fix verschillende cmd",
+                "fr": "ajouter de l'état de mise à jour si le jeu, afin de vérifier si la valeur a changé, de corriger l'erreur, corriger les différents cmd",
+                "it": "aggiungere aggiornamento di stato, se gioca, per verificare se il valore è cambiato, fix errore, correggere diversi cmd",
+                "es": "agregar el estado de la actualización si el juego, para comprobar si el valor ha cambiado, corrección de errores, corrección de diferentes cmd",
+                "pl": "dodać status aktualizacji, jeśli grać, aby sprawdzić, czy wartość zmieniło, błędy, naprawić różne CBM",
+                "zh-cn": "添加新的状态，如果玩，检查是否值已经改变，修正错误、解决不同cmd"
             },
             "0.0.3": {
                 "en": "fix send command, change func, add status",
                 "de": "fix send command, change func, add status",
-                "ru": "fix send command, change func, add status"
+                "ru": "fix send command, change func, add status",
+                "pt": "correcção comando enviar, alterar func, adicione estado",
+                "nl": "fix opdracht verzenden, wijzigen func, toevoegen status",
+                "fr": "fixer la commande envoyer, modifier func, ajouter le statut de",
+                "it": "fix comando di invio, modifica func, aggiungere lo stato",
+                "es": "fijar el comando enviar, cambiar func, agregar el estado",
+                "pl": "naprawić polecenie wyślij, zmień przycisk func, dodać status",
+                "zh-cn": "解决发送命令，改变func，加入状态"
             },
             "0.0.2": {
-              "en": "Add send command",
-              "de": "Add send command",
-              "ru": "Добавлена отправка команд"
+                "en": "Add send command",
+                "de": "Add send command",
+                "ru": "Добавлена отправка команд",
+                "pt": "Adicionar comando enviar",
+                "nl": "Toevoegen opdracht verzenden",
+                "fr": "Ajouter envoyer la commande",
+                "it": "Aggiungi invia il comando",
+                "es": "Agregar el comando enviar",
+                "pl": "Dodaj wysyłają polecenie",
+                "zh-cn": "增加发送命令"
             },
-			"0.0.1": {
-			  "en": "initial adapter",
-			  "de": "Initiale Version",
-			  "ru": "Первоначальный адаптер"
-			}
-		},
-        "title":                    "mpd client",
+            "0.0.1": {
+                "en": "initial adapter",
+                "de": "Initiale Version",
+                "ru": "Первоначальный адаптер",
+                "pt": "adaptador inicial",
+                "nl": "eerste adapter",
+                "fr": "initiale de l'adaptateur",
+                "it": "iniziale adattatore",
+                "es": "adaptador inicial",
+                "pl": "początkowa adapter",
+                "zh-cn": "最初的适配器"
+            }
+        },
+        "title": "mpd client",
         "titleLang": {
             "en": "mpd client adapter",
             "de": "MPD Client Adapter",
@@ -118,33 +253,41 @@
             "nl": "MPD-clientadapter",
             "fr": "Adaptateur client MPD",
             "it": "Adattatore client MPD",
-            "es": "Adaptador de cliente MPD"
+            "es": "Adaptador de cliente MPD",
+            "pl": "klienta adapter Мурзя ",
+            "zh-cn": "对客户适配器"
         },
-        "desc":                     {
-				 "en": "ioBroker mpd Adapter",
-				 "de": "ioBroker Mpd Adapter",
-				 "ru": "ioBroker Mpd драйвер",
-                 "pt": "ioBroker mpd adapter",
-                 "nl": "ioBroker mpd-adapter",
-                 "fr": "ioBroker adaptateur mpd",
-                 "it": "adattatore ioBroker mpd",
-                 "es": "adaptador ioBroker mpd"
+        "desc": {
+            "en": "ioBroker mpd Adapter",
+            "de": "ioBroker Mpd Adapter",
+            "ru": "ioBroker Mpd драйвер",
+            "pt": "ioBroker mpd adapter",
+            "nl": "ioBroker mpd-adapter",
+            "fr": "ioBroker adaptateur mpd",
+            "it": "adattatore ioBroker mpd",
+            "es": "adaptador ioBroker mpd",
+            "pl": "ioBroker мурз adapter",
+            "zh-cn": "ioBroker对适配器"
         },
-	    "license":                  "MIT",
-	"authors": [
+        "license": "MIT",
+        "authors": [
             "instalator"
         ],
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "icon":                     "mpd.png",
-        "materialize":              true,
-        "enabled":                  false,
-	"messagebox":               true,
-		"extIcon":                  "https://raw.githubusercontent.com/instalator/ioBroker.mpd/master/admin/mpd.png",
-		"keywords":                 ["mpd", "player", "media"],
-        "readme":                   "https://github.com/instalator/ioBroker.mpd/blob/master/README.md",
-		"loglevel":                 "info",
-        "type":                     "multimedia"
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "icon": "mpd.png",
+        "materialize": true,
+        "enabled": false,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/instalator/ioBroker.mpd/master/admin/mpd.png",
+        "keywords": [
+            "mpd",
+            "player",
+            "media"
+        ],
+        "readme": "https://github.com/instalator/ioBroker.mpd/blob/master/README.md",
+        "loglevel": "info",
+        "type": "multimedia"
     },
     "native": {
         "ip": "127.0.0.1",
