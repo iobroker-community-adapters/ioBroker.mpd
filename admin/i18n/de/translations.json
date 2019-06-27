@@ -1,6 +1,6 @@
 {
-  "mpd adapter settings": "MPD Adapter Einstellungen",
-  "IP": "IP",
-  "PORT": "PORT",
-  "on save adapter restarts with new config immediately": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet."
+    "IP": "IP",
+    "PORT": "PORT",
+    "mpd adapter settings": "MPD Adapter Einstellungen",
+    "on save adapter restarts with new config immediately": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet."
 }

@@ -3,6 +3,8 @@ tasks/
 .idea
 .git
 node_modules/
+/nbproject
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
