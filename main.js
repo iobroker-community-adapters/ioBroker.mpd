@@ -1,6 +1,6 @@
 "use strict";
 
-var utils = require(__dirname + '/lib/utils');
+var utils = require('@iobroker/adapter-core');
 var adapter = utils.Adapter('mpd');
 var mpd = require('mpd'), cmd = mpd.cmd;
 var statePlay = {
