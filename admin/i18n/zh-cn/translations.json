@@ -1,6 +1,7 @@
 {
     "IP": "IP",
     "PORT": "口",
+    "PASSWORD (leave it empty if not specified)": "密码 （如果没有指定则留空）",
     "mpd adapter settings": "钻井设置适配器",
     "on save adapter restarts with new config immediately": "在保存适配器重新启动与新的配置立即"
 }

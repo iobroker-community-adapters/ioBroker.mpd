@@ -1,6 +1,7 @@
 {
     "IP": "IP",
     "PORT": "PORT",
+    "PASSWORD (leave it empty if not specified)": "PASSWORD (laat het leeg als dit niet wordt aangegeven)",
     "mpd adapter settings": "MPD-adapterinstellingen",
     "on save adapter restarts with new config immediately": "on save-adapter wordt onmiddellijk opnieuw opgestart met nieuwe config"
 }

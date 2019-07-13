@@ -156,7 +156,8 @@ function main() {
     statePlay.isPlay = false;
     client = mpd.connect({
         host: adapter.config.ip || '127.0.0.1',
-        port: adapter.config.port || 6600
+        port: adapter.config.port || 6600,
+        password: adapter.config.password || ''
     });
     client.on('ready', function() {
         _connection(true);
