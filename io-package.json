@@ -15,7 +15,7 @@
         "pl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
         "zh-cn": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring"
       },
-      "1.0.3": {
+      "1.0.3": { 
         "en": "add support for admin3",
         "de": "admin3 wird Unterstützt",
         "ru": "change  for sayit",
