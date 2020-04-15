@@ -3,7 +3,8 @@ const utils = require('@iobroker/adapter-core');
 const mpd = require('mpd'), cmd = mpd.cmd;
 
 let adapter, playlist = [], connection = false, states = {}, old_states = {}, client, timer, int, StopTimeOut, sayTimer, sayTimeOut, SmoothVolTimer, timer_sayit, queue = [],
-    isBuf = false;
+    isBuf = false, setVolTimer, setTimeOut;
+
 let statePlay = {
     'fulltime': 0,
     'curtime':  0,
@@ -35,6 +36,8 @@ function startAdapter(options){
                 SmoothVolTimer && clearInterval(SmoothVolTimer);
                 sayTimer && clearInterval(sayTimer);
                 sayTimeOut && clearTimeout(sayTimeOut);
+                setTimeOut && clearTimeout(setTimeOut);
+                setVolTimer && clearInterval(setVolTimer);
                 adapter.log.debug('cleaned everything up...');
                 callback();
             } catch (e) {
@@ -625,9 +628,6 @@ function StopSay(option){
     }
 }
 
-let setVolTimer;
-let setTimeOut;
-
 function setVol(v, cb){
     setVolTimer && clearInterval(setVolTimer);
     setTimeOut && clearTimeout(setTimeOut);
@@ -639,7 +639,7 @@ function setVol(v, cb){
             if (!err){
                 clearInterval(setVolTimer);
                 setVolTimer = false;
-                clearTimeout(setTimeOut);
+                setTimeOut && clearTimeout(setTimeOut);
                 cb && cb();
             }
         });
