@@ -23,7 +23,6 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 * (instalator) Changed the appearance of the settings
 * (instalator) Added support compact mode
 * (instalator) Refactoring
-* (instalator) Refactoring
 
 #### 1.0.2
 * (twonky) support admin3
