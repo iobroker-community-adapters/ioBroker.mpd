@@ -101,7 +101,7 @@ function startAdapter(options){
                     } else if (command === 'addplay'){
                         addplay('addid', val);
                     } else {
-                        client.sendCommand(cmd(command, val),  (err, msg)=>{
+                        client.sendCommand(cmd(command, val), (err, msg) => {
                             if (err){
                                 adapter.log.error('client.sendCommand {"' + command + '": "' + val + '"} ERROR - ' + err);
                             } else {
@@ -138,7 +138,7 @@ function startAdapter(options){
 }
 
 function Sendcmd(command, val, callback){
-    client.sendCommand(cmd(command, val),  (err, msg)=>{
+    client.sendCommand(cmd(command, val), (err, msg) => {
         if (err){
             if (command !== 'setvol'){
                 adapter.log.error('client.sendCommand {"' + command + '": "' + val + '"} ERROR - ' + err);
@@ -217,7 +217,7 @@ function _connection(state){
 function GetStatus(arr, cb){
     let cnt = 0;
     if (arr){
-        arr.forEach( (status)=>{
+        arr.forEach((status) => {
             client.sendCommand(cmd(status, []), (err, res) => {
                 if (err) throw err;
                 let obj = mpd.parseKeyValueMessage(res);
@@ -383,7 +383,7 @@ function SetObj(ob){
 function GetTime(){
     int && clearTimeout(int);
     if (statePlay.isPlay){
-        int = setTimeout( ()=>{
+        int = setTimeout(() => {
             //statePlay.isPlay = false;
             GetStatus(["currentsong", "status"]);
         }, 1000);
@@ -392,19 +392,19 @@ function GetTime(){
 
 function clearTag(){
     let tag = ['error', 'performer', 'album', 'artist', 'composer', 'date', 'disc', 'genre', 'track', 'id', 'title', 'name', 'albumartist'];
-    tag.forEach( (name)=>{
+    tag.forEach((name) => {
         states[name] = '';
     });
 }
 
 function addplay(command, val){
     command = 'addid';
-    Sendcmd(command, val,  (msg)=>{
+    Sendcmd(command, val, (msg) => {
         msg = mpd.parseKeyValueMessage(msg);
         if (msg.Id){
             command = 'playid';
             val = [msg.Id];
-            Sendcmd(command, val,  (msg)=>{
+            Sendcmd(command, val, (msg) => {
                 GetStatus(["currentsong", "status", "stats"]);
             });
         }
@@ -430,7 +430,7 @@ function sayit(command, val, t){
         queue.push(val);
         isBuf = true;
     }
-    GetStatus(["status", "currentsong"],  (st)=>{
+    GetStatus(["status", "currentsong"], (st) => {
         statePlay = isPlay(st);
         if (!statePlay.sayid){
             if (queue.length > 0){
@@ -532,7 +532,7 @@ function SmoothVol(line, options_, cb){
 }
 
 function PlaySay(option){
-    AddPlaylist(option,  (option)=>{
+    AddPlaylist(option, (option) => {
         Sendcmd('playid', [option.say.id], (msg) => {
             //GetStatus(["currentsong", "status"]);
             if (option.say.vol){
@@ -550,7 +550,7 @@ function PlaySay(option){
 function sayTimePlay(option){
     sayTimer && clearInterval(sayTimer);
     sayTimeOut && clearTimeout(sayTimeOut);
-    sayTimer = setInterval( ()=>{
+    sayTimer = setInterval(() => {
         adapter.log.debug('sayTimePlay...');
         if (!statePlay.isPlay){
             sayTimer && clearInterval(sayTimer);
@@ -559,7 +559,7 @@ function sayTimePlay(option){
             StopSay(option);
         }
     }, 100);
-    sayTimeOut = setTimeout( ()=>{
+    sayTimeOut = setTimeout(() => {
         if (sayTimer){
             sayTimer && clearInterval(sayTimer);
             sayTimeOut && clearTimeout(sayTimeOut);
