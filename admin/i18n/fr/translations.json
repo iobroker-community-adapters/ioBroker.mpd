@@ -1,7 +1,0 @@
-{
-    "IP": "IP",
-    "PORT": "PORT",
-    "PASSWORD (leave it empty if not specified)": "MOT DE PASSE (laissez-le vide si non spécifié)",
-    "mpd adapter settings": "Paramètres de l'adaptateur MPD",
-    "on save adapter restarts with new config immediately": "sur l'adaptateur de sauvegarde redémarre avec la nouvelle config immédiatement"
-}

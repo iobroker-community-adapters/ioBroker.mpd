@@ -1,7 +1,0 @@
-{
-    "IP": "IZ",
-    "PORT": "Port",
-    "PASSWORD (leave it empty if not specified)": "HASŁO (pozostaw puste, jeśli nie podano)",
-    "mpd adapter settings": "Ustawienia karty sieciowej Мурзя ",
-    "on save adapter restarts with new config immediately": "zapisz ponownym uruchomieniu zasilacza z nowy konfig raz"
-}

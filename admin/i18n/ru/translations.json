@@ -1,7 +1,0 @@
-{
-    "IP": "IP",
-    "PORT": "PORT",
-    "PASSWORD (leave it empty if not specified)": "ПАРОЛЬ (оставьте пустым, если не указан)",
-    "mpd adapter settings": "Настройки драйвера MPD",
-    "on save adapter restarts with new config immediately": "Сразу после сохранения настроек драйвер перезапуститься с новыми значениями"
-}

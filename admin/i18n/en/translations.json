@@ -1,7 +1,0 @@
-{
-    "IP": "IP",
-    "PORT": "PORT",
-    "PASSWORD (leave it empty if not specified)": "PASSWORD (leave it empty if not specified)",
-    "mpd adapter settings": "MPD adapter settings",
-    "on save adapter restarts with new config immediately": "on save adapter restarts with new config immediately"
-}
