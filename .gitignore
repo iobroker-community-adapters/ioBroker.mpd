@@ -4,6 +4,7 @@ tasks/
 .git
 node_modules/
 /nbproject
+.eslintrc.json
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

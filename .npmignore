@@ -6,5 +6,6 @@ node_modules
 .git
 /node_modules
 test
+.eslintrc.json
 .travis.yml
 appveyor.yml
