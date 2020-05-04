@@ -360,9 +360,9 @@ function toBool(val){
     return val;
 }
 
-function SetObj(ob){
-    if (ob && ob === 'lsinfo'){
-        adapter.setState(ob, {val: states[ob], ack: true});
+function SetObj(id){
+    if (id && id === 'lsinfo'){
+        adapter.setState(id, {val: states[id], ack: true});
         old_states['lsinfo'] = states['lsinfo'];
     } else {
         for (let key in states) {
@@ -609,7 +609,7 @@ function StopSay(option){
                             });
                         }
                     }, 5000);
-                });
+                }); 
             });
         });
     } else {
