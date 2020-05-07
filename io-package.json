@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "mpd",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "news": {
+      "1.0.5": {
+        "en": "fix error state",
+        "de": "fix error state",
+        "ru": "fix error state",
+        "es": "fix error state",
+        "fr": "fix error state",
+        "it": "fix error state",
+        "nl": "fix error state",
+        "pt": "fix error state",
+        "pl": "fix error state",
+        "zh-cn": "fix error state"
+      },
       "1.0.4": {
         "en": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
         "de": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
@@ -14,18 +26,6 @@
         "pt": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
         "pl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
         "zh-cn": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring"
-      },
-      "1.0.3": { 
-        "en": "add support for admin3",
-        "de": "admin3 wird Unterstützt",
-        "ru": "change  for sayit",
-        "es": "admin3 es compatible",
-        "fr": "admin3 est pris en charge",
-        "it": "admin3 è supportato",
-        "nl": "admin3 wordt ondersteund",
-        "pt": "admin3 é suportado",
-        "pl": "dodać wsparcie dla admin3 wykonuje",
-        "zh-cn": "增加支持admin3"
       }
     },
     "title": "mpd client",
