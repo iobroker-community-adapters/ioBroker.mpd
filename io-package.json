@@ -14,7 +14,7 @@
         "es": "Aumente el tiempo de espera de SayIt para permitir la reproducción de archivos de más de 10 segundos",
         "pl": "Zwiększ limit czasu dla SayIt, aby umożliwić odtwarzanie plików dłuższych niż 10 sekund",
         "zh-cn": "增加SayIt的超时时间，以允许播放文件时间超过10秒"
-  }
+      },
       "1.0.5": {
         "en": "fix error state",
         "de": "fix error state",
