@@ -22,6 +22,7 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 #### 1.0.6
 * (instalator) update tests
+* (algar42) Increase timeout for SayIt to allow playing files longer than 10 secs
 
 #### 1.0.5
 * (instalator) fix error state
