@@ -566,7 +566,7 @@ function sayTimePlay(option){
             sayTimer = false;
             StopSay(option);
         }
-    }, 10000);
+    }, 60000);
 }
 
 function StopSay(option){
