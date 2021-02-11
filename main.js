@@ -422,7 +422,6 @@ function mute(val){
     return val;
 }
 
-
 function sayit(command, val, t){
     adapter.log.debug('sayit options_..........' + JSON.stringify(options_));
     timer_sayit && clearTimeout(timer_sayit);
@@ -486,7 +485,6 @@ function sayit(command, val, t){
     });
 }
 
-
 function SmoothVol(line, options_, cb){
     let flag = false;
     let vol;
@@ -545,7 +543,6 @@ function PlaySay(option){
         });
     });
 }
-
 
 function sayTimePlay(option){
     sayTimer && clearInterval(sayTimer);
