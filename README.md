@@ -3,11 +3,12 @@
 ![Number of Installations](http://iobroker.live/badges/mpd-installed.svg) ![Number of Installations](http://iobroker.live/badges/mpd-stable.svg) 
 [![NPM version](https://img.shields.io/npm/v/iobroker.mpd.svg)](https://www.npmjs.com/package/iobroker.mpd)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.mpd.svg)](https://www.npmjs.com/package/iobroker.mpd)
-[![Tests](http://img.shields.io/travis/instalator/ioBroker.mpd/master.svg)](https://travis-ci.org/instalator/ioBroker.mpd)
+[![Tests](https://github.com/instalator/iobroker.mpd/workflows/Test%20and%20Release/badge.svg)](https://github.com/instalator/ioBroker.mpd/actions/)  
 
 [![NPM](https://nodei.co/npm/iobroker.mpd.png?downloads=true)](https://nodei.co/npm/iobroker.mpd/)
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PFUALWTR2CTPY)
+[![Donate](https://img.shields.io/badge/Donate-YooMoney-green)](https://sobe.ru/na/instalator)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PFUALWTR2CTPY) 
 
 Connect to a [music player daemon](http://musicpd.org) server, send commands,
 emit events.
@@ -18,6 +19,9 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 
 
 ## Changelog
+
+#### 1.0.6
+* (instalator) update tests
 
 #### 1.0.5
 * (instalator) fix error state

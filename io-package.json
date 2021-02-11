@@ -1,9 +1,20 @@
 {
   "common": {
     "name": "mpd",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "news": {
-      "1.0.5": {
+      "1.0.6": {
+        "en": "update tests",
+        "de": "update tests",
+        "ru": "update tests",
+        "es": "update tests",
+        "fr": "update tests",
+        "it": "update tests",
+        "nl": "update tests",
+        "pt": "update tests",
+        "pl": "update tests",
+        "zh-cn": "update tests"
+      },"1.0.5": {
         "en": "fix error state",
         "de": "fix error state",
         "ru": "fix error state",

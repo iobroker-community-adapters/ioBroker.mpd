@@ -609,7 +609,7 @@ function StopSay(option){
                             });
                         }
                     }, 5000);
-                }); 
+                });
             });
         });
     } else {
