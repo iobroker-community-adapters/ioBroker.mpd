@@ -22,7 +22,7 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.1.1 (2023-04-02)
 * (bluefox) Just small refactoring
 
 ### 1.0.6
