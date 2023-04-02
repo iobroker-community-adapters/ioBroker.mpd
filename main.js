@@ -2,6 +2,7 @@
 const utils = require('@iobroker/adapter-core');
 const mpd = require('mpd');
 const cmd = mpd.cmd;
+const adapterName = require('./package.json').name.split('.').pop();
 
 let adapter;
 let playlist = [];
@@ -41,7 +42,7 @@ let options_ = {
 function startAdapter(options) {
     return adapter = utils.adapter(Object.assign({}, options, {
         systemConfig: true,
-        name: 'mpd',
+        name: adapterName,
         ready: main,
         unload: callback => {
             try {
@@ -236,7 +237,9 @@ function getMpdStatus(arr, cb) {
     if (arr) {
         arr.forEach((status) => {
             client.sendCommand(cmd(status, []), (err, res) => {
-                if (err) throw err;
+                if (err) {
+                    throw err;
+                }
                 let obj = mpd.parseKeyValueMessage(res);
                 //adapter.log.debug('getMpdStatus - ' + JSON.stringify(obj));
                 if (status === 'listplaylists') {
@@ -575,7 +578,7 @@ function sayTimePlay(option) {
             sayTimer && clearInterval(sayTimer);
             sayTimeOut && clearTimeout(sayTimeOut);
             sayTimer = false;
-            StopSay(option);
+            stopSay(option);
         }
     }, 100);
     sayTimeOut = setTimeout(() => {
@@ -583,14 +586,14 @@ function sayTimePlay(option) {
             sayTimer && clearInterval(sayTimer);
             sayTimeOut && clearTimeout(sayTimeOut);
             sayTimer = false;
-            StopSay(option);
+            stopSay(option);
         }
     }, 60000);
 }
 
-function StopSay(option) {
+function stopSay(option) {
     StopTimeOut && clearTimeout(StopTimeOut);
-    adapter.log.debug(`StopSay options_.......... ${JSON.stringify(option)}`);
+    adapter.log.debug(`stopSay options_.......... ${JSON.stringify(option)}`);
     if (!isBuf || queue.length === 0) {
         setConsume(0, () => {
             clearPlayList(() => {
