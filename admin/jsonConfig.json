@@ -1,0 +1,55 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "style": {
+    "backgroundImage": "url(adapter/mpd/background.png)",
+    "backgroundPosition": "top",
+    "backgroundRepeat": "no-repeat",
+    "backgroundSize": "cover"
+  },
+  "items": {
+    "ip": {
+      "type": "text",
+      "label": "IP",
+      "sm": 6,
+      "md": 4,
+      "lg": 3
+    },
+    "port": {
+      "type": "number",
+      "label": "Port",
+      "max": 65535,
+      "min": 1,
+      "sm": 3,
+      "md": 2,
+      "lg": 1
+    },
+    "password": {
+      "newLine": true,
+      "type": "password",
+      "label": "Password",
+      "help": "password desc",
+      "sm": 6,
+      "md": 4,
+      "lg": 3
+    },
+    "_divider": {
+      "type": "divider",
+      "style": {
+        "opacity": 0.3,
+        "marginTop": 50
+      }
+    },
+    "_donate1": {
+      "newLine": true,
+      "type": "staticImage",
+      "src": "https://img.shields.io/badge/Donate-YooMoney-green",
+      "href": "https://sobe.ru/na/instalator"
+    },
+    "_donate2": {
+      "type": "staticImage",
+      "src": "https://img.shields.io/badge/Donate-PayPal-green.svg",
+      "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PFUALWTR2CTPY"
+    }
+  }
+}

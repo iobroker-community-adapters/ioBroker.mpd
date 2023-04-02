@@ -1,0 +1,7 @@
+{
+  "ip": "IP address",
+  "mpd adapter settings": "MPD adapter settings",
+  "password": "Password",
+  "password desc": "Leave it empty if not specified",
+  "port": "Port"
+}
