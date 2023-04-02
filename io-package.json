@@ -41,28 +41,10 @@
     },
     "title": "mpd client",
     "titleLang": {
-      "en": "mpd client adapter",
-      "de": "MPD Client Adapter",
-      "ru": "Клиентский адаптер MPD",
-      "pt": "Adaptador de cliente MPD",
-      "nl": "MPD-clientadapter",
-      "fr": "Adaptateur client MPD",
-      "it": "Adattatore client MPD",
-      "es": "Adaptador de cliente MPD",
-      "pl": "klienta adapter Мурзя ",
-      "zh-cn": "对客户适配器"
+      "en": "Music player daemon (MPD) client"
     },
     "desc": {
-      "en": "ioBroker mpd Adapter",
-      "de": "ioBroker Mpd Adapter",
-      "ru": "ioBroker Mpd драйвер",
-      "pt": "ioBroker mpd adapter",
-      "nl": "ioBroker mpd-adapter",
-      "fr": "ioBroker adaptateur mpd",
-      "it": "adattatore ioBroker mpd",
-      "es": "adaptador ioBroker mpd",
-      "pl": "ioBroker мурз adapter",
-      "zh-cn": "ioBroker对适配器"
+      "en": "Music player daemon"
     },
     "license": "MIT",
     "authors": [
