@@ -20,18 +20,14 @@ jobs:
 
         runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [14.x]
-
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
 
-            - name: Use Node.js ${{ matrix.node-version }}
+            - name: Use Node.js 16.x
               uses: actions/setup-node@v1
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: 16.x
 
             - name: Install Dependencies
               run: npm i
@@ -50,7 +46,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                node-version: [12.x, 14.x, 16.x]
+                node-version: [14.x, 16.x, 18.x]
                 os: [ubuntu-latest, windows-latest, macos-latest]
 
         steps:
@@ -76,7 +72,7 @@ jobs:
               if: startsWith(runner.OS, 'windows')
               run: set DEBUG=testing:* & npm run test:integration
 
-# TODO: To enable automatic npm releases, create a token on npmjs.org 
+# TODO: To enable automatic npm releases, create a token on npmjs.org
 # Enter this token as a GitHub secret (with name NPM_TOKEN) in the repository options
 # Then uncomment the following block:
 
