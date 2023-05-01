@@ -246,6 +246,7 @@ function getMpdStatus(arr, cb) {
                     obj = mpd.parseArrayMessage(res);
                     states['listplaylists'] = JSON.stringify(convStoredPlaylists(obj));
                 } else if (status === 'playlistinfo') {
+                    obj = mpd.parseArrayMessage(res);
                     states['playlist_list'] = JSON.stringify(obj);
                 } else {
                     for (const key in obj) {
