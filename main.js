@@ -184,14 +184,14 @@ function main() {
     });
     client.on('ready', () => {
         _connection(true);
-        getMpdStatus(['status', 'playlist', 'listplaylists']);
+        getMpdStatus(['status', 'playlistinfo', 'listplaylists']);
     });
 
     client.on('system', (name) => {
         //adapter.log.debug("update system - " + JSON.stringify(name));
         switch (name) {
             case 'playlist':
-                getMpdStatus(['playlist']);
+                getMpdStatus(['playlistinfo']);
                 break;
             case 'stored_playlist':
                 getMpdStatus(['listplaylists']);
@@ -245,8 +245,8 @@ function getMpdStatus(arr, cb) {
                 if (status === 'listplaylists') {
                     obj = mpd.parseArrayMessage(res);
                     states['listplaylists'] = JSON.stringify(convStoredPlaylists(obj));
-                } else if (status === 'playlist') {
-                    states['playlist_list'] = JSON.stringify(convPlaylist(obj));
+                } else if (status === 'playlistinfo') {
+                    states['playlist_list'] = JSON.stringify(obj);
                 } else {
                     for (const key in obj) {
                         if (obj.hasOwnProperty(key)) {
@@ -277,31 +277,6 @@ function convStoredPlaylists(obj) {
         }
     }
     return playlists;
-}
-
-function convPlaylist(obj) {
-    let count = 0;
-    playlist = [];
-    if (obj && typeof obj === 'object') {
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                playlist[count] = {
-                    'artist': '',
-                    'album': '',
-                    'bitrate': 0,
-                    'title': '',
-                    'file': obj[key],
-                    'genre': '',
-                    'year': 0,
-                    'len': '00:00',
-                    'rating': '',
-                    'cover': ''
-                };
-                count++;
-            }
-        }
-    }
-    return playlist;
 }
 
 function _shift() {
