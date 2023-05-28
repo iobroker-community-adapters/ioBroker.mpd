@@ -85,7 +85,8 @@ function startAdapter(options) {
                             val[0] = parseInt(val[0], 10);
                             break;
                         case 'play':
-                            val = [0];
+                            // Don't send any argument otherwise playback will restart at beginning of playlist after pausing.
+                            val = [];
                             break;
                         case 'playid':
                             command = 'play';
