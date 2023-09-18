@@ -5,7 +5,7 @@ const cmd = mpd.cmd;
 const adapterName = require('./package.json').name.split('.').pop();
 
 let adapter;
-let playlist = [];
+// let playlist = [];
 let connection = false;
 const states = {};
 const old_states = {};
@@ -16,7 +16,6 @@ let StopTimeOut;
 let sayTimer;
 let sayTimeOut;
 let SmoothVolTimer;
-let timer_sayit;
 const queue = [];
 let isBuf = false;
 let setVolTimer;
@@ -48,7 +47,6 @@ function startAdapter(options) {
             try {
                 timer && clearTimeout(timer);
                 int && clearTimeout(int);
-                timer_sayit && clearTimeout(timer_sayit);
                 StopTimeOut && clearTimeout(StopTimeOut);
                 SmoothVolTimer && clearInterval(SmoothVolTimer);
                 sayTimer && clearInterval(sayTimer);
@@ -242,7 +240,7 @@ function getMpdStatus(arr, cb) {
                     throw err;
                 }
                 let obj = mpd.parseKeyValueMessage(res);
-                //adapter.log.debug('getMpdStatus - ' + JSON.stringify(obj));
+                // adapter.log.debug('getMpdStatus - ' + JSON.stringify(obj));
                 if (status === 'listplaylists') {
                     obj = mpd.parseArrayMessage(res);
                     states['listplaylists'] = JSON.stringify(convStoredPlaylists(obj));
@@ -420,12 +418,11 @@ function mute(val) {
 
 function sayIt(command, val, t) {
     adapter.log.debug(`sayIt options_.......... ${JSON.stringify(options_)}`);
-    timer_sayit && clearTimeout(timer_sayit);
     if (!t) {
         queue.push(val);
         isBuf = true;
     }
-    getMpdStatus(['status', 'currentsong'], (st) => {
+    getMpdStatus(['status', 'currentsong'], st => {
         statePlay = isPlay(st);
         if (!statePlay.sayid) {
             if (queue.length > 0) {

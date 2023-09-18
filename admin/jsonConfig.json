@@ -10,14 +10,14 @@
   "items": {
     "ip": {
       "type": "text",
-      "label": "IP",
+      "label": "ip",
       "sm": 6,
       "md": 4,
       "lg": 3
     },
     "port": {
       "type": "number",
-      "label": "Port",
+      "label": "port",
       "max": 65535,
       "min": 1,
       "sm": 3,
@@ -27,7 +27,7 @@
     "password": {
       "newLine": true,
       "type": "password",
-      "label": "Password",
+      "label": "password",
       "help": "password desc",
       "sm": 6,
       "md": 4,
