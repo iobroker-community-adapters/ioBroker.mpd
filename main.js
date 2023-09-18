@@ -355,18 +355,24 @@ function toBool(val) {
     return val;
 }
 
-function setObj(id) {
+const numberObjects = require('./io-package.json').instanceObjects.filter(obj => obj.common.type === 'number').map(obj => obj._id);
+
+async function setObj(id) {
     if (id && id === 'lsinfo') {
-        adapter.setState(id, {val: states[id], ack: true});
+        await adapter.setStateAsync(id, {val: states[id], ack: true});
         old_states['lsinfo'] = states['lsinfo'];
     } else {
         for (const key in states) {
-            if (states.hasOwnProperty(key)) {
-                if (!old_states.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(states, key)) {
+                if (!Object.prototype.hasOwnProperty.call(old_states, key)) {
                     old_states[key] = '';
                 }
                 if (states[key] !== old_states[key]) {
-                    adapter.setState(key, {val: states[key], ack: true});
+                    if (numberObjects.includes(key)) {
+                        states[key] = parseFloat(states[key]);
+                    }
+
+                    await adapter.setStateAsync(key, {val: states[key], ack: true});
                     old_states[key] = states[key];
                 }
             }
