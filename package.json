@@ -24,7 +24,7 @@
     "url": "https://github.com/iobroker-community-adapters/ioBroker.mpd"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16"
   },
   "dependencies": {
     "mpd": "^1.3.0",
