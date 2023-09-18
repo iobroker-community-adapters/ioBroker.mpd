@@ -22,8 +22,7 @@ See also the [MPD Protocol Documentation](http://www.musicpd.org/doc/protocol/).
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 2.0.0 (2023-09-18)
 * (maffmeier) Changed playlist command to recommended playlistinfo
 * (raintonr) Fix play button (start from last position in queue/track, not beginning)
 * (bluefox) Refactoring: minimum node.js version is 16
