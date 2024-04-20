@@ -1,162 +1,1207 @@
 {
   "common": {
-    "name": "mercury",
-    "version": "0.2.1",
+    "name": "mpd",
+    "version": "2.0.1",
     "news": {
-      "0.2.1": {
-        "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
-        "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
-        "ru": "Адаптер требует node.js >= 18 и js-контроллер >= 5 сейчас\nЗависимость обновлена",
-        "pt": "Adapter requer node.js >= 18 e js-controller >= 5 agora\nAs dependências foram atualizadas",
-        "nl": "Voor adaptor zijn node.js < 18 en js-controller > Nu 5\nAfhankelijkheden zijn bijgewerkt",
-        "fr": "L'adaptateur nécessite node.js >= 18 et js-controller >= 5 maintenant\nLes dépendances ont été actualisées",
-        "it": "Adattatore richiede node.js >= 18 e js-controller >= 5 ora\nLe dipendenze sono state aggiornate",
-        "es": "Adaptador requiere node.js √≥= 18 y js-controller 5 ahora\nSe han actualizado las dependencias",
-        "pl": "Adapter wymaga node.js > = 18 i kontroler js- > = 5 teraz\nZaktualizowano zależności",
-        "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
-        "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
+      "2.0.1": {
+        "en": "Changed playlist command to recommended playlistinfo\nFix play button (start from last position in queue/track, not beginning)\nRefactoring: minimum node.js version is 16",
+        "de": "Geänderter Wiedergabelistenbefehl zur empfohlenen playlistinfo\nBeheben Sie die Wiedergabetaste (von der letzten Position in der Warteschlange/Track, nicht am Anfang)\nRefactoring: minimal node.js version is 16",
+        "ru": "Изменена команда плейлиста, чтобы рекомендовал playlistinfo\nFix play button (начните с последней позиции в очереди/треке, не начало)\nРефакторинг: минимальная версия node.js 16",
+        "pt": "Comando de lista de reprodução alterado para playlistinfo recomendado\nCorrigir botão de jogo (início da última posição em fila / pista, não início)\nRefactoring: Node.js versão mínima é 16",
+        "nl": "Veranderingscommando om playlistinfo aan te bevelen\nSpeel de knop af van de laatste positie in Queue/track, niet begin\nVertaling:",
+        "fr": "Changed playlist command to recommended playlistinfo\nFixer le bouton de jeu (départ de la dernière position dans la file ou la piste, pas débuter)\nRefactoring: minimum node.js version is 16",
+        "it": "Modificato il comando playlist per playlist raccomandatainfo\nFissare il pulsante di gioco (avviare dall'ultima posizione in coda/track, non iniziare)\nRefactoring: minimal node.js version is 16",
+        "es": "Cambiar el comando de lista de reproducción recomendado\nFijar el botón de juego (a partir de la última posición en la cola / pista, no comenzando)\nRefactoring: versión mínimo node.js es 16",
+        "pl": "Zmienił komendę playlisty zalecenia\nPrzycisk gry Fix rozpoczyna się od ostatniego miejsca w kolejce i kolejce, a nie na początku\nRefactoring: minimalna wersja węzła wynosi 16",
+        "uk": "Змінено команду плейлиста для рекомендованого плейлистinfo\nВиправлення кнопки відтворення (починок з останнього положення в черзі / трек, не початок)\nРефакторинг: мінімальний вузол.js версія 16",
+        "zh-cn": "B. 推荐的上游指挥官\nFix游戏但顿(从最后地位起,不开始)\n证明:最低无误版本为16。"
       },
-      "0.1.6": {
-        "en": "prepare for new js-controller",
-        "de": "bereiten für neue js-controller",
-        "ru": "подготовиться к новому js-контроллеру",
-        "pt": "preparar para o novo js-controller",
-        "nl": "bereid je voor op nieuwe js-controller",
-        "fr": "préparez-vous pour un nouveau contrôleur",
-        "it": "prepararsi per nuovo js-controller",
-        "es": "prepararse para nuevo js-controller",
-        "pl": "wprowadzono nowy js-kontroler",
-        "uk": "підготовка до нових js-контролерів",
-        "zh-cn": "为新的控制力防备"
+      "1.1.1": {
+        "en": "Just small refactoring",
+        "de": "Nur kleine Refactoring",
+        "ru": "Просто небольшой рефакторинг",
+        "pt": "Apenas pequeno refactoring",
+        "nl": "Gewoon een kleine refactor",
+        "fr": "Juste petit refactoring",
+        "it": "Solo piccolo rifattore",
+        "es": "Sólo pequeña refactorización",
+        "pl": "Niewielki refaktor",
+        "uk": "Просто невеликий рефакторинг",
+        "zh-cn": "小额重新计算"
       },
-      "0.1.5": {
-        "en": "fixed a bug with polling multiple counters",
-        "de": "fixed a bug with polling multiple counters",
-        "ru": "fixed a bug with polling multiple counters",
-        "pt": "fixed a bug with polling multiple counters",
-        "nl": "fixed a bug with polling multiple counters",
-        "fr": "fixed a bug with polling multiple counters",
-        "it": "fixed a bug with polling multiple counters",
-        "es": "fixed a bug with polling multiple counters",
-        "pl": "fixed a bug with polling multiple counters",
-        "zh-cn": "fixed a bug with polling multiple counters"
+      "1.0.6": {
+        "en": "Increase timeout for SayIt to allow playing files longer than 10 secs",
+        "de": "Erhöhen Sie das Timeout für SayIt, damit Dateien länger als 10 Sekunden abgespielt werden können",
+        "ru": "Увеличьте тайм-аут для SayIt, чтобы разрешить воспроизведение файлов более 10 секунд",
+        "pt": "Aumente o tempo limite do SayIt para permitir a reprodução de arquivos por mais de 10 segundos",
+        "nl": "Verhoog de time-out voor SayIt om bestanden langer dan 10 seconden af te spelen",
+        "fr": "Augmentez le délai d'expiration de SayIt pour permettre la lecture de fichiers de plus de 10 secondes",
+        "it": "Aumenta il timeout per SayIt per consentire la riproduzione di file più lunghi di 10 secondi",
+        "es": "Aumente el tiempo de espera de SayIt para permitir la reproducción de archivos de más de 10 segundos",
+        "pl": "Zwiększ limit czasu dla SayIt, aby umożliwić odtwarzanie plików dłuższych niż 10 sekund",
+        "zh-cn": "增加SayIt的超时时间，以允许播放文件时间超过10秒"
       },
-      "0.1.4": {
-        "en": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "de": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "ru": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "pt": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "nl": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "fr": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "it": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "es": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "pl": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect",
-        "zh-cn": "added frequency for 1 fase\nadded powerQTotal for 1 fase\nadded powerSTotal for 1 fase\nadded cosfTotal for 1 fase\nchange recconect"
+      "1.0.5": {
+        "en": "fix error state",
+        "de": "fix error state",
+        "ru": "fix error state",
+        "es": "fix error state",
+        "fr": "fix error state",
+        "it": "fix error state",
+        "nl": "fix error state",
+        "pt": "fix error state",
+        "pl": "fix error state",
+        "zh-cn": "fix error state"
       },
-      "0.1.3": {
-        "en": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "de": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "ru": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "pt": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "nl": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "fr": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "it": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "es": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "pl": "fixed error [issues 11]\nfixed warn [issues 8]",
-        "zh-cn": "fixed error [issues 11]\nfixed warn [issues 8]"
-      },
-      "0.1.2": {
-        "en": "fixed error serial memory",
-        "de": "fixed error serial memory",
-        "ru": "fixed error serial memory",
-        "pt": "fixed error serial memory",
-        "nl": "fixed error serial memory",
-        "fr": "fixed error serial memory",
-        "it": "fixed error serial memory",
-        "es": "fixed error serial memory",
-        "pl": "fixed error serial memory",
-        "zh-cn": "fixed error serial memory"
+      "1.0.4": {
+        "en": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "de": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "ru": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "es": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "fr": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "it": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "nl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "pt": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "pl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
+        "zh-cn": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring"
       }
     },
+    "title": "mpd client",
     "titleLang": {
-      "en": "Mercury electric meter",
-      "de": "Quecksilber-Stromzähler",
-      "ru": "Меркурий электросчетчик",
-      "pt": "Medidor elétrico de mercúrio",
-      "nl": "Kwik elektrische meter",
-      "fr": "Compteur électrique à mercure",
-      "it": "Contatore elettrico al mercurio",
-      "es": "Medidor electrico de mercurio",
-      "pl": "Miernik elektryczny rtęci",
-      "zh-cn": "汞电表"
+      "en": "Music player daemon (MPD) client"
     },
     "desc": {
-      "en": "Receiving data from electricity meters Mercury",
-      "de": "Empfangen von Daten von Stromzählern Quecksilber",
-      "ru": "Получение данных от электросчетчиков Меркурий",
-      "pt": "Recebendo dados de contadores de eletricidade Mercury",
-      "nl": "Gegevens ontvangen van elektriciteitsmeters Mercury",
-      "fr": "Réception des données des compteurs d'électricité Mercury",
-      "it": "Ricezione di dati dai contatori elettrici Mercury",
-      "es": "Recepción de datos de medidores de electricidad Mercurio",
-      "pl": "Odbieranie danych z liczników energii elektrycznej Merkury",
-      "zh-cn": "从电表接收数据汞"
+      "en": "Music player daemon"
     },
+    "license": "MIT",
     "authors": [
       "instalator <vvvalt@mail.ru>"
     ],
-    "keywords": [
-      "Mercury",
-      "electric meter"
-    ],
-    "licenseInformation": {
-      "license": "MIT",
-      "type": "free"
-    },
     "platform": "Javascript/Node.js",
-    "icon": "mercury.png",
-    "enabled": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/instalator/ioBroker.mercury/master/admin/mercury.png",
-    "readme": "https://github.com/instalator/ioBroker.mercury/blob/master/README.md",
-    "loglevel": "info",
-    "tier": 2,
     "mode": "daemon",
-    "type": "energy",
-    "compact": true,
+    "icon": "mpd.png",
     "materialize": true,
-    "stopBeforeUpdate": true,
-    "dependencies": [
-      {
-        "js-controller": ">=5.0.19"
-      }
+    "dataSource": "push",
+    "connectionType": "local",
+    "adminUI": {
+      "config": "json"
+    },
+    "enabled": false,
+    "messagebox": true,
+    "compact": true,
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.mpd/master/admin/mpd.png",
+    "keywords": [
+      "mpd",
+      "player",
+      "media"
     ],
-    "globalDependencies": [
-      {
-        "admin": ">=6.13.16"
-      }
-    ]
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.mpd/blob/master/README.md",
+    "loglevel": "info",
+    "type": "multimedia"
   },
   "native": {
-    "typeconnect": "tcp",
     "ip": "127.0.0.1",
-    "tcpport": 21,
-    "fastpollingtime": 1000,
-    "slowpollingtime": 60000,
-    "usbport": "",
-    "baud": 9600,
-    "parity": false,
-    "timeoutresponse": 1000,
-    "systemtimeout": 60,
-    "factortimeout": 1
+    "port": 6600
   },
   "objects": [],
   "instanceObjects": [
     {
-      "_id": "info",
-      "type": "channel",
+      "_id": "shuffle",
+      "type": "state",
       "common": {
-        "name": "Information"
+        "role": "media.shuffle",
+        "name": "The current playlist shuffle",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "say",
+      "type": "state",
+      "common": {
+        "role": "media.tts",
+        "name": "Text 2 speech mpd",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "mute",
+      "type": "state",
+      "common": {
+        "role": "media.mute",
+        "name": "Player mute",
+        "type": "boolean",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "outputs",
+      "type": "state",
+      "common": {
+        "role": "media.outputs",
+        "name": "Audio output devices outputs",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "toggleoutput",
+      "type": "state",
+      "common": {
+        "role": "media.toggleoutput",
+        "name": "Audio output devices toggle output",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "enableoutput",
+      "type": "state",
+      "common": {
+        "role": "media.enableoutput",
+        "name": "Audio output devices enable output",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "disableoutput",
+      "type": "state",
+      "common": {
+        "role": "media.disableoutput",
+        "name": "Audio output devices disable output",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "sticker_find",
+      "type": "state",
+      "common": {
+        "role": "media.sticker_find",
+        "name": "Stickers sticker_find",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "sticker_list",
+      "type": "state",
+      "common": {
+        "role": "media.sticker_list",
+        "name": "Stickers sticker_list",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "sticker_delete",
+      "type": "state",
+      "common": {
+        "role": "media.sticker_delete",
+        "name": "Stickers sticker_delete",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "sticker_set",
+      "type": "state",
+      "common": {
+        "role": "media.sticker_set",
+        "name": "Stickers sticker_set",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "sticker_get",
+      "type": "state",
+      "common": {
+        "role": "media.sticker_get",
+        "name": "Stickers sticker_get",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listneighbors",
+      "type": "state",
+      "common": {
+        "role": "media.listneighbors",
+        "name": "Mounts and neighbors listneighbors",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listmounts",
+      "type": "state",
+      "common": {
+        "role": "media.listmounts",
+        "name": "Mounts and neighbors listmounts",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "unmount",
+      "type": "state",
+      "common": {
+        "role": "media.unmount",
+        "name": "Mounts and neighbors unmount",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "mount",
+      "type": "state",
+      "common": {
+        "role": "media.mount",
+        "name": "Mounts and neighbors mount",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "rescan",
+      "type": "state",
+      "common": {
+        "role": "media.rescan",
+        "name": "The music database rescan",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "update",
+      "type": "state",
+      "common": {
+        "role": "media.update",
+        "name": "The music database update",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "searchaddpl",
+      "type": "state",
+      "common": {
+        "role": "media.searchaddpl",
+        "name": "The music database searchaddpl",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "searchadd",
+      "type": "state",
+      "common": {
+        "role": "media.searchadd",
+        "name": "The music database searchadd",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "search",
+      "type": "state",
+      "common": {
+        "role": "media.search",
+        "name": "The music database search",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "readcomments",
+      "type": "state",
+      "common": {
+        "role": "media.readcomments",
+        "name": "The music database readcomments",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "lsinfo",
+      "type": "state",
+      "common": {
+        "role": "media.browser",
+        "name": "The music database browser",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listfiles",
+      "type": "state",
+      "common": {
+        "role": "media.listfiles",
+        "name": "The music database listfiles",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listallinfo",
+      "type": "state",
+      "common": {
+        "role": "media.listallinfo",
+        "name": "Themusicdatabaselistallinfo",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listall",
+      "type": "state",
+      "common": {
+        "role": "media.listall",
+        "name": "Themusicdatabaselistall",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "list",
+      "type": "state",
+      "common": {
+        "role": "media.list",
+        "name": "Themusicdatabaselist",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "findadd",
+      "type": "state",
+      "common": {
+        "role": "media.findadd",
+        "name": "The music database find add",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "find",
+      "type": "state",
+      "common": {
+        "role": "media.find",
+        "name": "The music data base find",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "count",
+      "type": "state",
+      "common": {
+        "role": "media.count",
+        "name": "Themusicdatabasecount",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "save",
+      "type": "state",
+      "common": {
+        "role": "media.save",
+        "name": "Stored playlists save",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "rm",
+      "type": "state",
+      "common": {
+        "role": "media.rm",
+        "name": "Stored playlists rm",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "rename",
+      "type": "state",
+      "common": {
+        "role": "media.rename",
+        "name": "Stored playlists rename",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistmove",
+      "type": "state",
+      "common": {
+        "role": "media.playlistmove",
+        "name": "Stored playlists playlistmove",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistdelete",
+      "type": "state",
+      "common": {
+        "role": "media.playlistdelete",
+        "name": "Stored playlists playlist delete",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistclear",
+      "type": "state",
+      "common": {
+        "role": "media.playlistclear",
+        "name": "Stored playlists playlistclear",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistadd",
+      "type": "state",
+      "common": {
+        "role": "media.playlistadd",
+        "name": "Stored playlistsp laylistadd",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "load",
+      "type": "state",
+      "common": {
+        "role": "media.load",
+        "name": "Stored playlists load",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listplaylists",
+      "type": "state",
+      "common": {
+        "role": "media.listplaylists",
+        "name": "Stored playlists listplaylists",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listplaylistinfo",
+      "type": "state",
+      "common": {
+        "role": "media.listplaylistinfo",
+        "name": "Stored playlistsl istplaylistinfo",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "listplaylist",
+      "type": "state",
+      "common": {
+        "role": "media.listplaylist",
+        "name": "Stored playlists listplaylist",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "cleartagid",
+      "type": "state",
+      "common": {
+        "role": "media.cleartagid",
+        "name": "The current playlist cleartagid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "addtagid",
+      "type": "state",
+      "common": {
+        "role": "media.addtagid",
+        "name": "The current playlist addtagid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "swapid",
+      "type": "state",
+      "common": {
+        "role": "media.swapid",
+        "name": "The current playlist swapid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "swap",
+      "type": "state",
+      "common": {
+        "role": "media.swap",
+        "name": "The current playlist swap",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "rangeid",
+      "type": "state",
+      "common": {
+        "role": "media.rangeid",
+        "name": "The current playlist rangeid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "prioid",
+      "type": "state",
+      "common": {
+        "role": "media.prioid",
+        "name": "The current playlist period",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "prio",
+      "type": "state",
+      "common": {
+        "role": "media.prio",
+        "name": "The current playlist prio",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "plchangesposid",
+      "type": "state",
+      "common": {
+        "role": "media.plchangesposid",
+        "name": "The current playlist plchangesposid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "plchanges",
+      "type": "state",
+      "common": {
+        "role": "media.plchanges",
+        "name": "The current playlist plchanges",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistsearch",
+      "type": "state",
+      "common": {
+        "role": "media.playlistsearch",
+        "name": "The current playlist playlistsearch",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistinfo",
+      "type": "state",
+      "common": {
+        "role": "media.playlistinfo",
+        "name": "The current playlist playlistinfo",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistid",
+      "type": "state",
+      "common": {
+        "role": "media.playlistid",
+        "name": "The current playlist playlistid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistfind",
+      "type": "state",
+      "common": {
+        "role": "media.playlistfind",
+        "name": "The current playlist playlistfind",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlist",
+      "type": "state",
+      "common": {
+        "name": "playlist",
+        "type": "string",
+        "role": "indicator",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlist_list",
+      "type": "state",
+      "common": {
+        "name": "playlist",
+        "type": "string",
+        "role": "media.playlist",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "moveid",
+      "type": "state",
+      "common": {
+        "role": "media.moveid",
+        "name": "The current playlist moveid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "move",
+      "type": "state",
+      "common": {
+        "role": "media.move",
+        "name": "The current playlist move",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "deleteid",
+      "type": "state",
+      "common": {
+        "role": "media.deleteid",
+        "name": "The current playlist deleteid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "delete",
+      "type": "state",
+      "common": {
+        "role": "media.delete",
+        "name": "The current playlist delete",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "clear",
+      "type": "state",
+      "common": {
+        "role": "media.clear",
+        "name": "The current playlist clear",
+        "type": "boolean",
+        "read": false,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "addid",
+      "type": "state",
+      "common": {
+        "role": "media.addid",
+        "name": "The current playlist addid",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "add",
+      "type": "state",
+      "common": {
+        "role": "media.add",
+        "name": "The current playlist add",
+        "type": "string",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "addplay",
+      "type": "state",
+      "common": {
+        "role": "media.addplay",
+        "name": "The current playlist addplay",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "replay_gain_status",
+      "type": "state",
+      "common": {
+        "role": "media.replay_gain_status",
+        "name": "Playback options replay_gain_status",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "replay_gain_mode",
+      "type": "state",
+      "common": {
+        "role": "media.replay_gain_mode",
+        "name": "Playback options replay_gain_mode",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "single",
+      "type": "state",
+      "common": {
+        "name": "single",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "setvol",
+      "type": "state",
+      "common": {
+        "role": "media.setvol",
+        "name": "Playback options setvol",
+        "type": "number",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "repeat",
+      "type": "state",
+      "common": {
+        "name": "repeat",
+        "type": "boolean",
+        "role": "media.mode.repeat",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "random",
+      "type": "state",
+      "common": {
+        "name": "random",
+        "type": "boolean",
+        "role": "media.mode.shuffle",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "mixrampdelay",
+      "type": "state",
+      "common": {
+        "name": "mixrampdelay",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "mixrampdb",
+      "type": "state",
+      "common": {
+        "name": "mixrampdb",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "crossfade",
+      "type": "state",
+      "common": {
+        "role": "media.crossfade",
+        "name": "Playback options crossfade",
+        "type": "number",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "consume",
+      "type": "state",
+      "common": {
+        "name": "consume",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "stop",
+      "type": "state",
+      "common": {
+        "role": "button.stop",
+        "name": "Controlling playback stop",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "seekcur",
+      "type": "state",
+      "common": {
+        "name": "Controlling playback seekcur",
+        "role": "media.seekcur",
+        "type": "number",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "seekid",
+      "type": "state",
+      "common": {
+        "role": "media.seekid",
+        "name": "Controlling playback seekid",
+        "type": "number",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "seek",
+      "type": "state",
+      "common": {
+        "role": "media.seek",
+        "name": "Controlling playback seek",
+        "type": "number",
+        "unit": "%",
+        "min": 0,
+        "max": 100,
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "current_duration",
+      "type": "state",
+      "common": {
+        "role": "media.duration.text",
+        "name": "playback duration",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "current_duration_s",
+      "type": "state",
+      "common": {
+        "role": "media.duration",
+        "name": "playback duration",
+        "type": "number",
+        "read": true,
+        "write": true,
+        "def": 0
+      },
+      "native": {}
+    },
+    {
+      "_id": "current_elapsed",
+      "type": "state",
+      "common": {
+        "role": "media.elapsed.text",
+        "name": "playback duration",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "previous",
+      "type": "state",
+      "common": {
+        "role": "button.prev",
+        "name": "Controlling playback previous",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "playid",
+      "type": "state",
+      "common": {
+        "role": "media.playid",
+        "name": "Controlling playback playid",
+        "type": "number",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "play",
+      "type": "state",
+      "common": {
+        "role": "button.play",
+        "name": "Controlling playback play",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "pause",
+      "type": "state",
+      "common": {
+        "role": "button.pause",
+        "name": "Controlling playback pause",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "next",
+      "type": "state",
+      "common": {
+        "role": "button.next",
+        "name": "Controlling playback next",
+        "type": "boolean",
+        "read": false,
+        "write": true,
+        "def": false
       },
       "native": {}
     },
@@ -165,11 +1210,412 @@
       "type": "state",
       "common": {
         "role": "indicator.connected",
-        "name": "Device or service connected",
+        "name": "If connected to MPD",
         "type": "boolean",
         "read": true,
         "write": false,
         "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "volume",
+      "type": "state",
+      "common": {
+        "name": "volume",
+        "type": "number",
+        "role": "level.volume",
+        "read": true,
+        "write": false,
+        "min": 0,
+        "max": 100
+      },
+      "native": {}
+    },
+    {
+      "_id": "playlistlength",
+      "type": "state",
+      "common": {
+        "name": "playlistlength",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "role": "media.playlistlength"
+      },
+      "native": {}
+    },
+    {
+      "_id": "xfade",
+      "type": "state",
+      "common": {
+        "name": "xfade",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "state",
+      "type": "state",
+      "common": {
+        "name": "Play, stop, or pause, next, previous, mute, unmute",
+        "type": "string",
+        "role": "media.state",
+        "values": "stop,play,pause,next,previous,mute,unmute",
+        "read": true,
+        "write": false,
+        "def": "stop"
+      },
+      "native": {}
+    },
+    {
+      "_id": "song",
+      "type": "state",
+      "common": {
+        "name": "song",
+        "type": "number",
+        "role": "media.state",
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "songid",
+      "type": "state",
+      "common": {
+        "name": "songid",
+        "type": "string",
+        "role": "media.songid"
+      },
+      "native": {}
+    },
+    {
+      "_id": "time",
+      "type": "state",
+      "common": {
+        "name": "time",
+        "type": "string",
+        "role": "media.time"
+      },
+      "native": {}
+    },
+    {
+      "_id": "elapsed",
+      "type": "state",
+      "common": {
+        "name": "elapsed",
+        "type": "number",
+        "role": "media.elapsed"
+      },
+      "native": {}
+    },
+    {
+      "_id": "bitrate",
+      "type": "state",
+      "common": {
+        "name": "bitrate",
+        "type": "number",
+        "role": "media.bitrate",
+        "read": true,
+        "write": true,
+        "def": 0
+      },
+      "native": {}
+    },
+    {
+      "_id": "audio",
+      "type": "state",
+      "common": {
+        "name": "audio",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "nextsong",
+      "type": "state",
+      "common": {
+        "name": "nextsong",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "nextsongid",
+      "type": "state",
+      "common": {
+        "name": "nextsongid",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "file",
+      "type": "state",
+      "common": {
+        "name": "file",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "last-modified",
+      "type": "state",
+      "common": {
+        "name": "Last-Modified",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "time",
+      "type": "state",
+      "common": {
+        "name": "Time",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "artist",
+      "type": "state",
+      "common": {
+        "name": "Artist of current played song",
+        "type": "string",
+        "role": "media.artist",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "composer",
+      "type": "state",
+      "common": {
+        "name": "Composer",
+        "type": "string",
+        "role": "media.composer"
+      },
+      "native": {}
+    },
+    {
+      "_id": "albumartist",
+      "type": "state",
+      "common": {
+        "name": "AlbumArtist",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "title",
+      "type": "state",
+      "common": {
+        "name": "Title of current played song",
+        "type": "string",
+        "role": "media.title",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "album",
+      "type": "state",
+      "common": {
+        "name": "Album of current played song",
+        "type": "string",
+        "role": "media.album",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "track",
+      "type": "state",
+      "common": {
+        "name": "Track",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "genre",
+      "type": "state",
+      "common": {
+        "name": "Genre",
+        "type": "string",
+        "role": "media.genre",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "disc",
+      "type": "state",
+      "common": {
+        "name": "Disc",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "pos",
+      "type": "state",
+      "common": {
+        "name": "Current playing track",
+        "type": "number",
+        "role": "media.track",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "id",
+      "type": "state",
+      "common": {
+        "name": "Id",
+        "type": "number",
+        "role": "media.id",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "artists",
+      "type": "state",
+      "common": {
+        "name": "artists",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "albums",
+      "type": "state",
+      "common": {
+        "name": "albums",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "songs",
+      "type": "state",
+      "common": {
+        "name": "songs",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "uptime",
+      "type": "state",
+      "common": {
+        "name": "uptime",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "playtime",
+      "type": "state",
+      "common": {
+        "name": "playtime",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "db_playtime",
+      "type": "state",
+      "common": {
+        "name": "db_playtime",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "db_update",
+      "type": "state",
+      "common": {
+        "name": "db_update",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "name",
+      "type": "state",
+      "common": {
+        "name": "Name",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "error",
+      "type": "state",
+      "common": {
+        "name": "error",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "updating_db",
+      "type": "state",
+      "common": {
+        "name": "updating_db",
+        "type": "string",
+        "role": "media"
+      },
+      "native": {}
+    },
+    {
+      "_id": "date",
+      "type": "state",
+      "common": {
+        "name": "Date current track",
+        "type": "string",
+        "role": "media.date",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "performer",
+      "type": "state",
+      "common": {
+        "name": "performer",
+        "type": "string",
+        "role": "media.performer"
       },
       "native": {}
     }
