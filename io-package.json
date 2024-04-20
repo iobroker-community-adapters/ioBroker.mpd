@@ -68,12 +68,35 @@
     },
     "title": "mpd client",
     "titleLang": {
-      "en": "Music player daemon (MPD) client"
-    },
+      "en": "Music player daemon",
+      "de": "Musikalische Musik",
+      "ru": "Музыкальный проигрыватель",
+      "pt": "Jogador de música daemon",
+      "nl": "Muziekspeler daemon",
+      "fr": "Démon du lecteur de musique",
+      "it": "Musicista daemon",
+      "es": "Music player daemon",
+      "pl": "Demon odtwarzacza muzyki",
+      "uk": "Музичний плеєр daemon",
+      "zh-cn": "音乐播放器守护进程"
+      },
     "desc": {
-      "en": "Music player daemon"
+      "en": "MusicPlayer Daemon (MPD) client",
+      "de": "MusicPlayer Daemon (MPD) Client",
+      "ru": "MusicPlayer Daemon (MPD) client",
+      "pt": "MusicPlayer Daemon (MPD) cliente",
+      "nl": "Muziekspeler Daemon (MPD) client",
+      "fr": "Client MusicPlayer Daemon (MPD)",
+      "it": "Client MusicPlayer Daemon (MPD)",
+      "es": "MusicPlayer Daemon (MPD) cliente",
+      "pl": "Klient MusicPlayer Daemon (MPD)",
+      "uk": "MusicPlayer Daemon (MPD) клієнт",
+      "zh-cn": "MusicPlayer 守护进程客户端"
     },
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "authors": [
       "instalator <vvvalt@mail.ru>"
     ],
@@ -97,7 +120,18 @@
     ],
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.mpd/blob/master/README.md",
     "loglevel": "info",
-    "type": "multimedia"
+    "tiers": 2,
+    "type": "multimedia",
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.13.16"
+      }
+    ]
   },
   "native": {
     "ip": "127.0.0.1",
