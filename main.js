@@ -93,7 +93,7 @@ function startAdapter(options) {
                             command = 'setvol';
                             val = mute(state.val);
                             break;
-                        case 'seek':
+                      case 'seek':
                             command = 'seekcur';
                             if (val[0] < 0) {
                                 val[0] = 0;
@@ -102,7 +102,13 @@ function startAdapter(options) {
                                 val[0] = 100;
                             }
                             val[0] = parseInt(val[0], 10);
-                            val = [parseInt((statePlay.fulltime / 100) * val[0], 10)];
+                            // EDIT: Right Calulation of Seek .. 
+                            if (statePlay.fulltime > 0) {
+                                val = [parseInt((statePlay.fulltime / 100) * val[0], 10)];
+                            } else {
+                                // If Stream - Set Timing
+                                val = [parseInt(statePlay.curtime, 10)];
+                            }
                             break;
                         case 'next':
                         case 'previous':
