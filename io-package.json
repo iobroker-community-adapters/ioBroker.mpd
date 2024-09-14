@@ -28,42 +28,6 @@
         "pl": "Niewielki refaktor",
         "uk": "Просто невеликий рефакторинг",
         "zh-cn": "小额重新计算"
-      },
-      "1.0.6": {
-        "en": "Increase timeout for SayIt to allow playing files longer than 10 secs",
-        "de": "Erhöhen Sie das Timeout für SayIt, damit Dateien länger als 10 Sekunden abgespielt werden können",
-        "ru": "Увеличьте тайм-аут для SayIt, чтобы разрешить воспроизведение файлов более 10 секунд",
-        "pt": "Aumente o tempo limite do SayIt para permitir a reprodução de arquivos por mais de 10 segundos",
-        "nl": "Verhoog de time-out voor SayIt om bestanden langer dan 10 seconden af te spelen",
-        "fr": "Augmentez le délai d'expiration de SayIt pour permettre la lecture de fichiers de plus de 10 secondes",
-        "it": "Aumenta il timeout per SayIt per consentire la riproduzione di file più lunghi di 10 secondi",
-        "es": "Aumente el tiempo de espera de SayIt para permitir la reproducción de archivos de más de 10 segundos",
-        "pl": "Zwiększ limit czasu dla SayIt, aby umożliwić odtwarzanie plików dłuższych niż 10 sekund",
-        "zh-cn": "增加SayIt的超时时间，以允许播放文件时间超过10秒"
-      },
-      "1.0.5": {
-        "en": "fix error state",
-        "de": "fix error state",
-        "ru": "fix error state",
-        "es": "fix error state",
-        "fr": "fix error state",
-        "it": "fix error state",
-        "nl": "fix error state",
-        "pt": "fix error state",
-        "pl": "fix error state",
-        "zh-cn": "fix error state"
-      },
-      "1.0.4": {
-        "en": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "de": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "ru": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "es": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "fr": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "it": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "nl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "pt": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "pl": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring",
-        "zh-cn": "Changed the appearance of the settings\nAdded support compact mode\nRefactoring"
       }
     },
     "titleLang": {
