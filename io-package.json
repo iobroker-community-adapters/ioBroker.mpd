@@ -102,7 +102,6 @@
     "platform": "Javascript/Node.js",
     "mode": "daemon",
     "icon": "mpd.png",
-    "materialize": true,
     "dataSource": "push",
     "connectionType": "local",
     "adminUI": {
