@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mpd",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "news": {
+      "2.2.0": {
+        "en": "Seek functionality for online streams has been fixed.\nMaterialize UI has been removed. [#166]\nIssues reported by repository checker have been fixed. [#166]\nDependencies have been updated.",
+        "de": "Seek-Funktionalität für Online-Streams wurde korrigiert.\nMaterialize UI wurde entfernt. (#166)\nVom Repository-Checker gemeldete Probleme wurden behoben. (#166)\nAbhängigkeiten wurden aktualisiert.",
+        "ru": "Поиск функциональности для онлайн-потоков был фиксированным.\nМатериализируйте UI был удален. [#166]\nВопросы, сообщаемые регистратором репозиторий, были решены. [#166]\nЗависимость была обновлена.",
+        "pt": "Buscar funcionalidade para fluxos on-line foi corrigido.\nO materialize UI foi removido. [#166]\nQuestões relatadas pelo verificador de repositório foram corrigidas. [#166]\nAs dependências foram atualizadas.",
+        "nl": "Zoek functionaliteit voor online streams is vastgesteld.\nDe materialisatie-UI is verwijderd. [#166]\nDoor repository-checker gemelde problemen zijn opgelost. [#166]\nAfhankelijkheden zijn bijgewerkt.",
+        "fr": "Rechercher la fonctionnalité pour les flux en ligne a été corrigé.\nL'interface utilisateur matérialisée a été supprimée. [#166]\nLes problèmes signalés par le vérificateur du dépôt ont été corrigés. [#166]\nLes dépendances ont été actualisées.",
+        "it": "La funzionalità di ricerca per i flussi online è stata fissata.\nMaterialize UI è stato rimosso. [#166]\nI problemi segnalati da repository checker sono stati fissati. [#166]\nLe dipendenze sono state aggiornate.",
+        "es": "Seek funcionalidad para los flujos en línea se ha fijado.\nMaterializar UI ha sido eliminado. [#166]\nSe han fijado las cuestiones comunicadas por el repositorio. [#166]\nSe han actualizado las dependencias.",
+        "pl": "Funkcjonalność wyszukiwania strumieni internetowych została ustalona.\nZmaterializować interfejs został usunięty. [# 166]\nProblemy zgłoszone przez kontroler repozytorium zostały naprawione. [# 166]\nZaktualizowano zależność.",
+        "uk": "Виправлено функції Seek для онлайн-потоків.\nВидалено матеріалізацію UI. [#166]\nЗафіксовано питання, що повідомляються репозиторійним чекером. [#166]\nОновлено залежність.",
+        "zh-cn": "在线流的搜索功能已固定 .\n物质化的 UI 已被移除 。 [#166]\n储存库检查员报告的问题已经解决。 [#166]\n附属关系已经更新."
+      },
       "2.1.0": {
         "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
         "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
