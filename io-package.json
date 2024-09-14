@@ -119,7 +119,7 @@
     ],
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.mpd/blob/master/README.md",
     "loglevel": "info",
-    "tiers": 2,
+    "tier": 2,
     "type": "multimedia",
     "dependencies": [
       {
