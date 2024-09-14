@@ -16,19 +16,6 @@
         "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
         "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
       },
-      "2.0.1": {
-        "en": "Changed playlist command to recommended playlistinfo\nFix play button (start from last position in queue/track, not beginning)\nRefactoring: minimum node.js version is 16",
-        "de": "Geänderter Wiedergabelistenbefehl zur empfohlenen playlistinfo\nBeheben Sie die Wiedergabetaste (von der letzten Position in der Warteschlange/Track, nicht am Anfang)\nRefactoring: minimal node.js version is 16",
-        "ru": "Изменена команда плейлиста, чтобы рекомендовал playlistinfo\nFix play button (начните с последней позиции в очереди/треке, не начало)\nРефакторинг: минимальная версия node.js 16",
-        "pt": "Comando de lista de reprodução alterado para playlistinfo recomendado\nCorrigir botão de jogo (início da última posição em fila / pista, não início)\nRefactoring: Node.js versão mínima é 16",
-        "nl": "Veranderingscommando om playlistinfo aan te bevelen\nSpeel de knop af van de laatste positie in Queue/track, niet begin\nVertaling:",
-        "fr": "Changed playlist command to recommended playlistinfo\nFixer le bouton de jeu (départ de la dernière position dans la file ou la piste, pas débuter)\nRefactoring: minimum node.js version is 16",
-        "it": "Modificato il comando playlist per playlist raccomandatainfo\nFissare il pulsante di gioco (avviare dall'ultima posizione in coda/track, non iniziare)\nRefactoring: minimal node.js version is 16",
-        "es": "Cambiar el comando de lista de reproducción recomendado\nFijar el botón de juego (a partir de la última posición en la cola / pista, no comenzando)\nRefactoring: versión mínimo node.js es 16",
-        "pl": "Zmienił komendę playlisty zalecenia\nPrzycisk gry Fix rozpoczyna się od ostatniego miejsca w kolejce i kolejce, a nie na początku\nRefactoring: minimalna wersja węzła wynosi 16",
-        "uk": "Змінено команду плейлиста для рекомендованого плейлистinfo\nВиправлення кнопки відтворення (починок з останнього положення в черзі / трек, не початок)\nРефакторинг: мінімальний вузол.js версія 16",
-        "zh-cn": "B. 推荐的上游指挥官\nFix游戏但顿(从最后地位起,不开始)\n证明:最低无误版本为16。"
-      },
       "1.1.1": {
         "en": "Just small refactoring",
         "de": "Nur kleine Refactoring",
